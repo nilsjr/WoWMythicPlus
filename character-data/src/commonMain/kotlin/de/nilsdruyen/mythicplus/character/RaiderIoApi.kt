@@ -36,10 +36,10 @@ object RaiderIoApi {
     BrowserUserAgent()
   }
 
-  suspend fun getCharacter(name: String): Character {
+  suspend fun getCharacter(realm: String, name: String): Character {
     val entity = client.get<ProfileRioEntity>("characters/profile") {
       parameter("region", "eu")
-      parameter("realm", "Thrall")
+      parameter("realm", realm)
       parameter("name", name)
       parameter("fields", "mythic_plus_best_runs,mythic_plus_alternate_runs")
     }
