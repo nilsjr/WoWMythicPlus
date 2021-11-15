@@ -9,6 +9,7 @@ data class ProfileRioEntity(
   @SerialName("class") val clazz: String,
   @SerialName("mythic_plus_best_runs") val bestRuns: List<MythicPlusDungeonEntity>,
   @SerialName("mythic_plus_alternate_runs") val altRuns: List<MythicPlusDungeonEntity>,
+  @SerialName("mythic_plus_scores_by_season") val scoreBySeason: List<SeasonEntity>,
 )
 
 @Serializable
@@ -27,4 +28,13 @@ data class AffixEntity(
   val id: Int
 )
 
+@Serializable
+data class SeasonEntity(
+  val scores: SeasonScoreEntity
+)
+
+@Serializable
+data class SeasonScoreEntity(
+  val all: Double
+)
 

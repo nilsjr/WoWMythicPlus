@@ -13,6 +13,7 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import kotlin.math.roundToInt
 
 object RaiderIoApi {
 
@@ -41,17 +42,13 @@ object RaiderIoApi {
       parameter("region", "eu")
       parameter("realm", realm)
       parameter("name", name)
-      parameter("fields", "mythic_plus_best_runs,mythic_plus_alternate_runs")
+      parameter("fields", "mythic_plus_best_runs,mythic_plus_alternate_runs,mythic_plus_scores_by_season:current")
     }
 
     val list = Constants.Dungeons.map { dungeon ->
-      val best = entity.bestRuns.firstOrNull {
+      val dList = (entity.bestRuns + entity.altRuns).filter {
         it.shortName == dungeon
       }
-      val alt = entity.altRuns.firstOrNull {
-        it.shortName == dungeon
-      }
-      val dList = listOfNotNull(best, alt)
 
       val tyrann = dList.firstOrNull { it.affixes.any { affix -> affix.id == Constants.TYRANN } }
       val fort = dList.firstOrNull { it.affixes.any { affix -> affix.id == Constants.FORT } }
@@ -70,7 +67,7 @@ object RaiderIoApi {
       Dungeon(dungeon, tyrannScore, fortScore)
     }
 
-    return Character(entity.name, list.map { it.tyrannScore.score + it.fortScore.score }.sumOf { it.toInt() }, list)
+    return Character(entity.name, entity.scoreBySeason.first().scores.all.roundToInt(), list)
   }
 
   suspend fun getCurrentAffixIds(): List<Int> {
