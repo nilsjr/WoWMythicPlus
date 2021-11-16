@@ -7,7 +7,6 @@ http://localhost:8080/?realm=Thrall&chars=Twilliam,Harazz,Landolf,Landolph,Bumsb
 
 ### roadmap
 
-- DarkMode switch
-- local storage
-- add new characters
-- combine with battlenet account
+- Gear score
+- hover effect
+- more details

@@ -15,6 +15,7 @@ data class Dungeon(
 data class Score(
   val id: Int,
   val score: Double,
+  val hexColor: String,
   val level: Int,
   val upgrade: Int,
 ) {

@@ -69,6 +69,7 @@ fun DungeonScore(dungeon: Dungeon, currentAffixes: List<Int>) {
         opacity(0.5)
       }
       classes(TextStyle.level)
+      property("color", dungeon.fortScore.hexColor)
     }
   }) {
     Text(dungeon.fortScore.formattedLevel)
@@ -85,6 +86,7 @@ fun DungeonScore(dungeon: Dungeon, currentAffixes: List<Int>) {
         opacity(0.5)
       }
       classes(TextStyle.level)
+      property("color", dungeon.tyrannScore.hexColor)
     }
   }) {
     Text(dungeon.tyrannScore.formattedLevel)

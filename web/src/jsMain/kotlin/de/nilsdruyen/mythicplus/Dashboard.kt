@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import de.nilsdruyen.mythicplus.character.RaiderIoApi
+import de.nilsdruyen.mythicplus.character.CharacterRepository
 import de.nilsdruyen.mythicplus.character.models.Character
 import de.nilsdruyen.mythicplus.components.CharacterRow
 import de.nilsdruyen.mythicplus.components.TableHeader
@@ -20,7 +20,7 @@ import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.url.URLSearchParams
 
 @Composable
-fun Dashboard() {
+fun Dashboard(characterRepository: CharacterRepository) {
   val localCharacters = remember { mutableStateListOf<String>() }
   var localRealm by remember { mutableStateOf("") }
   var characters by remember { mutableStateOf(emptyList<Character>()) }
@@ -31,7 +31,6 @@ fun Dashboard() {
     val realm = urlParams.get("realm") ?: "Thrall"
     val charNames = urlParams.get("chars") ?: ""
 
-//    val list: List<String> = JSON.parse<Array<String>>(window.localStorage["chars"] ?: "[]").toList()
     val list = if (charNames.isNotEmpty()) {
       if (charNames.contains(",")) charNames.split(",") else listOf(charNames)
     } else emptyList()
@@ -42,9 +41,8 @@ fun Dashboard() {
 
   if (localCharacters.isNotEmpty()) {
     LaunchedEffect(localCharacters) {
-      val chars = localCharacters.map { RaiderIoApi.getCharacter(localRealm, it) }
-      characters = chars.sortedByDescending { it.score }
-      currentAffixes = RaiderIoApi.getCurrentAffixIds()
+      currentAffixes = characterRepository.getCurrentAffixeIds()
+      characters = characterRepository.getCharacterList(localRealm, localCharacters)
     }
 
     Table({
@@ -70,16 +68,3 @@ fun Dashboard() {
     }
   }
 }
-
-//  val addChars: (String) -> Unit = {
-//    val currentList: MutableList<String> = JSON.parse(window.localStorage["chars"] ?: "[]")
-//    println("currentlist: $currentList")
-//    currentList.add(it)
-//    window.localStorage["chars"] = JSON.stringify(currentList)
-//    println("added")
-//  }
-//  CharacterAddPane(onAdd = { realm, charName ->
-//    println("add $realm - $charName")
-//    addChars(charName)
-//    localCharacters.add(charName)
-//  })
