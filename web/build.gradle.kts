@@ -1,8 +1,10 @@
+import de.nilsdruyen.gradle.ftp.UploadExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 
 plugins {
   kotlin("multiplatform")
   id("org.jetbrains.compose")
+  id("de.nilsdruyen.gradle-ftp-upload-plugin")
 }
 
 kotlin {
@@ -37,4 +39,13 @@ afterEvaluate {
     versions.webpackDevServer.version = "4.0.0"
     versions.webpackCli.version = "4.9.0"
   }
+}
+
+configure<UploadExtension> {
+  host = properties.getOrDefault("ftp.host", "").toString()
+  port = properties.getOrDefault("ftp.port", 22).toString().toInt()
+  username = properties.getOrDefault("ftp.username", "").toString()
+  password = properties.getOrDefault("ftp.password", "").toString()
+  sourceDir = "${project.buildDir}/distributions"
+  targetDir = "/html/wowmythicplus"
 }
