@@ -49,3 +49,18 @@ configure<UploadExtension> {
   sourceDir = "${project.buildDir}/distributions"
   targetDir = "/html/wowmythicplus"
 }
+
+val buildTask = tasks.named("jsBrowserProductionWebpack")
+val uploadTask = tasks.named("uploadFilesToFtp")
+
+tasks.register("deployWebsite") {
+  group = "deployment"
+  description = "Build & deploy website"
+
+  dependsOn(buildTask, uploadTask)
+  uploadTask.get().mustRunAfter(buildTask)
+
+  doLast {
+    println("deployment finished")
+  }
+}
