@@ -6,7 +6,11 @@ This website is used to create an overview over all your WoW characters mythic p
 http://localhost:8080/?realm=Thrall&chars=Twilliam,Harazz,Landolf,Landolph,Bumsb%C3%BCffel,Docsnyder
 
 ### roadmap
-
 - Gear score
 - hover effect
 - more details
+
+## ToDo
+- icons for affixes, class
+- links to raiderio or wowarmory
+- 

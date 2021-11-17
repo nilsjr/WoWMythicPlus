@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import de.nilsdruyen.mythicplus.character.CharacterRepository
 import de.nilsdruyen.mythicplus.character.models.Character
+import de.nilsdruyen.mythicplus.components.BattleNetLogo
 import de.nilsdruyen.mythicplus.components.CharacterRow
 import de.nilsdruyen.mythicplus.components.LoadingIcon
 import de.nilsdruyen.mythicplus.components.TableHeader
@@ -59,7 +60,7 @@ fun Dashboard(characterRepository: CharacterRepository) {
           padding(30.px)
         }
       }) {
-        LoadingIcon()
+        BattleNetLogo()
       }
     } else {
       Table({

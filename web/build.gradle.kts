@@ -9,6 +9,7 @@ plugins {
 
 kotlin {
   js(IR) {
+    useCommonJs()
     browser {
       testTask {
         testLogging.showStandardStreams = true
@@ -26,7 +27,7 @@ kotlin {
         implementation(compose.web.core)
         implementation(compose.runtime)
 
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+        implementation(Deps.Kotlin.coroutines)
 
         implementation(project(":character-data"))
       }
