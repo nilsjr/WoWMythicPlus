@@ -9,19 +9,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import de.nilsdruyen.mythicplus.character.CharacterRepository
 import de.nilsdruyen.mythicplus.character.models.Character
-import de.nilsdruyen.mythicplus.components.BattleNetLogo
-import de.nilsdruyen.mythicplus.components.CharacterRow
-import de.nilsdruyen.mythicplus.components.LoadingIcon
-import de.nilsdruyen.mythicplus.components.TableHeader
-import de.nilsdruyen.mythicplus.styles.TextStyle
+import de.nilsdruyen.mythicplus.screens.CharacterOverview
+import de.nilsdruyen.mythicplus.screens.Loading
+import de.nilsdruyen.mythicplus.screens.NoParameters
 import kotlinx.browser.window
-import org.jetbrains.compose.web.css.padding
-import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.dom.Br
-import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.P
-import org.jetbrains.compose.web.dom.Table
-import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.url.URLSearchParams
 
 @Composable
@@ -54,46 +45,11 @@ fun Dashboard(characterRepository: CharacterRepository) {
     }
 
     if (isLoading) {
-      Div({
-        style {
-          property("margin", "0 auto")
-          padding(30.px)
-        }
-      }) {
-        BattleNetLogo()
-      }
+      Loading()
     } else {
-      Table({
-        style {
-          property("border-spacing", "8px")
-        }
-      }) {
-        TableHeader()
-        if (characters.isNotEmpty()) {
-          characters.forEach {
-            CharacterRow(it, currentAffixes)
-          }
-        }
-      }
+      CharacterOverview(characters, currentAffixes)
     }
   } else {
-    Div({
-      style {
-        property("margin", "0 auto")
-        padding(30.px)
-      }
-    }) {
-      P({
-        classes(TextStyle.defaultTitle)
-      }) {
-        Text("Please provide realm & character names via url parameters")
-      }
-      Br { }
-      P({
-        classes(TextStyle.default)
-      }) {
-        Text("example: /?realm=thrall&chars=Twilliam,Harazz")
-      }
-    }
+    NoParameters()
   }
 }

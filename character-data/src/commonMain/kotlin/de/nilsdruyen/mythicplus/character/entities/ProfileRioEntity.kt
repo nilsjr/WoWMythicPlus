@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 data class ProfileRioEntity(
   @SerialName("name") val name: String,
   @SerialName("class") val clazz: String,
+  @SerialName("thumbnail_url") val thumbnailUrl: String,
   @SerialName("mythic_plus_best_runs") val bestRuns: List<MythicPlusDungeonEntity>,
   @SerialName("mythic_plus_alternate_runs") val altRuns: List<MythicPlusDungeonEntity>,
   @SerialName("mythic_plus_scores_by_season") val scoreBySeason: List<SeasonEntity>,
@@ -20,12 +21,15 @@ data class MythicPlusDungeonEntity(
   @SerialName("num_keystone_upgrades") val upgrades: Int,
   @SerialName("zone_id") val id: Int,
   @SerialName("score") val score: Double,
-  @SerialName("affixes") val affixes: List<AffixEntity>
+  @SerialName("clear_time_ms") val clearTimeMs: Long,
+  @SerialName("par_time_ms") val parTimeMs: Long,
+  @SerialName("affixes") val affixes: List<AffixEntity>,
 )
 
 @Serializable
 data class AffixEntity(
-  val id: Int
+  val id: Int,
+  val icon: String
 )
 
 @Serializable

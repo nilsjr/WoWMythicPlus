@@ -3,14 +3,25 @@ package de.nilsdruyen.mythicplus.components
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.mythicplus.character.models.Character
 import de.nilsdruyen.mythicplus.character.models.Dungeon
+import de.nilsdruyen.mythicplus.character.models.Score
 import de.nilsdruyen.mythicplus.character.utils.Constants
+import de.nilsdruyen.mythicplus.styles.CellStyle
 import de.nilsdruyen.mythicplus.styles.ColorConst
 import de.nilsdruyen.mythicplus.styles.StyleConst
 import de.nilsdruyen.mythicplus.styles.TextStyle
 import org.jetbrains.compose.web.attributes.colspan
+import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.background
+import org.jetbrains.compose.web.css.backgroundColor
+import org.jetbrains.compose.web.css.borderRadius
+import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.opacity
+import org.jetbrains.compose.web.css.percent
+import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.textAlign
+import org.jetbrains.compose.web.css.width
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.Td
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.Th
@@ -29,8 +40,36 @@ fun TableHeader() {
       Th({
         colspan(2)
         classes(TextStyle.headText)
+        style {
+          textAlign("center")
+        }
       }) {
+//        Img(Constants.Icons.dungeonIcon(it))
         Text(it)
+      }
+    }
+  }
+  Tr {
+    Td({ colspan(2) }) {}
+    repeat(Constants.Dungeons.size) {
+      AffixIcon(Constants.Icons.FORTIFIED_URL, "fortified")
+      AffixIcon(Constants.Icons.TYRANNICAL_URL, "tyrannical")
+    }
+  }
+}
+
+@Composable
+fun AffixIcon(url: String, alt: String) {
+  Td({
+    style {
+      textAlign("center")
+    }
+  }) {
+    Img(url, alt) {
+      style {
+        width(25.px)
+        height(25.px)
+        borderRadius(50.percent)
       }
     }
   }
@@ -58,29 +97,42 @@ fun CharacterRow(character: Character, currentAffixes: List<Int>) {
 
 @Composable
 fun DungeonScores(dungeon: Dungeon, currentAffixes: List<Int>) {
-  Score(
-    dungeon.fortScore.level > 0,
-    dungeon.fortScore.formattedLevel,
-    currentAffixes.none { it == dungeon.fortScore.id })
-  Score(
-    dungeon.tyrannScore.level > 0,
-    dungeon.tyrannScore.formattedLevel,
-    currentAffixes.none { it == dungeon.tyrannScore.id })
+  Score(dungeon.fortScore, currentAffixes)
+  Score(dungeon.tyrannScore, currentAffixes)
 }
 
 @Composable
-fun Score(everPlayed: Boolean, formattedLevel: String, currentAffix: Boolean) {
+fun Score(score: Score, currentAffixes: List<Int>) {
   Td({
-    classes(TextStyle.level)
+    classes(CellStyle.level)
     style {
-      if (everPlayed) {
+      if (score.played) {
         background(ColorConst.GREEN)
       } else {
         background(ColorConst.RED)
       }
-      if (currentAffix) opacity(StyleConst.OPACITY)
+      if (currentAffixes.none { it == score.id }) opacity(StyleConst.OPACITY)
     }
   }) {
-    Text(formattedLevel)
+    Div({
+      classes(TextStyle.level)
+      style {
+        property("margin", "0 auto")
+        backgroundColor(Color.transparent)
+      }
+    }) {
+      Text(score.formattedLevel)
+    }
+    if (score.played) {
+      Div({
+        classes(TextStyle.levelHint)
+        style {
+          property("margin", "0 auto")
+          backgroundColor(Color.transparent)
+        }
+      }) {
+        Text(score.formattedCleanTime)
+      }
+    }
   }
 }

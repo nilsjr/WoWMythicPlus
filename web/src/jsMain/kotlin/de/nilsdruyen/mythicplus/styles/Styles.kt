@@ -57,7 +57,18 @@ object TextStyle : StyleSheet(AppStylesheet) {
     fontSize(20.px)
     fontWeight(600)
     textAlign("center")
-    borderRadius(4.px)
+
+    property(
+      "font-family",
+      "system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Droid Sans,Helvetica Neue,Arial,sans-serif"
+    )
+  }
+
+  val levelHint by style {
+    color(Color.white)
+    fontSize(12.px)
+    fontWeight(400)
+    textAlign("center")
 
     property(
       "font-family",
@@ -127,6 +138,13 @@ object ButtonStyle : StyleSheet(AppStylesheet) {
     lineHeight(24.px)
     fontWeight(400)
     property("width", "fit-content")
+  }
+}
+
+object CellStyle : StyleSheet(AppStylesheet){
+
+  val level by style {
+    borderRadius(4.px)
   }
 }
 

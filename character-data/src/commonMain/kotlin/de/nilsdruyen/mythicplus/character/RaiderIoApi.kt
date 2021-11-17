@@ -1,6 +1,7 @@
 package de.nilsdruyen.mythicplus.character
 
 import de.nilsdruyen.mythicplus.character.entities.AffixesWebEntity
+import de.nilsdruyen.mythicplus.character.entities.MythicPlusDungeonEntity
 import de.nilsdruyen.mythicplus.character.entities.ProfileRioEntity
 import de.nilsdruyen.mythicplus.character.entities.ScoreTierEntity
 import de.nilsdruyen.mythicplus.character.models.Character
@@ -56,28 +57,26 @@ object RaiderIoApi {
     val tiers = getScoreTiers()
     val charScore = entity.scoreBySeason.first().scores.all
     val list = Constants.Dungeons.map { dungeon ->
-      val dList = (entity.bestRuns + entity.altRuns).filter {
+      val filteredDungeons = (entity.bestRuns + entity.altRuns).filter {
         it.shortName == dungeon
       }
 
-      val tyrann = dList.firstOrNull { it.affixes.any { affix -> affix.id == Constants.TYRANN } }
-      val fort = dList.firstOrNull { it.affixes.any { affix -> affix.id == Constants.FORT } }
+      val tyrannical = filteredDungeons.mapToScore(Constants.TYRANNICAL)
+      val fortified = filteredDungeons.mapToScore(Constants.FORTIFIED)
 
-      val tyrannScore = if (tyrann == null) {
-        Score(Constants.TYRANN, 0.0, 0, 0)
-      } else {
-        Score(Constants.TYRANN, tyrann.score, tyrann.level, tyrann.upgrades)
-      }
-      val fortScore = if (fort == null) {
-        Score(Constants.FORT, 0.0, 0, 0)
-      } else {
-        Score(Constants.FORT, fort.score, fort.level, fort.upgrades)
-      }
-
-      Dungeon(dungeon, tyrannScore, fortScore)
+      Dungeon(dungeon, tyrannical, fortified)
     }
 
     return Character(entity.name, charScore, tiers.getColorForScore(charScore), list)
+  }
+
+  private fun List<MythicPlusDungeonEntity>.mapToScore(type: Int): Score {
+    val dungeon = this.firstOrNull { it.affixes.any { affix -> affix.id == type } }
+    return if (dungeon == null) {
+      Score.empty(type)
+    } else {
+      Score(type, dungeon.score, dungeon.level, dungeon.upgrades, dungeon.clearTimeMs)
+    }
   }
 
   private fun List<ScoreTier>.getColorForScore(score: Double): String {
