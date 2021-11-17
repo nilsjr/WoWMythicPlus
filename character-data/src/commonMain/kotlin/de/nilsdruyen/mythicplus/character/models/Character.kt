@@ -6,10 +6,10 @@ data class Character(
   val name: String,
   val score: Double,
   val hexColor: String,
-  val dungeons: List<Dungeon>
+  val dungeons: List<DungeonScore>
 )
 
-data class Dungeon(
+data class DungeonScore(
   val shortName: String,
   val tyrannScore: Score,
   val fortScore: Score,

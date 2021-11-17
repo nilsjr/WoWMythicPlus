@@ -3,6 +3,7 @@ package de.nilsdruyen.mythicplus.components
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.mythicplus.character.models.Character
 import de.nilsdruyen.mythicplus.character.models.Dungeon
+import de.nilsdruyen.mythicplus.character.models.DungeonScore
 import de.nilsdruyen.mythicplus.character.models.Score
 import de.nilsdruyen.mythicplus.character.utils.Constants
 import de.nilsdruyen.mythicplus.styles.CellStyle
@@ -15,6 +16,7 @@ import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.height
+import org.jetbrains.compose.web.css.marginRight
 import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
@@ -28,7 +30,7 @@ import org.jetbrains.compose.web.dom.Th
 import org.jetbrains.compose.web.dom.Tr
 
 @Composable
-fun TableHeader() {
+fun TableHeader(dungeons: List<Dungeon>) {
   Tr {
     Th({
       colspan(2)
@@ -36,7 +38,7 @@ fun TableHeader() {
     }) {
       Text("Char")
     }
-    Constants.Dungeons.forEach {
+    dungeons.forEach {
       Th({
         colspan(2)
         classes(TextStyle.headText)
@@ -44,8 +46,16 @@ fun TableHeader() {
           textAlign("center")
         }
       }) {
-//        Img(Constants.Icons.dungeonIcon(it))
-        Text(it)
+        Img(Constants.Icons.dungeonIcon(it.id), it.shortName) {
+          style {
+            width(30.px)
+            height(30.px)
+            borderRadius(50.percent)
+            marginRight(8.px)
+            property("vertical-align", "middle")
+          }
+        }
+        Text(it.shortName)
       }
     }
   }
@@ -96,7 +106,7 @@ fun CharacterRow(character: Character, currentAffixes: List<Int>) {
 }
 
 @Composable
-fun DungeonScores(dungeon: Dungeon, currentAffixes: List<Int>) {
+fun DungeonScores(dungeon: DungeonScore, currentAffixes: List<Int>) {
   Score(dungeon.fortScore, currentAffixes)
   Score(dungeon.tyrannScore, currentAffixes)
 }

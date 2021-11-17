@@ -4,24 +4,19 @@ import de.nilsdruyen.mythicplus.character.entities.AffixesWebEntity
 import de.nilsdruyen.mythicplus.character.entities.MythicPlusDungeonEntity
 import de.nilsdruyen.mythicplus.character.entities.ProfileRioEntity
 import de.nilsdruyen.mythicplus.character.entities.ScoreTierEntity
+import de.nilsdruyen.mythicplus.character.entities.StaticDataEntity
 import de.nilsdruyen.mythicplus.character.models.Character
-import de.nilsdruyen.mythicplus.character.models.Dungeon
+import de.nilsdruyen.mythicplus.character.models.DungeonScore
 import de.nilsdruyen.mythicplus.character.models.Score
 import de.nilsdruyen.mythicplus.character.models.ScoreTier
 import de.nilsdruyen.mythicplus.character.utils.Constants
-import io.ktor.client.HttpClient
-import io.ktor.client.features.BrowserUserAgent
-import io.ktor.client.features.defaultRequest
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.features.logging.DEFAULT
-import io.ktor.client.features.logging.LogLevel
-import io.ktor.client.features.logging.Logger
-import io.ktor.client.features.logging.Logging
-import io.ktor.client.request.get
-import io.ktor.client.request.host
-import io.ktor.client.request.parameter
-import io.ktor.http.URLProtocol
+import io.ktor.client.*
+import io.ktor.client.features.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
+import io.ktor.client.features.logging.*
+import io.ktor.client.request.*
+import io.ktor.http.*
 import kotlin.math.absoluteValue
 
 object RaiderIoApi {
@@ -57,14 +52,10 @@ object RaiderIoApi {
     val tiers = getScoreTiers()
     val charScore = entity.scoreBySeason.first().scores.all
     val list = Constants.Dungeons.map { dungeon ->
-      val filteredDungeons = (entity.bestRuns + entity.altRuns).filter {
-        it.shortName == dungeon
-      }
-
+      val filteredDungeons = (entity.bestRuns + entity.altRuns).filter { it.shortName == dungeon }
       val tyrannical = filteredDungeons.mapToScore(Constants.TYRANNICAL)
       val fortified = filteredDungeons.mapToScore(Constants.FORTIFIED)
-
-      Dungeon(dungeon, tyrannical, fortified)
+      DungeonScore(dungeon, tyrannical, fortified)
     }
 
     return Character(entity.name, charScore, tiers.getColorForScore(charScore), list)
@@ -92,6 +83,12 @@ object RaiderIoApi {
       parameter("region", "eu")
       parameter("locale", "en")
     }.details.map { it.id }
+  }
+
+  suspend fun getStaticData(): StaticDataEntity {
+    return client.get("mythic-plus/static-data") {
+      parameter("expansion_id", "8")
+    }
   }
 
   private suspend fun getScoreTiers(): List<ScoreTier> {

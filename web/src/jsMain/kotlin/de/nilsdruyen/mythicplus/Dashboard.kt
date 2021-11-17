@@ -8,7 +8,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import de.nilsdruyen.mythicplus.character.CharacterRepository
+import de.nilsdruyen.mythicplus.character.RaiderIoApi
 import de.nilsdruyen.mythicplus.character.models.Character
+import de.nilsdruyen.mythicplus.character.models.Dungeon
+import de.nilsdruyen.mythicplus.character.utils.Constants
 import de.nilsdruyen.mythicplus.screens.CharacterOverview
 import de.nilsdruyen.mythicplus.screens.Loading
 import de.nilsdruyen.mythicplus.screens.NoParameters
@@ -18,8 +21,10 @@ import org.w3c.dom.url.URLSearchParams
 @Composable
 fun Dashboard(characterRepository: CharacterRepository) {
   val localCharacters = remember { mutableStateListOf<String>() }
+  val characters = remember { mutableStateListOf<Character>() }
+  val dungeons = remember { mutableStateListOf<Dungeon>() }
+
   var localRealm by remember { mutableStateOf("") }
-  var characters by remember { mutableStateOf(emptyList<Character>()) }
   var currentAffixes by remember { mutableStateOf(emptyList<Int>()) }
   var isLoading by remember { mutableStateOf(false) }
 
@@ -33,6 +38,7 @@ fun Dashboard(characterRepository: CharacterRepository) {
     } else emptyList()
 
     localRealm = realm
+    localCharacters.clear()
     localCharacters.addAll(list)
   }
 
@@ -40,14 +46,25 @@ fun Dashboard(characterRepository: CharacterRepository) {
     LaunchedEffect(localCharacters) {
       isLoading = true
       currentAffixes = characterRepository.getCurrentAffixeIds()
-      characters = characterRepository.getCharacterList(localRealm, localCharacters)
+
+      val sortedDungeons = RaiderIoApi.getStaticData().dungeons.map { Dungeon(it.id, it.shortName) }.sortedBy {
+        Constants.Dungeons.indexOf(it.shortName)
+      }
+
+      dungeons.clear()
+      dungeons.addAll(sortedDungeons)
+
+      println("d: $sortedDungeons")
+
+      characters.clear()
+      characters.addAll(characterRepository.getCharacterList(localRealm, localCharacters))
       isLoading = false
     }
 
     if (isLoading) {
       Loading()
     } else {
-      CharacterOverview(characters, currentAffixes)
+      CharacterOverview(characters, currentAffixes, dungeons)
     }
   } else {
     NoParameters()
