@@ -5,6 +5,7 @@ import de.nilsdruyen.mythicplus.character.models.Character
 import de.nilsdruyen.mythicplus.character.models.Dungeon
 import de.nilsdruyen.mythicplus.character.utils.Constants
 import de.nilsdruyen.mythicplus.styles.ColorConst
+import de.nilsdruyen.mythicplus.styles.StyleConst
 import de.nilsdruyen.mythicplus.styles.TextStyle
 import org.jetbrains.compose.web.attributes.colspan
 import org.jetbrains.compose.web.css.background
@@ -20,9 +21,6 @@ fun TableHeader() {
   Tr {
     Th({
       colspan(2)
-      style {
-        textAlign("start")
-      }
       classes(TextStyle.headText)
     }) {
       Text("Char")
@@ -48,47 +46,41 @@ fun CharacterRow(character: Character, currentAffixes: List<Int>) {
     }
     Td({
       classes(TextStyle.score)
+      style {
+        background(character.hexColor)
+      }
     }) {
       Text(character.score.toString())
     }
-    character.dungeons.forEach { DungeonScore(it, currentAffixes) }
+    character.dungeons.forEach { DungeonScores(it, currentAffixes) }
   }
 }
 
 @Composable
-fun DungeonScore(dungeon: Dungeon, currentAffixes: List<Int>) {
+fun DungeonScores(dungeon: Dungeon, currentAffixes: List<Int>) {
+  Score(
+    dungeon.fortScore.level > 0,
+    dungeon.fortScore.formattedLevel,
+    currentAffixes.none { it == dungeon.fortScore.id })
+  Score(
+    dungeon.tyrannScore.level > 0,
+    dungeon.tyrannScore.formattedLevel,
+    currentAffixes.none { it == dungeon.tyrannScore.id })
+}
+
+@Composable
+fun Score(everPlayed: Boolean, formattedLevel: String, currentAffix: Boolean) {
   Td({
+    classes(TextStyle.level)
     style {
-      textAlign("center")
-      if (dungeon.fortScore.level > 0) {
+      if (everPlayed) {
         background(ColorConst.GREEN)
       } else {
         background(ColorConst.RED)
       }
-      if (currentAffixes.none { it == dungeon.fortScore.id }) {
-        opacity(0.5)
-      }
-      classes(TextStyle.level)
-      property("color", dungeon.fortScore.hexColor)
+      if (currentAffix) opacity(StyleConst.OPACITY)
     }
   }) {
-    Text(dungeon.fortScore.formattedLevel)
-  }
-  Td({
-    style {
-      textAlign("center")
-      if (dungeon.tyrannScore.level > 0) {
-        background(ColorConst.GREEN)
-      } else {
-        background(ColorConst.RED)
-      }
-      if (currentAffixes.none { it == dungeon.tyrannScore.id }) {
-        opacity(0.5)
-      }
-      classes(TextStyle.level)
-      property("color", dungeon.tyrannScore.hexColor)
-    }
-  }) {
-    Text(dungeon.tyrannScore.formattedLevel)
+    Text(formattedLevel)
   }
 }

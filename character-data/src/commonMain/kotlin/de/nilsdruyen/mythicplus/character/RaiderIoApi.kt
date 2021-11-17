@@ -22,7 +22,6 @@ import io.ktor.client.request.host
 import io.ktor.client.request.parameter
 import io.ktor.http.URLProtocol
 import kotlin.math.absoluteValue
-import kotlin.math.roundToInt
 
 object RaiderIoApi {
 
@@ -55,7 +54,7 @@ object RaiderIoApi {
     }
 
     val tiers = getScoreTiers()
-
+    val charScore = entity.scoreBySeason.first().scores.all
     val list = Constants.Dungeons.map { dungeon ->
       val dList = (entity.bestRuns + entity.altRuns).filter {
         it.shortName == dungeon
@@ -65,20 +64,20 @@ object RaiderIoApi {
       val fort = dList.firstOrNull { it.affixes.any { affix -> affix.id == Constants.FORT } }
 
       val tyrannScore = if (tyrann == null) {
-        Score(Constants.TYRANN, 0.0, "", 0, 0)
+        Score(Constants.TYRANN, 0.0, 0, 0)
       } else {
-        Score(Constants.TYRANN, tyrann.score, tiers.getColorForScore(tyrann.score), tyrann.level, tyrann.upgrades)
+        Score(Constants.TYRANN, tyrann.score, tyrann.level, tyrann.upgrades)
       }
       val fortScore = if (fort == null) {
-        Score(Constants.FORT, 0.0, "", 0, 0)
+        Score(Constants.FORT, 0.0, 0, 0)
       } else {
-        Score(Constants.FORT, fort.score, tiers.getColorForScore(fort.score), fort.level, fort.upgrades)
+        Score(Constants.FORT, fort.score, fort.level, fort.upgrades)
       }
 
       Dungeon(dungeon, tyrannScore, fortScore)
     }
 
-    return Character(entity.name, entity.scoreBySeason.first().scores.all.roundToInt(), list)
+    return Character(entity.name, charScore, tiers.getColorForScore(charScore), list)
   }
 
   private fun List<ScoreTier>.getColorForScore(score: Double): String {

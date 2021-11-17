@@ -30,10 +30,34 @@ object AppStylesheet : StyleSheet() {
 
 object TextStyle : StyleSheet(AppStylesheet) {
 
+  val default by style {
+    color(Color.white)
+    fontSize(20.px)
+    fontWeight(600)
+    textAlign("center")
+    property(
+      "font-family",
+      "system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Droid Sans,Helvetica Neue,Arial,sans-serif"
+    )
+  }
+
+  val defaultTitle by style {
+    color(Color.white)
+    fontSize(24.px)
+    fontWeight(600)
+    textAlign("center")
+    property(
+      "font-family",
+      "system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Droid Sans,Helvetica Neue,Arial,sans-serif"
+    )
+  }
+
   val level by style {
     color(Color.white)
     fontSize(20.px)
     fontWeight(600)
+    textAlign("center")
+    borderRadius(4.px)
 
     property(
       "font-family",
@@ -56,7 +80,10 @@ object TextStyle : StyleSheet(AppStylesheet) {
     color(Color.white)
     fontSize(20.px)
     fontWeight(400)
-    textAlign("end")
+    textAlign("center")
+    borderRadius(4.px)
+    padding(4.px)
+    property("text-shadow", "1px 1px #000")
 
     property(
       "font-family",
@@ -68,6 +95,7 @@ object TextStyle : StyleSheet(AppStylesheet) {
     color(Color.white)
     fontSize(20.px)
     fontWeight(600)
+    textAlign("start")
 
     property(
       "font-family",
@@ -93,7 +121,6 @@ object ButtonStyle : StyleSheet(AppStylesheet) {
     color(Color("white"))
     backgroundColor(Color("#167dff"))
     fontSize(15.px)
-//    display(DisplayStyle.InlineBlock)
     textDecoration("none")
     borderRadius(12.px)
     padding(12.px, 32.px)

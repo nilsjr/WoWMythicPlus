@@ -2,7 +2,8 @@ package de.nilsdruyen.mythicplus.character.models
 
 data class Character(
   val name: String,
-  val score: Int,
+  val score: Double,
+  val hexColor: String,
   val dungeons: List<Dungeon>
 )
 
@@ -15,7 +16,6 @@ data class Dungeon(
 data class Score(
   val id: Int,
   val score: Double,
-  val hexColor: String,
   val level: Int,
   val upgrade: Int,
 ) {

@@ -10,11 +10,15 @@ import androidx.compose.runtime.setValue
 import de.nilsdruyen.mythicplus.character.CharacterRepository
 import de.nilsdruyen.mythicplus.character.models.Character
 import de.nilsdruyen.mythicplus.components.CharacterRow
+import de.nilsdruyen.mythicplus.components.LoadingIcon
 import de.nilsdruyen.mythicplus.components.TableHeader
+import de.nilsdruyen.mythicplus.styles.TextStyle
 import kotlinx.browser.window
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.dom.Br
 import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Table
 import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.url.URLSearchParams
@@ -25,6 +29,7 @@ fun Dashboard(characterRepository: CharacterRepository) {
   var localRealm by remember { mutableStateOf("") }
   var characters by remember { mutableStateOf(emptyList<Character>()) }
   var currentAffixes by remember { mutableStateOf(emptyList<Int>()) }
+  var isLoading by remember { mutableStateOf(false) }
 
   LaunchedEffect(Unit) {
     val urlParams = URLSearchParams(window.location.search)
@@ -41,19 +46,32 @@ fun Dashboard(characterRepository: CharacterRepository) {
 
   if (localCharacters.isNotEmpty()) {
     LaunchedEffect(localCharacters) {
+      isLoading = true
       currentAffixes = characterRepository.getCurrentAffixeIds()
       characters = characterRepository.getCharacterList(localRealm, localCharacters)
+      isLoading = false
     }
 
-    Table({
-      style {
-        property("border-spacing", "8px")
+    if (isLoading) {
+      Div({
+        style {
+          property("margin", "0 auto")
+          padding(30.px)
+        }
+      }) {
+        LoadingIcon()
       }
-    }) {
-      TableHeader()
-      if (characters.isNotEmpty()) {
-        characters.forEach {
-          CharacterRow(it, currentAffixes)
+    } else {
+      Table({
+        style {
+          property("border-spacing", "8px")
+        }
+      }) {
+        TableHeader()
+        if (characters.isNotEmpty()) {
+          characters.forEach {
+            CharacterRow(it, currentAffixes)
+          }
         }
       }
     }
@@ -64,7 +82,17 @@ fun Dashboard(characterRepository: CharacterRepository) {
         padding(30.px)
       }
     }) {
-      Text("no input")
+      P({
+        classes(TextStyle.defaultTitle)
+      }) {
+        Text("Please provide realm & character names via url parameters")
+      }
+      Br { }
+      P({
+        classes(TextStyle.default)
+      }) {
+        Text("example: /?realm=thrall&chars=Twilliam,Harazz")
+      }
     }
   }
 }
