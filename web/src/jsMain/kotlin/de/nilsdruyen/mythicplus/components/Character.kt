@@ -117,7 +117,11 @@ fun Score(score: Score, currentAffixes: List<Int>) {
     classes(CellStyle.level)
     style {
       if (score.played) {
-        background(ColorConst.GREEN)
+        if (score.upgrade == 0) {
+          background(ColorConst.GRAY)
+        } else {
+          background(ColorConst.GREEN)
+        }
       } else {
         background(ColorConst.RED)
       }

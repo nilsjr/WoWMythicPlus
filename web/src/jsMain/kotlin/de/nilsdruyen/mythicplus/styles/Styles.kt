@@ -147,9 +147,3 @@ object CellStyle : StyleSheet(AppStylesheet){
     borderRadius(4.px)
   }
 }
-
-object ColorConst {
-
-  const val RED = "#c62828"
-  const val GREEN = "#2e7d32"
-}

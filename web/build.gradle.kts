@@ -9,7 +9,6 @@ plugins {
 
 kotlin {
   js(IR) {
-    useCommonJs()
     browser {
       testTask {
         testLogging.showStandardStreams = true
