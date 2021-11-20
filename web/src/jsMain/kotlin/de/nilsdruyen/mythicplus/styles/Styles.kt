@@ -8,11 +8,12 @@ import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.fontSize
 import org.jetbrains.compose.web.css.fontWeight
+import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.margin
 import org.jetbrains.compose.web.css.padding
+import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.selectors.CSSSelector
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.textDecoration
 import org.jetbrains.compose.web.css.width
@@ -20,7 +21,8 @@ import org.jetbrains.compose.web.css.width
 object AppStylesheet : StyleSheet() {
 
   init {
-    CSSSelector.Universal style {
+    "html, body" style {
+      height(100.percent)
       margin(0.px)
       background("#212121")
       color(Color.white)
@@ -141,7 +143,7 @@ object ButtonStyle : StyleSheet(AppStylesheet) {
   }
 }
 
-object CellStyle : StyleSheet(AppStylesheet){
+object CellStyle : StyleSheet(AppStylesheet) {
 
   val level by style {
     borderRadius(4.px)

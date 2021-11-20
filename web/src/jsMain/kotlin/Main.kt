@@ -1,19 +1,26 @@
-import de.nilsdruyen.mythicplus.Dashboard
-import de.nilsdruyen.mythicplus.character.CharacterRepository
-import de.nilsdruyen.mythicplus.character.CharacterRepositoryImpl
-import de.nilsdruyen.mythicplus.components.Layout
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import de.nilsdruyen.mythicplus.character.RaiderIoRepository
+import de.nilsdruyen.mythicplus.character.RaiderIoRepositoryImpl
+import de.nilsdruyen.mythicplus.components.base.Layout
+import de.nilsdruyen.mythicplus.pages.LoadingPage
+import de.nilsdruyen.mythicplus.pages.MythicPlusWebPage
 import de.nilsdruyen.mythicplus.styles.AppStylesheet
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.renderComposable
 
+val LocalDataRepository = compositionLocalOf<RaiderIoRepository> { RaiderIoRepositoryImpl() }
+
 fun main() {
-  val characterRepository: CharacterRepository = CharacterRepositoryImpl()
+  val raiderIoRepository: RaiderIoRepository = RaiderIoRepositoryImpl()
 
   renderComposable(rootElementId = "root") {
     Style(AppStylesheet)
     Layout {
-      Dashboard(characterRepository)
+      CompositionLocalProvider(LocalDataRepository provides raiderIoRepository) {
+//        MythicPlusWebPage()
+        LoadingPage()
+      }
     }
   }
 }
-

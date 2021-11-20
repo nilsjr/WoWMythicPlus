@@ -1,4 +1,4 @@
-package de.nilsdruyen.mythicplus.components
+package de.nilsdruyen.mythicplus.components.base
 
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.web.css.DisplayStyle

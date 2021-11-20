@@ -1,4 +1,4 @@
-package de.nilsdruyen.mythicplus.screens
+package de.nilsdruyen.mythicplus.pages
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.mythicplus.styles.TextStyle
@@ -10,7 +10,7 @@ import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
-fun NoParameters() {
+fun NoArgumentsPage() {
   Div({
     style {
       property("margin", "0 auto")
