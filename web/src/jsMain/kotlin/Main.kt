@@ -2,6 +2,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import de.nilsdruyen.mythicplus.character.RaiderIoRepository
 import de.nilsdruyen.mythicplus.character.RaiderIoRepositoryImpl
+import de.nilsdruyen.mythicplus.components.Version
 import de.nilsdruyen.mythicplus.components.base.Layout
 import de.nilsdruyen.mythicplus.pages.MythicPlusWebPage
 import de.nilsdruyen.mythicplus.styles.AppStylesheet
@@ -20,6 +21,7 @@ fun main() {
     Layout {
       CompositionLocalProvider(LocalDataRepository provides raiderIoRepository) {
         MythicPlusWebPage()
+        Version()
       }
     }
   }
