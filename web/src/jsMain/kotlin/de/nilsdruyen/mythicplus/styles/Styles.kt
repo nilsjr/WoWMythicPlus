@@ -1,17 +1,24 @@
 package de.nilsdruyen.mythicplus.styles
 
 import org.jetbrains.compose.web.css.Color
+import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
+import org.jetbrains.compose.web.css.border
 import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.color
+import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.fontSize
 import org.jetbrains.compose.web.css.fontWeight
+import org.jetbrains.compose.web.css.gap
+import org.jetbrains.compose.web.css.gridTemplateColumns
+import org.jetbrains.compose.web.css.gridTemplateRows
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.margin
 import org.jetbrains.compose.web.css.marginLeft
+import org.jetbrains.compose.web.css.marginRight
 import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.percent
@@ -19,6 +26,7 @@ import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.selectors.plus
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.textDecoration
+import org.jetbrains.compose.web.css.whiteSpace
 import org.jetbrains.compose.web.css.width
 
 object AppStylesheet : StyleSheet() {
@@ -33,8 +41,26 @@ object AppStylesheet : StyleSheet() {
     }
 
     "#root" style {
+      width(100.percent)
       height(100.percent)
+      display(DisplayStyle.Grid)
+      gap(4.px)
+      gridTemplateRows("auto 1fr auto")
+      gridTemplateColumns("100%")
     }
+  }
+
+  val pageHeader by style {
+    padding(30.px)
+    textAlign("center")
+    fontSize(26.px)
+  }
+
+  val pageContent by style {
+  }
+
+  val pageFooter by style {
+    padding(4.px)
   }
 }
 
@@ -88,7 +114,7 @@ object TextStyle : StyleSheet(AppStylesheet) {
     color(Color.white)
     fontSize(20.px)
     fontWeight(600)
-    textAlign("start")
+    textAlign("center")
   }
 }
 
@@ -123,9 +149,35 @@ object ButtonStyle : StyleSheet(AppStylesheet) {
   }
 }
 
-object CellStyle : StyleSheet(AppStylesheet) {
+object ImageStyle : StyleSheet(AppStylesheet) {
 
-  val level by style {
+  val dungeon by style {
+    width(30.px)
+    height(30.px)
+    borderRadius(50.percent)
+    marginRight(8.px)
+    property("vertical-align", "middle")
+  }
+
+  val affix by style {
+    width(25.px)
+    height(25.px)
+    borderRadius(50.percent)
+  }
+}
+
+object TableStyle : StyleSheet(AppStylesheet) {
+
+  val root by style {
+    width(100.percent)
+    property("border-spacing", "8px")
+  }
+
+  val cellLevel by style {
     borderRadius(4.px)
+  }
+
+  val cellImage by style {
+    textAlign("center")
   }
 }

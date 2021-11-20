@@ -4,15 +4,10 @@ import androidx.compose.runtime.Composable
 import de.nilsdruyen.mythicplus.character.models.CharacterViewModel
 import de.nilsdruyen.mythicplus.character.models.Dungeon
 import de.nilsdruyen.mythicplus.character.utils.Constants
+import de.nilsdruyen.mythicplus.styles.ImageStyle
+import de.nilsdruyen.mythicplus.styles.TableStyle
 import de.nilsdruyen.mythicplus.styles.TextStyle
 import org.jetbrains.compose.web.attributes.colspan
-import org.jetbrains.compose.web.css.borderRadius
-import org.jetbrains.compose.web.css.height
-import org.jetbrains.compose.web.css.marginRight
-import org.jetbrains.compose.web.css.percent
-import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.textAlign
-import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.Table
 import org.jetbrains.compose.web.dom.Td
@@ -23,9 +18,7 @@ import org.jetbrains.compose.web.dom.Tr
 @Composable
 fun CharacterTable(viewModel: CharacterViewModel.MythicPlusOverview) {
   Table({
-    style {
-      property("border-spacing", "8px")
-    }
+    classes(TableStyle.root)
   }) {
     TableHeader(viewModel.dungeons)
     if (viewModel.characterList.isNotEmpty()) {
@@ -39,35 +32,21 @@ fun CharacterTable(viewModel: CharacterViewModel.MythicPlusOverview) {
 @Composable
 fun TableHeader(dungeons: List<Dungeon>) {
   Tr {
-    Th({
-      colspan(2)
-      classes(TextStyle.headText)
-    }) {
-      Text("Char")
-    }
+    Th({ colspan(2) })
     dungeons.forEach {
       Th({
         colspan(2)
         classes(TextStyle.headText)
-        style {
-          textAlign("center")
-        }
       }) {
         Img(Constants.Icons.dungeonIcon(it.id), it.shortName) {
-          style {
-            width(30.px)
-            height(30.px)
-            borderRadius(50.percent)
-            marginRight(8.px)
-            property("vertical-align", "middle")
-          }
+          classes(ImageStyle.dungeon)
         }
         Text(it.shortName)
       }
     }
   }
   Tr {
-    Td({ colspan(2) }) {}
+    Td({ colspan(2) })
     repeat(Constants.Dungeons.size) {
       AffixIcon(Constants.Icons.FORTIFIED_URL, "fortified")
       AffixIcon(Constants.Icons.TYRANNICAL_URL, "tyrannical")
@@ -78,16 +57,8 @@ fun TableHeader(dungeons: List<Dungeon>) {
 @Composable
 fun AffixIcon(url: String, alt: String) {
   Td({
-    style {
-      textAlign("center")
-    }
+    classes(TableStyle.cellImage)
   }) {
-    Img(url, alt) {
-      style {
-        width(25.px)
-        height(25.px)
-        borderRadius(50.percent)
-      }
-    }
+    Img(url, alt) { classes(ImageStyle.affix) }
   }
 }

@@ -8,9 +8,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import de.nilsdruyen.mythicplus.character.exceptions.InvalidArgumentsException
 import de.nilsdruyen.mythicplus.character.utils.convertToCharacterList
+import de.nilsdruyen.mythicplus.components.Version
 import de.nilsdruyen.mythicplus.states.ArgumentState
+import de.nilsdruyen.mythicplus.styles.AppStylesheet
 import de.nilsdruyen.mythicplus.utils.PageConst
 import kotlinx.browser.window
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.url.URLSearchParams
 
 @Composable
@@ -43,9 +47,36 @@ fun MythicPlusWebPage() {
     }
   }
 
-  when (state) {
-    ArgumentState.NoArguments -> NoArgumentsPage()
-    ArgumentState.InvalidArguments -> InvalidArgumentsPage()
-    is ArgumentState.PageArguments -> CharacterPage(state as ArgumentState.PageArguments)
+  Header()
+  Content {
+    when (state) {
+      ArgumentState.NoArguments -> NoArgumentsPage()
+      ArgumentState.InvalidArguments -> InvalidArgumentsPage()
+      is ArgumentState.PageArguments -> CharacterPage(state as ArgumentState.PageArguments)
+    }
+  }
+  Footer()
+}
+
+@Composable
+fun Header() {
+  org.jetbrains.compose.web.dom.Header({
+    classes(AppStylesheet.pageHeader)
+  }) { Text("Mythic+ Overview") }
+}
+
+@Composable
+fun Content(content: @Composable () -> Unit) {
+  Div({
+    classes(AppStylesheet.pageContent)
+  }) { content() }
+}
+
+@Composable
+fun Footer() {
+  org.jetbrains.compose.web.dom.Footer({
+    classes(AppStylesheet.pageFooter)
+  }) {
+    Version()
   }
 }
