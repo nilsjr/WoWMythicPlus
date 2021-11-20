@@ -2,12 +2,14 @@ package de.nilsdruyen.mythicplus.character
 
 import de.nilsdruyen.mythicplus.character.models.Character
 import de.nilsdruyen.mythicplus.character.models.Dungeon
+import de.nilsdruyen.mythicplus.character.models.InputCharacter
 import de.nilsdruyen.mythicplus.character.utils.Constants
 
 class RaiderIoRepositoryImpl : RaiderIoRepository {
 
-  override suspend fun getCharacterList(realm: String, names: List<String>): List<Character> =
-    names.map { RaiderIoApi.getCharacter(realm, it) }.sortedByDescending { it.score }
+  override suspend fun getCharacterList(charList: List<InputCharacter>): List<Character> {
+    return charList.map { RaiderIoApi.getCharacter(it.realm, it.name) }.sortedByDescending { it.score }
+  }
 
   override suspend fun getCurrentAffixeIds(): List<Int> = RaiderIoApi.getCurrentAffixIds()
 

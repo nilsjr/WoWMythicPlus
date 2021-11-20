@@ -10,13 +10,20 @@ import de.nilsdruyen.mythicplus.character.models.DungeonScore
 import de.nilsdruyen.mythicplus.character.models.Score
 import de.nilsdruyen.mythicplus.character.models.ScoreTier
 import de.nilsdruyen.mythicplus.character.utils.Constants
-import io.ktor.client.*
-import io.ktor.client.features.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
-import io.ktor.client.features.logging.*
-import io.ktor.client.request.*
-import io.ktor.http.*
+import io.ktor.client.HttpClient
+import io.ktor.client.features.BrowserUserAgent
+import io.ktor.client.features.defaultRequest
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.features.logging.DEFAULT
+import io.ktor.client.features.logging.LogLevel
+import io.ktor.client.features.logging.Logger
+import io.ktor.client.features.logging.Logging
+import io.ktor.client.request.get
+import io.ktor.client.request.host
+import io.ktor.client.request.parameter
+import io.ktor.http.URLProtocol
+import kotlinx.serialization.json.Json
 import kotlin.math.absoluteValue
 
 object RaiderIoApi {
@@ -30,10 +37,10 @@ object RaiderIoApi {
     }
     install(Logging) {
       logger = Logger.DEFAULT
-      level = LogLevel.ALL
+      level = LogLevel.INFO
     }
     install(JsonFeature) {
-      serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
+      serializer = KotlinxSerializer(Json {
         isLenient = true
         ignoreUnknownKeys = true
       })
@@ -74,7 +81,6 @@ object RaiderIoApi {
     val colorForScore = this.map {
       it.hexColor to (it.score - score).absoluteValue
     }.minByOrNull { it.second }
-    println("score color: $colorForScore")
     return colorForScore?.first ?: ""
   }
 

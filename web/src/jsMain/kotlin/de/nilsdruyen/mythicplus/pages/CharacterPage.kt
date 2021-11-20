@@ -18,7 +18,7 @@ fun CharacterPage(arguments: ArgumentState.PageArguments) {
 
   LaunchedEffect(Unit) {
     val dungeons = dataRepository.getDungeons()
-    val characterList = dataRepository.getCharacterList(arguments.realm, arguments.characterNameList)
+    val characterList = dataRepository.getCharacterList(arguments.characterList)
     val currentAffixes = dataRepository.getCurrentAffixeIds()
     state = CharacterViewModel.MythicPlusOverview(characterList, currentAffixes, dungeons)
   }

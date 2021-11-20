@@ -26,6 +26,11 @@ object AppStylesheet : StyleSheet() {
       margin(0.px)
       background("#212121")
       color(Color.white)
+      property("font-family", FontConst.DEFAULT)
+    }
+
+    "#root" style {
+      height(100.percent)
     }
   }
 }
@@ -37,10 +42,6 @@ object TextStyle : StyleSheet(AppStylesheet) {
     fontSize(20.px)
     fontWeight(600)
     textAlign("center")
-    property(
-      "font-family",
-      "system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Droid Sans,Helvetica Neue,Arial,sans-serif"
-    )
   }
 
   val defaultTitle by style {
@@ -48,10 +49,6 @@ object TextStyle : StyleSheet(AppStylesheet) {
     fontSize(24.px)
     fontWeight(600)
     textAlign("center")
-    property(
-      "font-family",
-      "system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Droid Sans,Helvetica Neue,Arial,sans-serif"
-    )
   }
 
   val level by style {
@@ -59,11 +56,6 @@ object TextStyle : StyleSheet(AppStylesheet) {
     fontSize(20.px)
     fontWeight(600)
     textAlign("center")
-
-    property(
-      "font-family",
-      "system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Droid Sans,Helvetica Neue,Arial,sans-serif"
-    )
   }
 
   val levelHint by style {
@@ -71,22 +63,12 @@ object TextStyle : StyleSheet(AppStylesheet) {
     fontSize(12.px)
     fontWeight(400)
     textAlign("center")
-
-    property(
-      "font-family",
-      "system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Droid Sans,Helvetica Neue,Arial,sans-serif"
-    )
   }
 
   val title by style {
     color(Color.white)
     fontSize(24.px)
     fontWeight(600)
-
-    property(
-      "font-family",
-      "system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Droid Sans,Helvetica Neue,Arial,sans-serif"
-    )
   }
 
   val score by style {
@@ -97,11 +79,6 @@ object TextStyle : StyleSheet(AppStylesheet) {
     borderRadius(4.px)
     padding(4.px)
     property("text-shadow", "1px 1px #000")
-
-    property(
-      "font-family",
-      "system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Droid Sans,Helvetica Neue,Arial,sans-serif"
-    )
   }
 
   val headText by style {
@@ -109,11 +86,6 @@ object TextStyle : StyleSheet(AppStylesheet) {
     fontSize(20.px)
     fontWeight(600)
     textAlign("start")
-
-    property(
-      "font-family",
-      "system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Droid Sans,Helvetica Neue,Arial,sans-serif"
-    )
   }
 }
 

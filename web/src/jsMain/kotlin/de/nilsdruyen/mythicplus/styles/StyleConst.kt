@@ -11,3 +11,11 @@ object ColorConst {
   const val GREEN = "#2e7d32"
   const val GRAY = "#455a64"
 }
+
+object FontConst {
+
+  const val DEFAULT = """
+    system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,
+    Ubuntu,Cantarell,Droid Sans,Helvetica Neue,Arial,sans-serif
+  """
+}

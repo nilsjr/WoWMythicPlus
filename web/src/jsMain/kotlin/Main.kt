@@ -3,7 +3,6 @@ import androidx.compose.runtime.compositionLocalOf
 import de.nilsdruyen.mythicplus.character.RaiderIoRepository
 import de.nilsdruyen.mythicplus.character.RaiderIoRepositoryImpl
 import de.nilsdruyen.mythicplus.components.base.Layout
-import de.nilsdruyen.mythicplus.pages.LoadingPage
 import de.nilsdruyen.mythicplus.pages.MythicPlusWebPage
 import de.nilsdruyen.mythicplus.styles.AppStylesheet
 import org.jetbrains.compose.web.css.Style
@@ -18,8 +17,7 @@ fun main() {
     Style(AppStylesheet)
     Layout {
       CompositionLocalProvider(LocalDataRepository provides raiderIoRepository) {
-//        MythicPlusWebPage()
-        LoadingPage()
+        MythicPlusWebPage()
       }
     }
   }
