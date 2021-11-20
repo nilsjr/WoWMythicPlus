@@ -11,9 +11,12 @@ import org.jetbrains.compose.web.css.fontWeight
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.margin
+import org.jetbrains.compose.web.css.marginLeft
+import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.selectors.plus
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.textDecoration
 import org.jetbrains.compose.web.css.width
@@ -107,11 +110,16 @@ object ButtonStyle : StyleSheet(AppStylesheet) {
     backgroundColor(Color("#167dff"))
     fontSize(15.px)
     textDecoration("none")
-    borderRadius(12.px)
-    padding(12.px, 32.px)
+    borderRadius(8.px)
+    padding(8.px, 12.px)
     lineHeight(24.px)
+    marginLeft(8.px)
     fontWeight(400)
     property("width", "fit-content")
+
+    self + " hover" style {
+      opacity(0.8)
+    }
   }
 }
 
