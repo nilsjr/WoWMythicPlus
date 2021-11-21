@@ -9,8 +9,8 @@ This website is available under: http://wow.nilsdruyen.de
 ## Missing features
 
 - icons for affixes, class
+- links to raiderio, wowarmory
 - roles for each run
-- links to raiderio or wowarmory
 - Gear score
 - hover effect
 - more details

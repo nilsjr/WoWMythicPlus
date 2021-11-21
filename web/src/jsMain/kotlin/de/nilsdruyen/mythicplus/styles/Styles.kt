@@ -19,6 +19,7 @@ import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.margin
 import org.jetbrains.compose.web.css.marginLeft
 import org.jetbrains.compose.web.css.marginRight
+import org.jetbrains.compose.web.css.minWidth
 import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.percent
@@ -199,6 +200,14 @@ object ImageStyle : StyleSheet(AppStylesheet) {
     height(25.px)
     borderRadius(50.percent)
   }
+
+  val item by style {
+    width(30.px)
+    height(30.px)
+    borderRadius(4.px)
+    property("vertical-align", "middle")
+    marginRight(8.px)
+  }
 }
 
 object TableStyle : StyleSheet(AppStylesheet) {
@@ -214,5 +223,10 @@ object TableStyle : StyleSheet(AppStylesheet) {
 
   val cellImage by style {
     textAlign("center")
+  }
+
+  val cellItem by style {
+    textAlign("center")
+    minWidth(80.px)
   }
 }

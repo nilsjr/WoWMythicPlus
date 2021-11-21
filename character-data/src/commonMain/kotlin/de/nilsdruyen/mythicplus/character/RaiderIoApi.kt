@@ -1,12 +1,17 @@
 package de.nilsdruyen.mythicplus.character
 
 import de.nilsdruyen.mythicplus.character.entities.AffixesWebEntity
-import de.nilsdruyen.mythicplus.character.entities.MythicPlusDungeonEntity
-import de.nilsdruyen.mythicplus.character.entities.ProfileRioEntity
-import de.nilsdruyen.mythicplus.character.entities.ScoreTierEntity
+import de.nilsdruyen.mythicplus.character.entities.MythicPlusDungeonWebEntity
+import de.nilsdruyen.mythicplus.character.entities.ProfileWebEntity
+import de.nilsdruyen.mythicplus.character.entities.ScoreTierWebEntity
 import de.nilsdruyen.mythicplus.character.entities.StaticDataEntity
+import de.nilsdruyen.mythicplus.character.enums.ItemSlot
+import de.nilsdruyen.mythicplus.character.enums.toSlot
 import de.nilsdruyen.mythicplus.character.models.Character
+import de.nilsdruyen.mythicplus.character.models.DominationShard
 import de.nilsdruyen.mythicplus.character.models.DungeonScore
+import de.nilsdruyen.mythicplus.character.models.Gear
+import de.nilsdruyen.mythicplus.character.models.Item
 import de.nilsdruyen.mythicplus.character.models.Score
 import de.nilsdruyen.mythicplus.character.models.ScoreTier
 import de.nilsdruyen.mythicplus.character.utils.Constants
@@ -48,15 +53,17 @@ object RaiderIoApi {
     BrowserUserAgent()
   }
 
-  suspend fun getCharacter(realm: String, name: String): Character {
-    val entity = client.get<ProfileRioEntity>("characters/profile") {
+  suspend fun getCharacter(realm: String, name: String, tiers: List<ScoreTier>): Character {
+    val entity = client.get<ProfileWebEntity>("characters/profile") {
       parameter("region", "eu")
       parameter("realm", realm)
       parameter("name", name)
-      parameter("fields", "mythic_plus_best_runs,mythic_plus_alternate_runs,mythic_plus_scores_by_season:current")
+      parameter(
+        "fields",
+        "mythic_plus_best_runs:all,mythic_plus_alternate_runs:all,mythic_plus_scores_by_season:current,gear"
+      )
     }
 
-    val tiers = getScoreTiers()
     val charScore = entity.scoreBySeason.first().scores.all
     val list = Constants.Dungeons.map { dungeon ->
       val filteredDungeons = (entity.bestRuns + entity.altRuns).filter { it.shortName == dungeon }
@@ -65,10 +72,28 @@ object RaiderIoApi {
       DungeonScore(dungeon, tyrannical, fortified)
     }
 
-    return Character(entity.name, charScore, tiers.getColorForScore(charScore), list)
+    val items = entity.gear.items.map {
+      val (key, data) = it
+      Item(
+        data.id,
+        key.toSlot() ?: ItemSlot.Neck,
+        data.name,
+        data.itemLevel,
+        data.icon,
+        data.isLegendary,
+        data.dominationShards.map { shard ->
+          DominationShard(shard.quality, shard.name, shard.icon, shard.itemId)
+        },
+        data.gems,
+        data.bonuses,
+      )
+    }
+    val gear = Gear(entity.gear.iLvlEquipped, items)
+
+    return Character(entity.name, charScore, tiers.getColorForScore(charScore), list, gear)
   }
 
-  private fun List<MythicPlusDungeonEntity>.mapToScore(type: Int): Score {
+  private fun List<MythicPlusDungeonWebEntity>.mapToScore(type: Int): Score {
     val dungeon = this.firstOrNull { it.affixes.any { affix -> affix.id == type } }
     return if (dungeon == null) {
       Score.empty(type)
@@ -97,8 +122,8 @@ object RaiderIoApi {
     }
   }
 
-  private suspend fun getScoreTiers(): List<ScoreTier> {
-    return client.get<List<ScoreTierEntity>>("mythic-plus/score-tiers").map {
+  suspend fun getScoreTiers(): List<ScoreTier> {
+    return client.get<List<ScoreTierWebEntity>>("mythic-plus/score-tiers").map {
       ScoreTier(it.score, it.rgbHex)
     }
   }

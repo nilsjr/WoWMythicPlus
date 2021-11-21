@@ -4,17 +4,18 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ProfileRioEntity(
+data class ProfileWebEntity(
   @SerialName("name") val name: String,
   @SerialName("class") val clazz: String,
   @SerialName("thumbnail_url") val thumbnailUrl: String,
-  @SerialName("mythic_plus_best_runs") val bestRuns: List<MythicPlusDungeonEntity>,
-  @SerialName("mythic_plus_alternate_runs") val altRuns: List<MythicPlusDungeonEntity>,
-  @SerialName("mythic_plus_scores_by_season") val scoreBySeason: List<SeasonEntity>,
+  @SerialName("mythic_plus_best_runs") val bestRuns: List<MythicPlusDungeonWebEntity>,
+  @SerialName("mythic_plus_alternate_runs") val altRuns: List<MythicPlusDungeonWebEntity>,
+  @SerialName("mythic_plus_scores_by_season") val scoreBySeason: List<SeasonWebEntity>,
+  @SerialName("gear") val gear: GearWebEntity,
 )
 
 @Serializable
-data class MythicPlusDungeonEntity(
+data class MythicPlusDungeonWebEntity(
   @SerialName("dungeon") val dungeon: String,
   @SerialName("short_name") val shortName: String,
   @SerialName("mythic_level") val level: Int,
@@ -23,22 +24,22 @@ data class MythicPlusDungeonEntity(
   @SerialName("score") val score: Double,
   @SerialName("clear_time_ms") val clearTimeMs: Long,
   @SerialName("par_time_ms") val parTimeMs: Long,
-  @SerialName("affixes") val affixes: List<AffixEntity>,
+  @SerialName("affixes") val affixes: List<AffixWebEntity>,
 )
 
 @Serializable
-data class AffixEntity(
+data class AffixWebEntity(
   val id: Int,
   val icon: String
 )
 
 @Serializable
-data class SeasonEntity(
-  val scores: SeasonScoreEntity
+data class SeasonWebEntity(
+  val scores: SeasonScoreWebEntity
 )
 
 @Serializable
-data class SeasonScoreEntity(
+data class SeasonScoreWebEntity(
   val all: Double
 )
 

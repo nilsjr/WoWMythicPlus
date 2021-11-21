@@ -25,6 +25,10 @@ object Constants {
       return "https://cdnassets.raider.io/images/keystone-icons/$zoneId.jpg"
     }
 
+    fun gearIcon(id: String): String {
+      return "https://cdnassets.raider.io/images/wow/icons/medium/$id.jpg"
+    }
+
     const val FORTIFIED_URL = "https://cdnassets.raider.io/images/wow/icons/medium/ability_toughness.jpg"
     const val TYRANNICAL_URL = "https://cdnassets.raider.io/images/wow/icons/medium/achievement_boss_archaedas.jpg"
 

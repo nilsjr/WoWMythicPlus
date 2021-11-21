@@ -18,7 +18,7 @@ import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.Tr
 
 @Composable
-fun CharacterRow(character: Character, currentAffixes: List<Int>) {
+fun CharacterMythicPlusRow(character: Character, currentAffixes: List<Int>) {
   Tr {
     Td({
       classes(TextStyle.title)

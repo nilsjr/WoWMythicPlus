@@ -22,10 +22,11 @@ import org.w3c.dom.url.URLSearchParams
 @Composable
 fun MythicPlusWebPage() {
   var state by remember { mutableStateOf<ArgumentState>(ArgumentState.NoArguments) }
-  val page = remember { mutableStateOf<Page>(Page.MythicPlus) }
+  val currentPage = remember { mutableStateOf<Page>(Page.MythicPlus) }
 
   LaunchedEffect(Unit) {
     val urlParams = URLSearchParams(window.location.search)
+    currentPage.value = urlParams.get("page").jumpTo()
 
     if (urlParams.has(PageConst.CHARACTERS)) {
       try {
@@ -51,14 +52,14 @@ fun MythicPlusWebPage() {
   }
 
   Header()
-  Menu(isVisible = state is ArgumentState.PageArguments, page.value) {
-    page.value = it
+  Menu(isVisible = state is ArgumentState.PageArguments, currentPage.value) {
+    currentPage.value = it
   }
   Content {
     when (state) {
       ArgumentState.NoArguments -> NoArgumentsPage()
       ArgumentState.InvalidArguments -> InvalidArgumentsPage()
-      is ArgumentState.PageArguments -> CharacterPage(state as ArgumentState.PageArguments, page)
+      is ArgumentState.PageArguments -> CharacterPage(state as ArgumentState.PageArguments, currentPage)
     }
   }
   Footer()

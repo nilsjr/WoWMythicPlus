@@ -16,21 +16,21 @@ import org.jetbrains.compose.web.dom.Th
 import org.jetbrains.compose.web.dom.Tr
 
 @Composable
-fun MythicPlusTable(viewModel: CharacterViewModel.MythicPlusOverview) {
+fun MythicPlusTable(viewModel: CharacterViewModel.CharacterOverview) {
   Table({
     classes(TableStyle.root)
   }) {
-    TableHeader(viewModel.dungeons)
+    MythicPlusTableHeader(viewModel.dungeons)
     if (viewModel.characterList.isNotEmpty()) {
       viewModel.characterList.forEach {
-        CharacterRow(it, viewModel.currentAffixIds)
+        CharacterMythicPlusRow(it, viewModel.currentAffixIds)
       }
     }
   }
 }
 
 @Composable
-fun TableHeader(dungeons: List<Dungeon>) {
+fun MythicPlusTableHeader(dungeons: List<Dungeon>) {
   Tr {
     Th({ colspan(2) })
     dungeons.forEach {

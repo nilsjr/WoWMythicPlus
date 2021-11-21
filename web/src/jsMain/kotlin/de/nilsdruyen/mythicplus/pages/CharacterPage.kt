@@ -16,22 +16,24 @@ import de.nilsdruyen.mythicplus.states.ArgumentState
 @Composable
 fun CharacterPage(arguments: ArgumentState.PageArguments, page: MutableState<Page>) {
   val dataRepository = LocalDataRepository.current
-  var state by remember { mutableStateOf<CharacterViewModel>(CharacterViewModel.Loading) }
+  var currentState by remember { mutableStateOf<CharacterViewModel>(CharacterViewModel.Loading) }
 
   LaunchedEffect(Unit) {
     val dungeons = dataRepository.getDungeons()
     val characterList = dataRepository.getCharacterList(arguments.characterList)
     val currentAffixes = dataRepository.getCurrentAffixeIds()
-    state = CharacterViewModel.MythicPlusOverview(characterList, currentAffixes, dungeons)
+    currentState = CharacterViewModel.CharacterOverview(characterList, currentAffixes, dungeons)
   }
 
-  when (state) {
+  when (currentState) {
     CharacterViewModel.Loading -> LoadingPage()
-    is CharacterViewModel.MythicPlusOverview -> {
+    is CharacterViewModel.CharacterOverview -> {
+      val state = currentState as CharacterViewModel.CharacterOverview
       when (page.value) {
-        Page.MythicPlus -> MythicPlusTable(state as CharacterViewModel.MythicPlusOverview)
-        Page.Gear -> GearTable()
+        Page.MythicPlus -> MythicPlusTable(state)
+        Page.Gear -> GearTable(CharacterViewModel.GearOverview(state.characterList))
       }
     }
+    else -> {}
   }
 }

@@ -8,7 +8,8 @@ import de.nilsdruyen.mythicplus.character.utils.Constants
 class RaiderIoRepositoryImpl : RaiderIoRepository {
 
   override suspend fun getCharacterList(charList: List<InputCharacter>): List<Character> {
-    return charList.map { RaiderIoApi.getCharacter(it.realm, it.name) }.sortedByDescending { it.score }
+    val tiers = RaiderIoApi.getScoreTiers()
+    return charList.map { RaiderIoApi.getCharacter(it.realm, it.name, tiers) }.sortedByDescending { it.score }
   }
 
   override suspend fun getCurrentAffixeIds(): List<Int> = RaiderIoApi.getCurrentAffixIds()
