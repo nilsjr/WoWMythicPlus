@@ -10,4 +10,5 @@ object Versions {
   const val benManesVersions = "0.39.0"
   const val detekt = "1.18.1"
   const val ftpUploadPlugin = "0.0.2"
+  const val buildConfig = "3.0.3"
 }

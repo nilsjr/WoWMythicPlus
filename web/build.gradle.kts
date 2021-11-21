@@ -5,6 +5,7 @@ plugins {
   kotlin("multiplatform")
   id("org.jetbrains.compose")
   id("de.nilsdruyen.gradle-ftp-upload-plugin")
+  id("com.github.gmazzo.buildconfig")
 }
 
 kotlin {
@@ -39,6 +40,12 @@ afterEvaluate {
     versions.webpackDevServer.version = "4.0.0"
     versions.webpackCli.version = "4.9.0"
   }
+}
+
+buildConfig {
+  useKotlinOutput()
+  packageName("de.nilsdruyen.mythicplus")
+  buildConfigField("String", "VERSION", "\"${project.version}\"")
 }
 
 configure<UploadExtension> {

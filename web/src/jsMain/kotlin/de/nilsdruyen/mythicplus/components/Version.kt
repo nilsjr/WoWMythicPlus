@@ -1,6 +1,7 @@
 package de.nilsdruyen.mythicplus.components
 
 import androidx.compose.runtime.Composable
+import de.nilsdruyen.mythicplus.BuildConfig
 import org.jetbrains.compose.web.css.margin
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.textAlign
@@ -15,6 +16,6 @@ fun Version() {
       textAlign("center")
     }
   }) {
-    Text("0.0.1")
+    Text(BuildConfig.VERSION)
   }
 }

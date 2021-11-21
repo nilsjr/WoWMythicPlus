@@ -4,11 +4,12 @@ plugins {
   id("org.jetbrains.compose") version Versions.compose apply false
   id("com.github.ben-manes.versions") version Versions.benManesVersions
   id("io.gitlab.arturbosch.detekt") version Versions.detekt
+  id("com.github.gmazzo.buildconfig") version Versions.buildConfig apply false
   id("de.nilsdruyen.gradle-ftp-upload-plugin") version Versions.ftpUploadPlugin apply false
 }
 
 group = "de.nilsdruyen"
-version = "0.0.1"
+version = "0.0.2"
 
 allprojects {
   repositories {
@@ -20,6 +21,8 @@ allprojects {
 
 subprojects {
   apply(plugin = Plugins.detekt)
+
+  version = rootProject.version
 
   when (this.name) {
     "character-data" -> {

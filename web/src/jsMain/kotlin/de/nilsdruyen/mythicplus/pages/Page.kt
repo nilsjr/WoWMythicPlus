@@ -10,6 +10,6 @@ fun String?.jumpTo(): Page {
   return when (this) {
     "gear" -> Page.Gear
     "m+" -> Page.MythicPlus
-    else -> Page.Gear
+    else -> Page.MythicPlus
   }
 }
