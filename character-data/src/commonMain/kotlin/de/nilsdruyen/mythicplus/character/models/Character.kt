@@ -29,7 +29,7 @@ data class Item(
 ) {
 
   val formattedGems = gems.joinToString(",")
-  val formattedBonus = bonuses.joinToString(",")
+  val formattedBonus = bonuses.joinToString(":")
 }
 
 data class DominationShard(
