@@ -1,4 +1,4 @@
-package de.nilsdruyen.mythicplus.components
+package de.nilsdruyen.mythicplus.components.mythicplus
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.mythicplus.character.models.CharacterViewModel
@@ -16,7 +16,7 @@ import org.jetbrains.compose.web.dom.Th
 import org.jetbrains.compose.web.dom.Tr
 
 @Composable
-fun CharacterTable(viewModel: CharacterViewModel.MythicPlusOverview) {
+fun MythicPlusTable(viewModel: CharacterViewModel.MythicPlusOverview) {
   Table({
     classes(TableStyle.root)
   }) {

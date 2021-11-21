@@ -11,8 +11,10 @@ import de.nilsdruyen.mythicplus.character.utils.convertToCharacterList
 import de.nilsdruyen.mythicplus.components.Version
 import de.nilsdruyen.mythicplus.states.ArgumentState
 import de.nilsdruyen.mythicplus.styles.AppStylesheet
+import de.nilsdruyen.mythicplus.styles.ButtonStyle
 import de.nilsdruyen.mythicplus.utils.PageConst
 import kotlinx.browser.window
+import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.url.URLSearchParams
@@ -20,6 +22,7 @@ import org.w3c.dom.url.URLSearchParams
 @Composable
 fun MythicPlusWebPage() {
   var state by remember { mutableStateOf<ArgumentState>(ArgumentState.NoArguments) }
+  val page = remember { mutableStateOf<Page>(Page.MythicPlus) }
 
   LaunchedEffect(Unit) {
     val urlParams = URLSearchParams(window.location.search)
@@ -48,11 +51,14 @@ fun MythicPlusWebPage() {
   }
 
   Header()
+  Menu(isVisible = state is ArgumentState.PageArguments, page.value) {
+    page.value = it
+  }
   Content {
     when (state) {
       ArgumentState.NoArguments -> NoArgumentsPage()
       ArgumentState.InvalidArguments -> InvalidArgumentsPage()
-      is ArgumentState.PageArguments -> CharacterPage(state as ArgumentState.PageArguments)
+      is ArgumentState.PageArguments -> CharacterPage(state as ArgumentState.PageArguments, page)
     }
   }
   Footer()
@@ -63,6 +69,36 @@ fun Header() {
   org.jetbrains.compose.web.dom.Header({
     classes(AppStylesheet.pageHeader)
   }) { Text("Mythic+ Overview") }
+}
+
+@Composable
+fun Menu(isVisible: Boolean, currentPage: Page, onMenuItemClick: (Page) -> Unit) {
+  org.jetbrains.compose.web.dom.Aside({
+    classes(AppStylesheet.pageMenu)
+  }) {
+    if (isVisible) {
+      Button(
+        attrs = {
+          classes(if (currentPage == Page.MythicPlus) ButtonStyle.buttonActive else ButtonStyle.button)
+          onClick {
+            onMenuItemClick(Page.MythicPlus)
+          }
+        }
+      ) {
+        Text("Mythic+ Scores")
+      }
+      Button(
+        attrs = {
+          classes(if (currentPage == Page.Gear) ButtonStyle.buttonActive else ButtonStyle.button)
+          onClick {
+            onMenuItemClick(Page.Gear)
+          }
+        }
+      ) {
+        Text("Character gear")
+      }
+    }
+  }
 }
 
 @Composable

@@ -2,7 +2,6 @@ package de.nilsdruyen.mythicplus.pages
 
 import androidx.compose.runtime.Composable
 import currentLocation
-import de.nilsdruyen.mythicplus.styles.ButtonStyle
 import de.nilsdruyen.mythicplus.styles.TextStyle
 import de.nilsdruyen.mythicplus.utils.PageConst
 import org.jetbrains.compose.web.attributes.ATarget
@@ -48,7 +47,7 @@ fun ArgumentStatusPage(title: String) {
       Text("multiple realms: ${PageConst.PARAM_EXAMPLE_MULTIPLE}")
       A(
         attrs = {
-          classes(ButtonStyle.button)
+          classes(TextStyle.link)
           target(ATarget.Self)
         },
         href = "$currentLocation${PageConst.PARAM_EXAMPLE_MULTIPLE}"
@@ -60,7 +59,7 @@ fun ArgumentStatusPage(title: String) {
       Text("single realm: ${PageConst.PARAM_EXAMPLE_SINGLE}")
       A(
         attrs = {
-          classes(ButtonStyle.button)
+          classes(TextStyle.link)
           target(ATarget.Self)
         },
         href = "$currentLocation${PageConst.PARAM_EXAMPLE_SINGLE}"

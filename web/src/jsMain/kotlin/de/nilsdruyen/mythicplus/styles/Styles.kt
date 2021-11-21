@@ -1,11 +1,11 @@
 package de.nilsdruyen.mythicplus.styles
 
+import org.jetbrains.compose.web.css.CSSBuilder
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
-import org.jetbrains.compose.web.css.border
 import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.display
@@ -23,10 +23,9 @@ import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.selectors.plus
+import org.jetbrains.compose.web.css.selectors.hover
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.textDecoration
-import org.jetbrains.compose.web.css.whiteSpace
 import org.jetbrains.compose.web.css.width
 
 object AppStylesheet : StyleSheet() {
@@ -45,18 +44,24 @@ object AppStylesheet : StyleSheet() {
       height(100.percent)
       display(DisplayStyle.Grid)
       gap(4.px)
-      gridTemplateRows("auto 1fr auto")
+      gridTemplateRows("auto auto 1fr auto")
       gridTemplateColumns("100%")
     }
   }
 
   val pageHeader by style {
-    padding(30.px)
+    padding(22.px)
     textAlign("center")
-    fontSize(26.px)
+    fontSize(28.px)
+  }
+
+  val pageMenu by style {
+    padding(12.px)
+    textAlign("center")
   }
 
   val pageContent by style {
+
   }
 
   val pageFooter by style {
@@ -116,6 +121,24 @@ object TextStyle : StyleSheet(AppStylesheet) {
     fontWeight(600)
     textAlign("center")
   }
+
+  val link by style {
+    color(Color("white"))
+    backgroundColor(Color("#1565c0"))
+    fontSize(15.px)
+    textDecoration("none")
+    borderRadius(8.px)
+    padding(8.px, 12.px)
+    lineHeight(24.px)
+    marginLeft(8.px)
+    property("width", "fit-content")
+    property("transition", "0.3s")
+    opacity(.7)
+    hover(self) style {
+      opacity(1)
+    }
+
+  }
 }
 
 object InputStyle : StyleSheet(AppStylesheet) {
@@ -132,19 +155,31 @@ object InputStyle : StyleSheet(AppStylesheet) {
 object ButtonStyle : StyleSheet(AppStylesheet) {
 
   val button by style {
-    color(Color("white"))
-    backgroundColor(Color("#167dff"))
-    fontSize(15.px)
-    textDecoration("none")
-    borderRadius(8.px)
-    padding(8.px, 12.px)
-    lineHeight(24.px)
-    marginLeft(8.px)
-    fontWeight(400)
-    property("width", "fit-content")
+    basicButton()
+    opacity(.7)
+  }
 
-    self + " hover" style {
-      opacity(0.8)
+  val buttonActive by style {
+    basicButton()
+    opacity(1)
+  }
+
+  private fun CSSBuilder.basicButton() {
+    width(160.px)
+    padding(8.px, 12.px)
+    margin(8.px)
+    color(Color("white"))
+    backgroundColor(Color("#1565c0"))
+    fontSize(16.px)
+    textDecoration("none")
+    property("border", "none")
+    borderRadius(8.px)
+    lineHeight(24.px)
+    fontWeight(400)
+    property("transition", "0.3s")
+    hover(self) style {
+      opacity(1)
+      textDecoration("underline")
     }
   }
 }
