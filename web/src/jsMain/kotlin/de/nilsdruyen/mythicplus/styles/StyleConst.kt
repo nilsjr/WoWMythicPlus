@@ -10,6 +10,14 @@ object ColorConst {
   const val RED = "#c62828"
   const val GREEN = "#2e7d32"
   const val GRAY = "#455a64"
+
+  object Gear {
+
+    const val ORANGE = "#ff8000"
+    const val PURPLE = "#a335ee"
+    const val BLUE = "#0070dd"
+    const val GREEN = "#1eff00"
+  }
 }
 
 object FontConst {

@@ -5,26 +5,26 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ProfileWebEntity(
-  @SerialName("name") val name: String,
+  val name: String,
   @SerialName("class") val clazz: String,
   @SerialName("thumbnail_url") val thumbnailUrl: String,
   @SerialName("mythic_plus_best_runs") val bestRuns: List<MythicPlusDungeonWebEntity>,
   @SerialName("mythic_plus_alternate_runs") val altRuns: List<MythicPlusDungeonWebEntity>,
   @SerialName("mythic_plus_scores_by_season") val scoreBySeason: List<SeasonWebEntity>,
-  @SerialName("gear") val gear: GearWebEntity,
+  val gear: GearWebEntity,
 )
 
 @Serializable
 data class MythicPlusDungeonWebEntity(
-  @SerialName("dungeon") val dungeon: String,
+   val dungeon: String,
   @SerialName("short_name") val shortName: String,
   @SerialName("mythic_level") val level: Int,
   @SerialName("num_keystone_upgrades") val upgrades: Int,
   @SerialName("zone_id") val id: Int,
-  @SerialName("score") val score: Double,
+  val score: Double,
   @SerialName("clear_time_ms") val clearTimeMs: Long,
   @SerialName("par_time_ms") val parTimeMs: Long,
-  @SerialName("affixes") val affixes: List<AffixWebEntity>,
+  val affixes: List<AffixWebEntity>,
 )
 
 @Serializable

@@ -4,12 +4,12 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class StaticDataEntity(
-  val dungeons: List<DungeonInfoEntity>
+data class StaticDataWebEntity(
+  val dungeons: List<DungeonInfoWebEntity>
 )
 
 @Serializable
-data class DungeonInfoEntity(
+data class DungeonInfoWebEntity(
   val id: Int,
   @SerialName("short_name") val shortName: String,
   val slug: String

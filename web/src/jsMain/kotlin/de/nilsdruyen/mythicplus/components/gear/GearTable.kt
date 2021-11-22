@@ -6,6 +6,7 @@ import de.nilsdruyen.mythicplus.character.models.Character
 import de.nilsdruyen.mythicplus.character.models.CharacterViewModel
 import de.nilsdruyen.mythicplus.character.models.Item
 import de.nilsdruyen.mythicplus.character.utils.Constants
+import de.nilsdruyen.mythicplus.extensions.colorForItemLvl
 import de.nilsdruyen.mythicplus.styles.ColorConst
 import de.nilsdruyen.mythicplus.styles.ImageStyle
 import de.nilsdruyen.mythicplus.styles.TableStyle
@@ -14,7 +15,9 @@ import org.jetbrains.compose.web.attributes.ATarget
 import org.jetbrains.compose.web.attributes.colspan
 import org.jetbrains.compose.web.attributes.target
 import org.jetbrains.compose.web.css.background
+import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.dom.A
+import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.Table
 import org.jetbrains.compose.web.dom.Td
@@ -27,7 +30,7 @@ fun GearTable(viewModel: CharacterViewModel.GearOverview) {
   Table({
     classes(TableStyle.root)
   }) {
-    GearTableHeader()
+//    GearTableHeader()
     if (viewModel.characterList.isNotEmpty()) {
       viewModel.characterList.forEach {
         CharacterGearRow(it)
@@ -70,9 +73,14 @@ fun CharacterGearRow(character: Character) {
 
 @Composable
 fun ItemCell(item: Item) {
-  Td({ classes(TableStyle.cellItem) }) {
+  Td({
+    classes(TableStyle.cellItem)
+    style {
+      background(item.colorForItemLvl())
+    }
+  }) {
     A(href = "https://www.wowhead.com/item=${item.id}", {
-      attr("data-wh-rename-link", "false")
+//      attr("data-wh-rename-link", "false")
       attr("rel", "gems=${item.formattedGems}&bonus=${item.formattedBonus}&ilvl=${item.level}")
       target(ATarget.Blank)
     }) {
@@ -80,6 +88,10 @@ fun ItemCell(item: Item) {
         classes(ImageStyle.item)
       }
     }
-    Text("${item.level}")
+    Div({
+      classes(TextStyle.itemLevel)
+    }) {
+      Text("${item.level}")
+    }
   }
 }

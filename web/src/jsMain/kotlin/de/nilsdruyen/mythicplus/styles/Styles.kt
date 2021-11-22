@@ -3,7 +3,9 @@ package de.nilsdruyen.mythicplus.styles
 import org.jetbrains.compose.web.css.CSSBuilder
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
+import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.StyleSheet
+import org.jetbrains.compose.web.css.alignItems
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.borderRadius
@@ -15,11 +17,11 @@ import org.jetbrains.compose.web.css.gap
 import org.jetbrains.compose.web.css.gridTemplateColumns
 import org.jetbrains.compose.web.css.gridTemplateRows
 import org.jetbrains.compose.web.css.height
+import org.jetbrains.compose.web.css.justifyContent
 import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.margin
 import org.jetbrains.compose.web.css.marginLeft
 import org.jetbrains.compose.web.css.marginRight
-import org.jetbrains.compose.web.css.minWidth
 import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.percent
@@ -140,6 +142,13 @@ object TextStyle : StyleSheet(AppStylesheet) {
     }
 
   }
+
+  val itemLevel by style {
+    width(100.percent)
+    display(DisplayStyle.Flex)
+    justifyContent(JustifyContent.Center)
+    alignItems("center")
+  }
 }
 
 object InputStyle : StyleSheet(AppStylesheet) {
@@ -206,7 +215,6 @@ object ImageStyle : StyleSheet(AppStylesheet) {
     height(30.px)
     borderRadius(4.px)
     property("vertical-align", "middle")
-    marginRight(8.px)
   }
 }
 
@@ -227,6 +235,7 @@ object TableStyle : StyleSheet(AppStylesheet) {
 
   val cellItem by style {
     textAlign("center")
-    minWidth(80.px)
+    borderRadius(4.px)
+    padding(2.px)
   }
 }

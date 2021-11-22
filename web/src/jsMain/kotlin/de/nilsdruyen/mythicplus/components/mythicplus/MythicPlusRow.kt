@@ -37,8 +37,8 @@ fun CharacterMythicPlusRow(character: Character, currentAffixes: List<Int>) {
 
 @Composable
 fun DungeonScores(dungeon: DungeonScore, currentAffixes: List<Int>) {
-  Score(dungeon.fortScore, currentAffixes)
-  Score(dungeon.tyrannScore, currentAffixes)
+  Score(dungeon.fortifiedScore, currentAffixes)
+  Score(dungeon.tyrannicalScore, currentAffixes)
 }
 
 @Composable
