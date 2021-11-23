@@ -13,7 +13,6 @@ data class Character(
   val gear: Gear,
 )
 
-// TODO: 23.11.21 sealed class for list
 data class CharacterSummary(
   val score: Double,
   val hexColor: String,
