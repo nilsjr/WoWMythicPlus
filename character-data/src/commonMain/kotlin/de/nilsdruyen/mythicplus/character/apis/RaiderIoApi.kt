@@ -1,6 +1,7 @@
 package de.nilsdruyen.mythicplus.character.apis
 
 import de.nilsdruyen.mythicplus.character.entities.AffixesWebEntity
+import de.nilsdruyen.mythicplus.character.entities.PeriodWebEntity
 import de.nilsdruyen.mythicplus.character.entities.ProfileWebEntity
 import de.nilsdruyen.mythicplus.character.entities.ScoreTierWebEntity
 import de.nilsdruyen.mythicplus.character.entities.StaticDataWebEntity
@@ -18,6 +19,12 @@ import io.ktor.client.request.get
 import io.ktor.client.request.host
 import io.ktor.client.request.parameter
 import io.ktor.http.URLProtocol
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
 
 object RaiderIoApi {
@@ -48,7 +55,7 @@ object RaiderIoApi {
     parameter("name", name)
     parameter(
       "fields",
-      "mythic_plus_best_runs:all,mythic_plus_alternate_runs:all,mythic_plus_scores_by_season:current,gear"
+      "mythic_plus_best_runs:all,mythic_plus_alternate_runs:all,mythic_plus_scores_by_season:current,gear,mythic_plus_recent_runs"
     )
   }
 
@@ -63,5 +70,17 @@ object RaiderIoApi {
 
   suspend fun getScoreTiers(): List<ScoreTier> = client.get<List<ScoreTierWebEntity>>("mythic-plus/score-tiers").map {
     ScoreTier(it.score, it.rgbHex)
+  }
+
+  suspend fun getCurrentPeriod(): LocalDateTime {
+    val entity = client.get<PeriodWebEntity>("periods")
+    val current = entity.periods.firstOrNull { it.region == "eu" }?.current
+
+    if (current != null) {
+      return current.start.toInstant().toLocalDateTime(TimeZone.currentSystemDefault())
+    }
+
+    val currentMoment: Instant = Clock.System.now()
+    return currentMoment.toLocalDateTime(TimeZone.currentSystemDefault())
   }
 }

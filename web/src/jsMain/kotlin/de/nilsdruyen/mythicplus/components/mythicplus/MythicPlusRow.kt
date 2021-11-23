@@ -23,7 +23,7 @@ fun CharacterMythicPlusRow(character: Character, currentAffixes: List<Int>) {
   Tr {
     Td({
       classes(TextStyle.title)
-    }) { Text(character.name) }
+    }) { Text("${character.name} - ${character.completedKeysThisWeek}") }
     Td({
       classes(TextStyle.score)
       style {

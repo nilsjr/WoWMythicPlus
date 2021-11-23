@@ -10,8 +10,14 @@ import de.nilsdruyen.mythicplus.styles.ImageStyle
 import de.nilsdruyen.mythicplus.styles.TableStyle
 import de.nilsdruyen.mythicplus.styles.TextStyle
 import org.jetbrains.compose.web.attributes.colspan
+import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.background
+import org.jetbrains.compose.web.css.color
+import org.jetbrains.compose.web.css.fontSize
+import org.jetbrains.compose.web.css.margin
+import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Img
+import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Table
 import org.jetbrains.compose.web.dom.Td
 import org.jetbrains.compose.web.dom.Text
@@ -33,6 +39,15 @@ fun MythicPlusTable(viewModel: CharacterViewModel.CharacterOverview) {
         CharacterMythicPlusRow(it, viewModel.currentAffixIds)
       }
     }
+  }
+  P({
+    style {
+      margin(12.px)
+      fontSize(14.px)
+      color(Color(ColorConst.GRAY))
+    }
+  }) {
+    Text("Number behind names = Dungeons played this week")
   }
 }
 

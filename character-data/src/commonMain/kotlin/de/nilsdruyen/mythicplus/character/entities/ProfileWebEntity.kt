@@ -11,12 +11,13 @@ data class ProfileWebEntity(
   @SerialName("mythic_plus_best_runs") val bestRuns: List<MythicPlusDungeonWebEntity>,
   @SerialName("mythic_plus_alternate_runs") val altRuns: List<MythicPlusDungeonWebEntity>,
   @SerialName("mythic_plus_scores_by_season") val scoreBySeason: List<SeasonWebEntity>,
+  @SerialName("mythic_plus_recent_runs") val recentRuns: List<MythicPlusDungeonWebEntity>,
   val gear: GearWebEntity,
 )
 
 @Serializable
 data class MythicPlusDungeonWebEntity(
-   val dungeon: String,
+  val dungeon: String,
   @SerialName("short_name") val shortName: String,
   @SerialName("mythic_level") val level: Int,
   @SerialName("num_keystone_upgrades") val upgrades: Int,
@@ -25,6 +26,7 @@ data class MythicPlusDungeonWebEntity(
   @SerialName("clear_time_ms") val clearTimeMs: Long,
   @SerialName("par_time_ms") val parTimeMs: Long,
   val affixes: List<AffixWebEntity>,
+  @SerialName("completed_at") val completedAt: String,
 )
 
 @Serializable

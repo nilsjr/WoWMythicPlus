@@ -9,6 +9,7 @@ import de.nilsdruyen.mythicplus.character.models.Score
 import de.nilsdruyen.mythicplus.character.models.ScoreTier
 import de.nilsdruyen.mythicplus.character.utils.Constants
 import de.nilsdruyen.mythicplus.styles.ColorConst
+import kotlin.math.roundToInt
 
 fun Item.colorForItemLvl(): String = when {
   isLegendary -> ColorConst.Gear.ORANGE
@@ -37,7 +38,7 @@ fun List<Character>.generateSummary(scoreTiers: List<ScoreTier>): CharacterSumma
   val colorForScore = scoreTiers.getColorForScore(score)
 
   return CharacterSummary(
-    score,
+    score.roundToInt().toDouble(),
     colorForScore,
     dungeonSummary
   )

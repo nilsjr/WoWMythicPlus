@@ -15,6 +15,8 @@ kotlin {
         implementation(Deps.Ktor.core)
         implementation(Deps.Ktor.serial)
         implementation(Deps.Ktor.logging)
+
+        implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.1")
       }
     }
   }

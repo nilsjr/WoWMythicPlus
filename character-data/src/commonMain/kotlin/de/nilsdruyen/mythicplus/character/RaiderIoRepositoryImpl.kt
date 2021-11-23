@@ -15,12 +15,16 @@ import de.nilsdruyen.mythicplus.character.models.Item
 import de.nilsdruyen.mythicplus.character.models.Score
 import de.nilsdruyen.mythicplus.character.models.ScoreTier
 import de.nilsdruyen.mythicplus.character.utils.Constants
-import kotlin.math.absoluteValue
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 
 class RaiderIoRepositoryImpl : RaiderIoRepository {
 
   override suspend fun getCharacterList(charList: List<InputCharacter>, scoreTiers: List<ScoreTier>): List<Character> {
-    return charList.map { getCharacter(it, scoreTiers) }.sortedByDescending { it.score }
+    val currentPeriod = RaiderIoApi.getCurrentPeriod()
+    return charList.map { getCharacter(it, scoreTiers, currentPeriod) }.sortedByDescending { it.score }
   }
 
   override suspend fun getCurrentAffixeIds(): List<Int> = RaiderIoApi.getCurrentAffixIds()
@@ -33,7 +37,11 @@ class RaiderIoRepositoryImpl : RaiderIoRepository {
 
   override suspend fun getScoreTiers(): List<ScoreTier> = RaiderIoApi.getScoreTiers()
 
-  private suspend fun getCharacter(char: InputCharacter, tiers: List<ScoreTier>): Character {
+  private suspend fun getCharacter(
+    char: InputCharacter,
+    tiers: List<ScoreTier>,
+    currentPeriod: LocalDateTime,
+  ): Character {
     val entity = RaiderIoApi.getCharacter(char.realm, char.name)
     val charScore = entity.scoreBySeason.first().scores.all
     val list = Constants.Dungeons.map { dungeon ->
@@ -61,7 +69,12 @@ class RaiderIoRepositoryImpl : RaiderIoRepository {
     }
     val gear = Gear(entity.gear.iLvlEquipped, items)
 
-    return Character(entity.name, charScore, tiers.getColorForScore(charScore), list, gear)
+    val keysThisWeek = entity.recentRuns.filter {
+      val dateTime = it.completedAt.toInstant().toLocalDateTime(TimeZone.currentSystemDefault())
+      dateTime > currentPeriod
+    }.size
+
+    return Character(entity.name, charScore, tiers.getColorForScore(charScore), list, gear, keysThisWeek)
   }
 
   private fun List<MythicPlusDungeonWebEntity>.mapToScore(type: Int): Score {

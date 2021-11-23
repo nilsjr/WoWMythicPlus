@@ -11,6 +11,7 @@ data class Character(
   val hexColor: String,
   val dungeons: List<DungeonScore>,
   val gear: Gear,
+  val completedKeysThisWeek: Int
 )
 
 data class CharacterSummary(
