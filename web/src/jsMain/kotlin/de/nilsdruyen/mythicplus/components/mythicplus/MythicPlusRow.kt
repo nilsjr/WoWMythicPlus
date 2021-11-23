@@ -2,6 +2,7 @@ package de.nilsdruyen.mythicplus.components.mythicplus
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.mythicplus.character.models.Character
+import de.nilsdruyen.mythicplus.character.models.CharacterSummary
 import de.nilsdruyen.mythicplus.character.models.DungeonScore
 import de.nilsdruyen.mythicplus.character.models.Score
 import de.nilsdruyen.mythicplus.styles.ColorConst
@@ -23,6 +24,24 @@ fun CharacterMythicPlusRow(character: Character, currentAffixes: List<Int>) {
     Td({
       classes(TextStyle.title)
     }) { Text(character.name) }
+    Td({
+      classes(TextStyle.score)
+      style {
+        background(character.hexColor)
+      }
+    }) {
+      Text(character.score.toString())
+    }
+    character.dungeons.forEach { DungeonScores(it, currentAffixes) }
+  }
+}
+
+@Composable
+fun CharacterMythicPlusSummaryRow(character: CharacterSummary, currentAffixes: List<Int>) {
+  Tr {
+    Td({
+      classes(TextStyle.title)
+    }) { Text("Best of all") }
     Td({
       classes(TextStyle.score)
       style {

@@ -2,6 +2,8 @@ package de.nilsdruyen.mythicplus.character.models
 
 import de.nilsdruyen.mythicplus.character.enums.ItemSlot
 import de.nilsdruyen.mythicplus.character.utils.format
+import kotlin.math.max
+import kotlin.math.min
 
 data class Character(
   val name: String,
@@ -9,6 +11,13 @@ data class Character(
   val hexColor: String,
   val dungeons: List<DungeonScore>,
   val gear: Gear,
+)
+
+// TODO: 23.11.21 sealed class for list
+data class CharacterSummary(
+  val score: Double,
+  val hexColor: String,
+  val dungeons: List<DungeonScore>,
 )
 
 data class Gear(
@@ -43,7 +52,11 @@ data class DungeonScore(
   val shortName: String,
   val tyrannicalScore: Score,
   val fortifiedScore: Score,
-)
+) {
+
+  val score =
+    max(tyrannicalScore.score, fortifiedScore.score) * 1.5 + min(tyrannicalScore.score, fortifiedScore.score) * 0.5
+}
 
 data class Score(
   val id: Int,

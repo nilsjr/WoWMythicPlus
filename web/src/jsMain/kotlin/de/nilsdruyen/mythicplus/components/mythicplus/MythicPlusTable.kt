@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import de.nilsdruyen.mythicplus.character.models.CharacterViewModel
 import de.nilsdruyen.mythicplus.character.models.Dungeon
 import de.nilsdruyen.mythicplus.character.utils.Constants
+import de.nilsdruyen.mythicplus.extensions.generateSummary
 import de.nilsdruyen.mythicplus.styles.ImageStyle
 import de.nilsdruyen.mythicplus.styles.TableStyle
 import de.nilsdruyen.mythicplus.styles.TextStyle
@@ -22,6 +23,9 @@ fun MythicPlusTable(viewModel: CharacterViewModel.CharacterOverview) {
   }) {
     MythicPlusTableHeader(viewModel.dungeons)
     if (viewModel.characterList.isNotEmpty()) {
+      if (viewModel.characterList.size > 1) {
+        CharacterMythicPlusSummaryRow(viewModel.characterList.generateSummary(), viewModel.currentAffixIds)
+      }
       viewModel.characterList.forEach {
         CharacterMythicPlusRow(it, viewModel.currentAffixIds)
       }
