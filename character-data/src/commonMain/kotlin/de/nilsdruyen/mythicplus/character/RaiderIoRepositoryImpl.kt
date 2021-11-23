@@ -4,6 +4,7 @@ import de.nilsdruyen.mythicplus.character.apis.RaiderIoApi
 import de.nilsdruyen.mythicplus.character.entities.MythicPlusDungeonWebEntity
 import de.nilsdruyen.mythicplus.character.enums.ItemSlot
 import de.nilsdruyen.mythicplus.character.enums.toSlot
+import de.nilsdruyen.mythicplus.character.extensions.getColorForScore
 import de.nilsdruyen.mythicplus.character.models.Character
 import de.nilsdruyen.mythicplus.character.models.DominationShard
 import de.nilsdruyen.mythicplus.character.models.Dungeon
@@ -18,9 +19,8 @@ import kotlin.math.absoluteValue
 
 class RaiderIoRepositoryImpl : RaiderIoRepository {
 
-  override suspend fun getCharacterList(charList: List<InputCharacter>): List<Character> {
-    val tiers = RaiderIoApi.getScoreTiers()
-    return charList.map { getCharacter(it, tiers) }.sortedByDescending { it.score }
+  override suspend fun getCharacterList(charList: List<InputCharacter>, scoreTiers: List<ScoreTier>): List<Character> {
+    return charList.map { getCharacter(it, scoreTiers) }.sortedByDescending { it.score }
   }
 
   override suspend fun getCurrentAffixeIds(): List<Int> = RaiderIoApi.getCurrentAffixIds()
@@ -30,6 +30,8 @@ class RaiderIoRepositoryImpl : RaiderIoRepository {
       Constants.Dungeons.indexOf(it.shortName)
     }
   }
+
+  override suspend fun getScoreTiers(): List<ScoreTier> = RaiderIoApi.getScoreTiers()
 
   private suspend fun getCharacter(char: InputCharacter, tiers: List<ScoreTier>): Character {
     val entity = RaiderIoApi.getCharacter(char.realm, char.name)
@@ -69,12 +71,5 @@ class RaiderIoRepositoryImpl : RaiderIoRepository {
     } else {
       Score(type, dungeon.score, dungeon.level, dungeon.upgrades, dungeon.clearTimeMs)
     }
-  }
-
-  private fun List<ScoreTier>.getColorForScore(score: Double): String {
-    val colorForScore = this.map {
-      it.hexColor to (it.score - score).absoluteValue
-    }.minByOrNull { it.second }
-    return colorForScore?.first ?: ""
   }
 }

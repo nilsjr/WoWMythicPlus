@@ -37,11 +37,11 @@ fun CharacterMythicPlusRow(character: Character, currentAffixes: List<Int>) {
 }
 
 @Composable
-fun CharacterMythicPlusSummaryRow(character: CharacterSummary, currentAffixes: List<Int>) {
+fun CharacterMythicPlusSummaryRow(character: CharacterSummary) {
   Tr {
     Td({
       classes(TextStyle.title)
-    }) { Text("Best of all") }
+    }) { Text("best of") }
     Td({
       classes(TextStyle.score)
       style {
@@ -50,8 +50,14 @@ fun CharacterMythicPlusSummaryRow(character: CharacterSummary, currentAffixes: L
     }) {
       Text(character.score.toString())
     }
-    character.dungeons.forEach { DungeonScores(it, currentAffixes) }
+    character.dungeons.forEach { DungeonScoresSummary(it) }
   }
+}
+
+@Composable
+fun DungeonScoresSummary(dungeon: DungeonScore) {
+  Score(dungeon.fortifiedScore, showTime = false)
+  Score(dungeon.tyrannicalScore, showTime = false)
 }
 
 @Composable
@@ -61,7 +67,7 @@ fun DungeonScores(dungeon: DungeonScore, currentAffixes: List<Int>) {
 }
 
 @Composable
-fun Score(score: Score, currentAffixes: List<Int>) {
+fun Score(score: Score, currentAffixes: List<Int> = emptyList(), showTime: Boolean = true) {
   Td({
     classes(TableStyle.cellLevel)
     style {
@@ -74,7 +80,7 @@ fun Score(score: Score, currentAffixes: List<Int>) {
       } else {
         background(ColorConst.RED)
       }
-      if (currentAffixes.none { it == score.id }) opacity(StyleConst.OPACITY)
+      if (currentAffixes.isNotEmpty() && currentAffixes.none { it == score.id }) opacity(StyleConst.OPACITY)
     }
   }) {
     Div({
@@ -86,7 +92,7 @@ fun Score(score: Score, currentAffixes: List<Int>) {
     }) {
       Text(score.formattedLevel)
     }
-    if (score.played) {
+    if (score.played && showTime) {
       Div({
         classes(TextStyle.levelHint)
         style {

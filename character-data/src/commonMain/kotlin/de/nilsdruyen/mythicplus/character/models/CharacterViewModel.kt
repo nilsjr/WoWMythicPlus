@@ -8,6 +8,7 @@ sealed interface CharacterViewModel {
     val characterList: List<Character>,
     val currentAffixIds: List<Int>,
     val dungeons: List<Dungeon>,
+    val scoreTiers: List<ScoreTier>,
   ) : CharacterViewModel
 
   class GearOverview(

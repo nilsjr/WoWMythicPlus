@@ -1,10 +1,12 @@
 package de.nilsdruyen.mythicplus.extensions
 
+import de.nilsdruyen.mythicplus.character.extensions.getColorForScore
 import de.nilsdruyen.mythicplus.character.models.Character
 import de.nilsdruyen.mythicplus.character.models.CharacterSummary
 import de.nilsdruyen.mythicplus.character.models.DungeonScore
 import de.nilsdruyen.mythicplus.character.models.Item
 import de.nilsdruyen.mythicplus.character.models.Score
+import de.nilsdruyen.mythicplus.character.models.ScoreTier
 import de.nilsdruyen.mythicplus.character.utils.Constants
 import de.nilsdruyen.mythicplus.styles.ColorConst
 
@@ -15,7 +17,7 @@ fun Item.colorForItemLvl(): String = when {
   else -> ColorConst.Gear.GREEN
 }
 
-fun List<Character>.generateSummary(): CharacterSummary {
+fun List<Character>.generateSummary(scoreTiers: List<ScoreTier>): CharacterSummary {
   val dungeonSummary = Constants.Dungeons.map { dungeon ->
     this.map { char ->
       char.dungeons.first { it.shortName == dungeon }
@@ -32,7 +34,7 @@ fun List<Character>.generateSummary(): CharacterSummary {
   }
 
   val score = dungeonSummary.sumOf { it.score }
-  val colorForScore = "#455a64" // TODO: 23.11.21 correct color for score
+  val colorForScore = scoreTiers.getColorForScore(score)
 
   return CharacterSummary(
     score,

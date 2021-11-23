@@ -20,18 +20,19 @@ fun CharacterPage(arguments: ArgumentState.PageArguments, page: MutableState<Pag
 
   LaunchedEffect(Unit) {
     val dungeons = dataRepository.getDungeons()
-    val characterList = dataRepository.getCharacterList(arguments.characterList)
+    val scoreTies = dataRepository.getScoreTiers()
     val currentAffixes = dataRepository.getCurrentAffixeIds()
-    currentState = CharacterViewModel.CharacterOverview(characterList, currentAffixes, dungeons)
+    val characterList = dataRepository.getCharacterList(arguments.characterList, scoreTies)
+    currentState = CharacterViewModel.CharacterOverview(characterList, currentAffixes, dungeons, scoreTies)
   }
 
   when (currentState) {
     CharacterViewModel.Loading -> LoadingPage()
     is CharacterViewModel.CharacterOverview -> {
-      val state = currentState as CharacterViewModel.CharacterOverview
+      val overview = currentState as CharacterViewModel.CharacterOverview
       when (page.value) {
-        Page.MythicPlus -> MythicPlusTable(state)
-        Page.Gear -> GearTable(CharacterViewModel.GearOverview(state.characterList))
+        Page.MythicPlus -> MythicPlusTable(overview)
+        Page.Gear -> GearTable(CharacterViewModel.GearOverview(overview.characterList))
       }
     }
     else -> {}

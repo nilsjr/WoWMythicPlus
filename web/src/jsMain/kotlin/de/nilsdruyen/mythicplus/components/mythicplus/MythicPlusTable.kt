@@ -9,6 +9,9 @@ import de.nilsdruyen.mythicplus.styles.ImageStyle
 import de.nilsdruyen.mythicplus.styles.TableStyle
 import de.nilsdruyen.mythicplus.styles.TextStyle
 import org.jetbrains.compose.web.attributes.colspan
+import org.jetbrains.compose.web.css.margin
+import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.dom.Hr
 import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.Table
 import org.jetbrains.compose.web.dom.Td
@@ -24,7 +27,7 @@ fun MythicPlusTable(viewModel: CharacterViewModel.CharacterOverview) {
     MythicPlusTableHeader(viewModel.dungeons)
     if (viewModel.characterList.isNotEmpty()) {
       if (viewModel.characterList.size > 1) {
-        CharacterMythicPlusSummaryRow(viewModel.characterList.generateSummary(), viewModel.currentAffixIds)
+        CharacterMythicPlusSummaryRow(viewModel.characterList.generateSummary(viewModel.scoreTiers))
       }
       viewModel.characterList.forEach {
         CharacterMythicPlusRow(it, viewModel.currentAffixIds)
