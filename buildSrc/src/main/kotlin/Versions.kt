@@ -6,7 +6,7 @@ object Versions {
   const val dateTime = "0.3.1"
 
   const val ktor = "1.6.5"
-  const val compose = "1.0.0-beta5"
+  const val compose = "1.0.0-rc3"
 
   // plugins
   const val benManesVersions = "0.39.0"
