@@ -149,16 +149,11 @@ object TextStyle : StyleSheet(AppStylesheet) {
     justifyContent(JustifyContent.Center)
     alignItems("center")
   }
-}
 
-object InputStyle : StyleSheet(AppStylesheet) {
-
-  val input by style {
-    width(200.px)
+  val hint by style {
     margin(8.px)
-    padding(4.px)
-    backgroundColor(Color.white)
-    color(Color.black)
+    fontSize(14.px)
+    color(Color.white)
   }
 }
 

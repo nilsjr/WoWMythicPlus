@@ -3,6 +3,7 @@ object Deps {
   object Kotlin {
 
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+    const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.dateTime}"
   }
 
   object Ktor {

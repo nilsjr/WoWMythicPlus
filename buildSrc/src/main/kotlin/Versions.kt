@@ -3,6 +3,7 @@ object Versions {
   // deps
   const val kotlin = "1.5.31"
   const val coroutines = "1.5.2"
+  const val dateTime = "0.3.1"
 
   const val ktor = "1.6.5"
   const val compose = "1.0.0-beta5"
