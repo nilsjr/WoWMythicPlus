@@ -1,18 +1,27 @@
 package de.nilsdruyen.mythicplus.character.models
 
 import de.nilsdruyen.mythicplus.character.enums.ItemSlot
+import de.nilsdruyen.mythicplus.character.enums.Specialization
+import de.nilsdruyen.mythicplus.character.utils.Constants
 import de.nilsdruyen.mythicplus.character.utils.format
 import kotlin.math.max
 import kotlin.math.min
 
 data class Character(
   val name: String,
+  val realm: String,
+  val specialization: Specialization,
+  val profileUrl: String,
   val score: Double,
-  val hexColor: String,
+  val scoreColorHex: String,
   val dungeons: List<DungeonScore>,
   val gear: Gear,
   val completedKeysThisWeek: Int
-)
+) {
+
+  fun iconForSpec() = Constants.Icons.clazzSpecIcon(specialization)
+  fun iconForClazz() = Constants.Icons.clazzIcon(specialization.wowClass)
+}
 
 data class CharacterSummary(
   val score: Double,

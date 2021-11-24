@@ -12,22 +12,44 @@ import de.nilsdruyen.mythicplus.styles.TextStyle
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
+import org.jetbrains.compose.web.css.borderRadius
+import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.opacity
+import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.Td
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.Tr
 
 @Composable
 fun CharacterMythicPlusRow(character: Character, currentAffixes: List<Int>) {
+  println("char: ${character.specialization}")
   Tr {
     Td({
       classes(TextStyle.title)
-    }) { Text("${character.name} - ${character.completedKeysThisWeek}") }
+    }) {
+      Text("${character.name} - ${character.completedKeysThisWeek}")
+      Img(character.iconForSpec()) {
+        style {
+          width(32.px)
+          height(32.px)
+          borderRadius(4.px)
+        }
+      }
+      Img(character.iconForClazz()) {
+        style {
+          width(32.px)
+          height(32.px)
+          borderRadius(4.px)
+        }
+      }
+    }
     Td({
       classes(TextStyle.score)
       style {
-        background(character.hexColor)
+        background(character.scoreColorHex)
       }
     }) {
       Text(character.score.toString())

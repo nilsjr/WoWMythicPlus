@@ -2,7 +2,22 @@ package de.nilsdruyen.mythicplus.character
 
 import de.nilsdruyen.mythicplus.character.apis.RaiderIoApi
 import de.nilsdruyen.mythicplus.character.entities.MythicPlusDungeonWebEntity
+import de.nilsdruyen.mythicplus.character.enums.Blood
+import de.nilsdruyen.mythicplus.character.enums.Brewmaster
+import de.nilsdruyen.mythicplus.character.enums.DeathKnightSpec
+import de.nilsdruyen.mythicplus.character.enums.Elemental
+import de.nilsdruyen.mythicplus.character.enums.Enhancement
+import de.nilsdruyen.mythicplus.character.enums.Havoc
 import de.nilsdruyen.mythicplus.character.enums.ItemSlot
+import de.nilsdruyen.mythicplus.character.enums.Mistweaver
+import de.nilsdruyen.mythicplus.character.enums.PaladinSpec
+import de.nilsdruyen.mythicplus.character.enums.Retribution
+import de.nilsdruyen.mythicplus.character.enums.Role
+import de.nilsdruyen.mythicplus.character.enums.ShamanSpec
+import de.nilsdruyen.mythicplus.character.enums.Specialization
+import de.nilsdruyen.mythicplus.character.enums.Unholy
+import de.nilsdruyen.mythicplus.character.enums.Windwalker
+import de.nilsdruyen.mythicplus.character.enums.WoWClass
 import de.nilsdruyen.mythicplus.character.enums.toSlot
 import de.nilsdruyen.mythicplus.character.extensions.getColorForScore
 import de.nilsdruyen.mythicplus.character.models.Character
@@ -74,7 +89,17 @@ class RaiderIoRepositoryImpl : RaiderIoRepository {
       dateTime > currentPeriod
     }.size
 
-    return Character(entity.name, charScore, tiers.getColorForScore(charScore), list, gear, keysThisWeek)
+    return Character(
+      name = entity.name,
+      realm = entity.realm,
+      specialization = getSpecForClass(entity.clazz, entity.spec),
+      profileUrl = entity.profileUrl,
+      score = charScore,
+      scoreColorHex = tiers.getColorForScore(charScore),
+      dungeons = list,
+      gear = gear,
+      completedKeysThisWeek = keysThisWeek
+    )
   }
 
   private fun List<MythicPlusDungeonWebEntity>.mapToScore(type: Int): Score {
@@ -84,5 +109,24 @@ class RaiderIoRepositoryImpl : RaiderIoRepository {
     } else {
       Score(type, dungeon.score, dungeon.level, dungeon.upgrades, dungeon.clearTimeMs)
     }
+  }
+
+  private fun getSpecForClass(clazz: WoWClass, specializationRaw: String): Specialization {
+    println("check ${clazz.name}")
+    println("with $specializationRaw")
+    val specList: List<Specialization> = when (clazz) {
+      WoWClass.DEATH_KNIGHT -> listOf(DeathKnightSpec.Frost, Blood, Unholy)
+      WoWClass.PALADIN -> listOf(PaladinSpec.Holy, Retribution, PaladinSpec.Protection)
+//      WoWClass.PALADIN -> listOf(PaladinSpec.Holy, Retribution, PaladinSpec.Protection)
+      WoWClass.MONK -> listOf(Brewmaster, Mistweaver, Windwalker)
+//      WoWClass.PALADIN -> listOf(PaladinSpec.Holy, Retribution, PaladinSpec.Protection)
+//      WoWClass.PALADIN -> listOf(PaladinSpec.Holy, Retribution, PaladinSpec.Protection)
+//      WoWClass.PALADIN -> listOf(PaladinSpec.Holy, Retribution, PaladinSpec.Protection)
+//      WoWClass.PALADIN -> listOf(PaladinSpec.Holy, Retribution, PaladinSpec.Protection)
+      WoWClass.SHAMAN -> listOf(ShamanSpec.Restoration, Elemental, Enhancement)
+      else -> listOf(Havoc)
+    }
+    println("found: $specList")
+    return specList.firstOrNull { it.name == specializationRaw.lowercase() } ?: Blood
   }
 }
