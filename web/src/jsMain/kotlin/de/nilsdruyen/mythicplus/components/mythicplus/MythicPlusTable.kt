@@ -19,6 +19,9 @@ import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.Th
 import org.jetbrains.compose.web.dom.Tr
 
+const val ROWS = 18
+const val NAME_SPAN = 3
+
 @Composable
 fun MythicPlusTable(viewModel: CharacterViewModel.CharacterOverview) {
   Table({
@@ -46,13 +49,13 @@ fun EmptyRow() {
     style {
       background(ColorConst.GRAY)
     }
-  }) { Td({ colspan(18) }) {} }
+  }) { Td({ colspan(ROWS) }) {} }
 }
 
 @Composable
 fun MythicPlusTableHeader(dungeons: List<Dungeon>) {
   Tr {
-    Th({ colspan(2) })
+    Th({ colspan(NAME_SPAN + 1) })
     dungeons.forEach {
       Th({
         colspan(2)
@@ -66,7 +69,7 @@ fun MythicPlusTableHeader(dungeons: List<Dungeon>) {
     }
   }
   Tr {
-    Td({ colspan(2) })
+    Td({ colspan(NAME_SPAN + 1) })
     repeat(Constants.Dungeons.size) {
       AffixIcon(Constants.Icons.FORTIFIED_URL, "fortified")
       AffixIcon(Constants.Icons.TYRANNICAL_URL, "tyrannical")

@@ -211,6 +211,13 @@ object ImageStyle : StyleSheet(AppStylesheet) {
     borderRadius(4.px)
     property("vertical-align", "middle")
   }
+
+  val icon by style {
+    width(32.px)
+    margin(2.px)
+    height(32.px)
+    borderRadius(50.percent)
+  }
 }
 
 object TableStyle : StyleSheet(AppStylesheet) {

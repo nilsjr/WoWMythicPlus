@@ -6,17 +6,15 @@ import de.nilsdruyen.mythicplus.character.models.CharacterSummary
 import de.nilsdruyen.mythicplus.character.models.DungeonScore
 import de.nilsdruyen.mythicplus.character.models.Score
 import de.nilsdruyen.mythicplus.styles.ColorConst
+import de.nilsdruyen.mythicplus.styles.ImageStyle
 import de.nilsdruyen.mythicplus.styles.StyleConst
 import de.nilsdruyen.mythicplus.styles.TableStyle
 import de.nilsdruyen.mythicplus.styles.TextStyle
+import org.jetbrains.compose.web.attributes.colspan
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
-import org.jetbrains.compose.web.css.borderRadius
-import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.opacity
-import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.Td
@@ -25,25 +23,23 @@ import org.jetbrains.compose.web.dom.Tr
 
 @Composable
 fun CharacterMythicPlusRow(character: Character, currentAffixes: List<Int>) {
-  println("char: ${character.specialization}")
   Tr {
     Td({
       classes(TextStyle.title)
     }) {
-      Text("${character.name} - ${character.completedKeysThisWeek}")
+      Text(character.name)
+    }
+    Td({
+      classes(TextStyle.title)
+    }) {
+      Text(character.completedKeysThisWeek.toString())
+    }
+    Td {
       Img(character.iconForSpec()) {
-        style {
-          width(32.px)
-          height(32.px)
-          borderRadius(4.px)
-        }
+        classes(ImageStyle.icon)
       }
       Img(character.iconForClazz()) {
-        style {
-          width(32.px)
-          height(32.px)
-          borderRadius(4.px)
-        }
+        classes(ImageStyle.icon)
       }
     }
     Td({
@@ -63,7 +59,9 @@ fun CharacterMythicPlusSummaryRow(character: CharacterSummary) {
   Tr {
     Td({
       classes(TextStyle.title)
+      colspan(NAME_SPAN)
     }) { Text("best of") }
+
     Td({
       classes(TextStyle.score)
       style {
