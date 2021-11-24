@@ -19,12 +19,6 @@ import io.ktor.client.request.get
 import io.ktor.client.request.host
 import io.ktor.client.request.parameter
 import io.ktor.http.URLProtocol
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
 
 object RaiderIoApi {
@@ -72,15 +66,5 @@ object RaiderIoApi {
     ScoreTier(it.score, it.rgbHex)
   }
 
-  suspend fun getCurrentPeriod(): LocalDateTime {
-    val entity = client.get<PeriodWebEntity>("periods")
-    val current = entity.periods.firstOrNull { it.region == "eu" }?.current
-
-    if (current != null) {
-      return current.start.toInstant().toLocalDateTime(TimeZone.currentSystemDefault())
-    }
-
-    val currentMoment: Instant = Clock.System.now()
-    return currentMoment.toLocalDateTime(TimeZone.currentSystemDefault())
-  }
+  suspend fun getCurrentPeriod(): PeriodWebEntity = client.get<PeriodWebEntity>("periods")
 }

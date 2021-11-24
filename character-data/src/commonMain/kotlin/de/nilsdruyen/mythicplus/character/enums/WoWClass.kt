@@ -69,7 +69,7 @@ object Feral : DruidSpec("feral", Role.DPS)
 object Guardian : DruidSpec("guardian", Role.TANK)
 
 sealed class HunterSpec(name: String, role: Role) : Specialization(name, role, WoWClass.HUNTER)
-object BeastMastery : HunterSpec("beastmastery", Role.DPS)
+object BeastMastery : HunterSpec("beast mastery", Role.DPS)
 object Marksmanship : HunterSpec("marksmanship", Role.DPS)
 object Survival : HunterSpec("survival", Role.DPS)
 

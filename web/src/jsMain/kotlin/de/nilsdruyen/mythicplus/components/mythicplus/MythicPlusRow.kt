@@ -5,6 +5,7 @@ import de.nilsdruyen.mythicplus.character.models.Character
 import de.nilsdruyen.mythicplus.character.models.CharacterSummary
 import de.nilsdruyen.mythicplus.character.models.DungeonScore
 import de.nilsdruyen.mythicplus.character.models.Score
+import de.nilsdruyen.mythicplus.extensions.color
 import de.nilsdruyen.mythicplus.styles.ColorConst
 import de.nilsdruyen.mythicplus.styles.ImageStyle
 import de.nilsdruyen.mythicplus.styles.StyleConst
@@ -14,6 +15,7 @@ import org.jetbrains.compose.web.attributes.colspan
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
+import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
@@ -26,11 +28,17 @@ fun CharacterMythicPlusRow(character: Character, currentAffixes: List<Int>) {
   Tr {
     Td({
       classes(TextStyle.title)
+      style {
+        color(Color(character.specialization.wowClass.color()))
+      }
     }) {
       Text(character.name)
     }
     Td({
       classes(TextStyle.title)
+      style {
+        color(Color(character.specialization.wowClass.color()))
+      }
     }) {
       Text(character.completedKeysThisWeek.toString())
     }

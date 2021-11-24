@@ -18,7 +18,12 @@ object Constants {
     fun gearIcon(id: String): String = "https://cdnassets.raider.io/images/wow/icons/medium/$id.jpg"
 
     fun clazzSpecIcon(specialization: Specialization): String =
-      "https://cdnassets.raider.io/images/classes/spec_${specialization.wowClass.toIdentifier()}_${specialization.name}.png"
+      "https://cdnassets.raider.io/images/classes/spec_${specialization.wowClass.toIdentifier()}_${
+        specialization.name.replace(
+          " ",
+          "-"
+        )
+      }.png"
 
     fun clazzIcon(clazz: WoWClass) =
       "https://cdnassets.raider.io/images/classes/class_${clazz.toIdentifier()}.png"
