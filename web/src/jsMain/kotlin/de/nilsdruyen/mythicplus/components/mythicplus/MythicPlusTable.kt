@@ -10,12 +10,7 @@ import de.nilsdruyen.mythicplus.styles.ImageStyle
 import de.nilsdruyen.mythicplus.styles.TableStyle
 import de.nilsdruyen.mythicplus.styles.TextStyle
 import org.jetbrains.compose.web.attributes.colspan
-import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.background
-import org.jetbrains.compose.web.css.color
-import org.jetbrains.compose.web.css.fontSize
-import org.jetbrains.compose.web.css.margin
-import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Table
@@ -34,34 +29,24 @@ fun MythicPlusTable(viewModel: CharacterViewModel.CharacterOverview) {
       if (viewModel.characterList.size > 1) {
         CharacterMythicPlusSummaryRow(viewModel.characterList.generateSummary(viewModel.scoreTiers))
       }
-      emptyRow()
+      EmptyRow()
       viewModel.characterList.forEach {
         CharacterMythicPlusRow(it, viewModel.currentAffixIds)
       }
     }
   }
-  P({
-    style {
-      margin(12.px)
-      fontSize(14.px)
-      color(Color(ColorConst.GRAY))
-    }
-  }) {
+  P({ classes(TextStyle.hint) }) {
     Text("Number behind names = Dungeons played this week")
   }
 }
 
 @Composable
-fun emptyRow() {
+fun EmptyRow() {
   Tr({
     style {
       background(ColorConst.GRAY)
     }
-  }) {
-    Td({
-      colspan(18)
-    }) {}
-  }
+  }) { Td({ colspan(18) }) {} }
 }
 
 @Composable
