@@ -1,6 +1,6 @@
 package de.nilsdruyen.mythicplus.pages
 
-import LocalDataRepository
+import LocalCharacterUsecase
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -15,15 +15,11 @@ import de.nilsdruyen.mythicplus.states.ArgumentState
 
 @Composable
 fun CharacterPage(arguments: ArgumentState.PageArguments, page: MutableState<Page>) {
-  val dataRepository = LocalDataRepository.current
+  val usecase = LocalCharacterUsecase.current
   var currentState by remember { mutableStateOf<CharacterViewModel>(CharacterViewModel.Loading) }
 
   LaunchedEffect(Unit) {
-    val dungeons = dataRepository.getDungeons()
-    val scoreTies = dataRepository.getScoreTiers()
-    val currentAffixes = dataRepository.getCurrentAffixeIds()
-    val characterList = dataRepository.getCharacterList(arguments.characterList, scoreTies)
-    currentState = CharacterViewModel.CharacterOverview(characterList, currentAffixes, dungeons, scoreTies)
+    currentState = usecase.loadCharacterViewModel(arguments.characterList)
   }
 
   when (currentState) {

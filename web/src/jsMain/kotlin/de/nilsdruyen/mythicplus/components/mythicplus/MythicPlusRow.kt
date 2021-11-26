@@ -17,6 +17,7 @@ import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.opacity
+import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.Td
@@ -35,18 +36,22 @@ fun CharacterMythicPlusRow(character: Character, currentAffixes: List<Int>) {
       Text(character.name)
     }
     Td({
-      classes(TextStyle.title)
+      classes(TextStyle.runs)
       style {
         color(Color(character.specialization.wowClass.color()))
       }
     }) {
       Text(character.completedKeysThisWeek.toString())
     }
-    Td {
-      Img(character.iconForSpec()) {
+    Td({
+      style {
+        textAlign("center")
+      }
+    }) {
+      Img(character.iconForClazz()) {
         classes(ImageStyle.icon)
       }
-      Img(character.iconForClazz()) {
+      Img(character.iconForSpec()) {
         classes(ImageStyle.icon)
       }
     }

@@ -61,7 +61,7 @@ import kotlinx.datetime.toLocalDateTime
 class RaiderIoRepositoryImpl : RaiderIoRepository {
 
   override suspend fun getCharacterList(charList: List<InputCharacter>, scoreTiers: List<ScoreTier>): List<Character> {
-    return charList.map { getCharacter(it, scoreTiers, getCurrentPeriod()) }.sortedByDescending { it.score }
+    return charList.map { getCharacter(it, scoreTiers, getCurrentPeriod()) }
   }
 
   override suspend fun getCurrentAffixeIds(): List<Int> = RaiderIoApi.getCurrentAffixIds()

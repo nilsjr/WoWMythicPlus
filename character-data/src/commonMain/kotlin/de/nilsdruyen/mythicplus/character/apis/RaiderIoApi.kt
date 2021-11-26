@@ -66,5 +66,5 @@ object RaiderIoApi {
     ScoreTier(it.score, it.rgbHex)
   }
 
-  suspend fun getCurrentPeriod(): PeriodWebEntity = client.get<PeriodWebEntity>("periods")
+  suspend fun getCurrentPeriod(): PeriodWebEntity = client.get("periods")
 }

@@ -108,6 +108,13 @@ object TextStyle : StyleSheet(AppStylesheet) {
     fontWeight(600)
   }
 
+  val runs by style {
+    color(Color.white)
+    fontSize(24.px)
+    textAlign("center")
+    fontWeight(600)
+  }
+
   val score by style {
     color(Color.white)
     fontSize(20.px)
@@ -181,6 +188,32 @@ object ButtonStyle : StyleSheet(AppStylesheet) {
     borderRadius(8.px)
     lineHeight(24.px)
     fontWeight(400)
+    property("transition", "0.3s")
+    hover(self) style {
+      opacity(1)
+      textDecoration("underline")
+    }
+  }
+
+  val order by style {
+    orderButton()
+    opacity(.6)
+  }
+
+  val orderActive by style {
+    orderButton()
+    opacity(1)
+  }
+
+  private fun CSSBuilder.orderButton() {
+    width(100.percent)
+    height(30.px)
+    fontSize(12.px)
+    color(Color("white"))
+    backgroundColor(Color(ColorConst.GRAY))
+    borderRadius(4.px)
+    textDecoration("none")
+    property("border", "none")
     property("transition", "0.3s")
     hover(self) style {
       opacity(1)
