@@ -21,6 +21,5 @@ object Versions {
   const val androidBuildTools = "31.0.0"
 
   const val androidGradle = "7.2.0-alpha05"
-
   const val jetpackCompose = "1.1.0-beta01"
 }
