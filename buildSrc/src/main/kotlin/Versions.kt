@@ -5,8 +5,8 @@ object Versions {
   const val coroutines = "1.5.2"
   const val dateTime = "0.3.1"
 
-  const val ktor = "1.6.5"
-  const val compose = "1.0.0-rc4"
+  const val ktor = "1.6.6"
+  const val compose = "1.0.0-rc5"
 
   // plugins
   const val benManesVersions = "0.39.0"
@@ -21,6 +21,5 @@ object Versions {
   const val androidBuildTools = "31.0.0"
 
   const val androidGradle = "7.2.0-alpha05"
-
   const val jetpackCompose = "1.1.0-beta01"
 }
