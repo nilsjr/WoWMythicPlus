@@ -35,6 +35,12 @@ kotlin {
   }
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+  kotlinOptions {
+    jvmTarget = "11"
+  }
+}
+
 afterEvaluate {
   rootProject.extensions.configure<NodeJsRootExtension> {
     versions.webpackDevServer.version = "4.0.0"

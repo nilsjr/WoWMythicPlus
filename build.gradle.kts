@@ -1,13 +1,23 @@
 plugins {
   kotlin(Plugins.Kotlin.multiplatform) version Versions.kotlin apply false
   kotlin(Plugins.Kotlin.serial) version Versions.kotlin apply false
-//  id(Plugins.Android.application) version Versions.androidGradle apply false
-//  kotlin(Plugins.Kotlin.androidGradle) version Versions.kotlin apply false
+  id(Plugins.Android.application) version Versions.androidGradle apply false
+  kotlin(Plugins.Kotlin.androidGradle) version Versions.kotlin apply false
   id(Plugins.Kotlin.compose) version Versions.compose apply false
   id(Plugins.gradleVersions) version Versions.benManesVersions
   id(Plugins.detekt) version Versions.detekt
   id(Plugins.buildConfig) version Versions.buildConfig apply false
   id(Plugins.uploadPlugin) version Versions.ftpUploadPlugin apply false
+}
+
+buildscript {
+  repositories {
+    google()
+    mavenCentral()
+  }
+  dependencies {
+    classpath("com.google.dagger:hilt-android-gradle-plugin:2.38.1")
+  }
 }
 
 group = "de.nilsdruyen"
@@ -24,12 +34,6 @@ subprojects {
     }
     "web" -> {
       configureDetekt("src/jsMain/kotlin")
-    }
-  }
-
-  tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-      jvmTarget = "11"
     }
   }
 }
