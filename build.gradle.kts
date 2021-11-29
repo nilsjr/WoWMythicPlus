@@ -1,8 +1,6 @@
 plugins {
   kotlin(Plugins.Kotlin.multiplatform) version Versions.kotlin apply false
   kotlin(Plugins.Kotlin.serial) version Versions.kotlin apply false
-//  id(Plugins.Android.application) version Versions.androidGradle apply false
-//  kotlin(Plugins.Kotlin.androidGradle) version Versions.kotlin apply false
   id(Plugins.Kotlin.compose) version Versions.compose apply false
   id(Plugins.gradleVersions) version Versions.benManesVersions
   id(Plugins.detekt) version Versions.detekt
@@ -12,6 +10,14 @@ plugins {
 
 group = "de.nilsdruyen"
 version = "0.1.0"
+
+allprojects {
+  repositories {
+    google()
+    mavenCentral()
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+  }
+}
 
 subprojects {
   apply(plugin = Plugins.detekt)
