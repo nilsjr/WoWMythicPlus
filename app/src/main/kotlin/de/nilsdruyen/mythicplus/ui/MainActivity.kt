@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
   @OptIn(ExperimentalMaterial3Api::class)
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-
     setContent {
       App()
     }

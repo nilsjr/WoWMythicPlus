@@ -8,4 +8,7 @@ val background = Color(0xFF2B292B)
 val background800 = Color(0xFF424242)
 val background900 = Color(0xFF212121)
 val white87 = Color(0Xddffffff)
-val shimmerHighLight = Color(0xA3C2C2C2)
+
+val purplePrimary = Color(0xFF4a148c)
+val purpleSecondary = Color(0xFF7c43bd)
+val purplePrimaryDark = Color(0xFF12005e)

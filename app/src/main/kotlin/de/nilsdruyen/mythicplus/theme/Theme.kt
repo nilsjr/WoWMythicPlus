@@ -10,42 +10,41 @@ import androidx.compose.ui.graphics.Color
 private val DarkColorPalette = darkColorScheme(
   background = background,
   onBackground = background800,
-  primary = purple200,
-  secondary = purple500,
+  primary = purplePrimary,
+  secondary = purpleSecondary,
   onPrimary = Color.White,
-  onSecondary = Color.White
+  onSecondary = Color.White,
 )
 
-private val LightColorPalette = lightColorScheme(
-  background = Color.White,
-  onBackground = Color.White,
-  surface = Color.White,
-  primary = purple200,
-  secondary = purple500,
-  onPrimary = Color.White,
-  onSecondary = Color.White
-)
+//private val LightColorPalette = lightColorScheme(
+//  background = Color.White,
+//  onBackground = Color.White,
+//  surface = Color.White,
+//  primary = purple200,
+//  secondary = purple500,
+//  onPrimary = Color.White,
+//  onSecondary = Color.White
+//)
 
 @Composable
 fun MythicPlusTheme(
   darkTheme: Boolean = isSystemInDarkTheme(),
   content: @Composable () -> Unit
 ) {
-  val colors = if (darkTheme) {
-    DarkColorPalette
-  } else {
-    LightColorPalette
-  }
-
-  val typography = if (darkTheme) {
-    DarkTypography
-  } else {
-    LightTypography
-  }
+//  val colors = if (darkTheme) {
+//    DarkColorPalette
+//  } else {
+//    LightColorPalette
+//  }
+//  val typography = if (darkTheme) {
+//    DarkTypography
+//  } else {
+//    LightTypography
+//  }
 
   MaterialTheme(
     colorScheme = DarkColorPalette,
-    typography = typography,
+    typography = DarkTypography,
     content = content
   )
 }
