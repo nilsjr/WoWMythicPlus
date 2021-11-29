@@ -44,7 +44,7 @@ fun MythicPlusTheme(
   }
 
   MaterialTheme(
-    colorScheme = colors,
+    colorScheme = DarkColorPalette,
     typography = typography,
     content = content
   )

@@ -1,11 +1,21 @@
 plugins {
   kotlin("multiplatform")
+  id(Plugins.Android.library)
   kotlin("plugin.serialization")
 }
 
 kotlin {
   js(IR) {
     browser()
+  }
+  android {
+    publishLibraryVariants("release", "debug")
+    publishLibraryVariantsGroupedByFlavor = true
+    compilations.all {
+      kotlinOptions {
+        jvmTarget = "1.8"
+      }
+    }
   }
   sourceSets {
     val commonMain by getting {
@@ -18,5 +28,13 @@ kotlin {
         implementation(Deps.Ktor.logging)
       }
     }
+    val androidMain by getting
   }
+}
+
+android {
+  compileSdk = Versions.androidCompileSdk
+  defaultConfig.minSdk = Versions.androidMinSdk
+  sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+  buildFeatures.buildConfig = false
 }
