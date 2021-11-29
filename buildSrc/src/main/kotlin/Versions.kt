@@ -22,4 +22,5 @@ object Versions {
 
   const val androidGradle = "7.0.3"
   const val jetpackCompose = "1.1.0-beta01"
+  const val daggerHilt = "2.40.2"
 }

@@ -2,8 +2,7 @@ plugins {
   id("com.android.application")
   kotlin("android")
   kotlin("kapt")
-  id("org.jetbrains.compose")
-  id("dagger.hilt.android.plugin")
+  id(Plugins.Android.daggerHilt)
 }
 
 android {
