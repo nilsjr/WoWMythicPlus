@@ -11,11 +11,6 @@ kotlin {
   android {
     publishLibraryVariants("release", "debug")
     publishLibraryVariantsGroupedByFlavor = true
-    compilations.all {
-      kotlinOptions {
-        jvmTarget = "1.8"
-      }
-    }
   }
   sourceSets {
     val commonMain by getting {
@@ -37,4 +32,8 @@ android {
   defaultConfig.minSdk = Versions.androidMinSdk
   sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
   buildFeatures.buildConfig = false
+  compileOptions {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+  }
 }
