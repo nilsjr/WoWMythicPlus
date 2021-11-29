@@ -5,8 +5,8 @@ object Versions {
   const val coroutines = "1.5.2"
   const val dateTime = "0.3.1"
 
-  const val ktor = "1.6.6"
-  const val compose = "1.0.0-rc5"
+  const val ktor = "1.6.5"
+  const val compose = "1.0.0-rc6"
 
   // plugins
   const val benManesVersions = "0.39.0"
