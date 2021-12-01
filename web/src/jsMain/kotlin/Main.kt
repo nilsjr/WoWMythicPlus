@@ -9,7 +9,7 @@ import kotlinx.browser.window
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.renderComposable
 
-val LocalCharacterUsecase = compositionLocalOf<CharacterUsecase> { CharacterUsecaseImpl(RaiderIoRepositoryImpl()) }
+val LocalCharacterUsecase = compositionLocalOf<CharacterUsecase> { error("no usecase provided") }
 val currentLocation = "${window.location.protocol}//${window.location.host}"
 
 fun main() {
