@@ -62,9 +62,6 @@ fun MythicPlusTable(viewModel: CharacterViewModel.CharacterOverview) {
       }
     }
   }
-  P({ classes(TextStyle.hint) }) {
-    Text("Number behind names = Dungeons played this week")
-  }
 }
 
 @Composable

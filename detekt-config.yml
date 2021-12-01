@@ -31,6 +31,8 @@ naming:
     excludeClassPattern: '.*Entity$'
   PackageNaming:
     active: false
+  FunctionNaming:
+    active: false
 
 style:
   MagicNumber:
