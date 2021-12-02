@@ -6,7 +6,7 @@ object Versions {
   const val dateTime = "0.3.1"
 
   const val ktor = "1.6.5"
-  const val compose = "1.0.0-rc10"
+  const val compose = "1.0.0"
 
   // plugins
   const val benManesVersions = "0.39.0"
@@ -24,7 +24,7 @@ object Versions {
   object Android {
 
     const val gradle = "7.0.3"
-    const val jetpackCompose = "1.1.0-beta01"
+    const val jetpackCompose = "1.1.0-beta04"
     const val daggerHilt = "2.40.3"
   }
 }
