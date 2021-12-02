@@ -1,0 +1,94 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "5dce603376008d41e40d190d3a08161a",
+    "entities": [
+      {
+        "tableName": "character_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `name` TEXT NOT NULL, `realm` TEXT NOT NULL, `wowClass` TEXT NOT NULL, `specName` TEXT NOT NULL, `profileUrl` TEXT NOT NULL, `score` REAL NOT NULL, `scoreColorHex` TEXT NOT NULL, `dungeons` TEXT NOT NULL, `gear` TEXT NOT NULL, `completedKeysThisWeek` INTEGER NOT NULL, PRIMARY KEY(`uuid`))",
+        "fields": [
+          {
+            "fieldPath": "uuid",
+            "columnName": "uuid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "realm",
+            "columnName": "realm",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wowClass",
+            "columnName": "wowClass",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "specName",
+            "columnName": "specName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "profileUrl",
+            "columnName": "profileUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "score",
+            "columnName": "score",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scoreColorHex",
+            "columnName": "scoreColorHex",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dungeons",
+            "columnName": "dungeons",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gear",
+            "columnName": "gear",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "completedKeysThisWeek",
+            "columnName": "completedKeysThisWeek",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uuid"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5dce603376008d41e40d190d3a08161a')"
+    ]
+  }
+}

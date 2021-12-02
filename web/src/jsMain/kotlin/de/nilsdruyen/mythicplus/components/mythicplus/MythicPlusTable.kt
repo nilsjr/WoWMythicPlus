@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import de.nilsdruyen.mythicplus.character.models.Character
-import de.nilsdruyen.mythicplus.character.models.CharacterViewModel
 import de.nilsdruyen.mythicplus.character.models.Dungeon
+import de.nilsdruyen.mythicplus.character.models.WebViewModel
 import de.nilsdruyen.mythicplus.character.utils.Constants
 import de.nilsdruyen.mythicplus.extensions.generateSummary
 import de.nilsdruyen.mythicplus.styles.ButtonStyle
@@ -37,7 +37,7 @@ enum class ListOrder(val textValue: String) {
 }
 
 @Composable
-fun MythicPlusTable(viewModel: CharacterViewModel.CharacterOverview) {
+fun MythicPlusTable(viewModel: WebViewModel.CharacterOverview) {
   var sortBy by remember { mutableStateOf(ListOrder.Score) }
   val sortedCharachterList = remember { mutableStateOf(viewModel.characterList) }
 
@@ -49,7 +49,7 @@ fun MythicPlusTable(viewModel: CharacterViewModel.CharacterOverview) {
   }
 
   Table({
-    classes(TableStyle.root)
+    classes(TableStyle.parent)
   }) {
     MythicPlusTableHeader(sortBy, { sortBy = it }, viewModel.dungeons)
     if (sortedCharachterList.value.isNotEmpty()) {

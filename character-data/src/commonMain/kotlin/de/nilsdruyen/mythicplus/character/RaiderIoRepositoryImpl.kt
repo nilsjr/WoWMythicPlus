@@ -1,47 +1,12 @@
 package de.nilsdruyen.mythicplus.character
 
+import de.nilsdruyen.mythicplus.character.annotations.Inject
 import de.nilsdruyen.mythicplus.character.apis.RaiderIoApi
 import de.nilsdruyen.mythicplus.character.entities.MythicPlusDungeonWebEntity
-import de.nilsdruyen.mythicplus.character.enums.Affliction
-import de.nilsdruyen.mythicplus.character.enums.Arcane
-import de.nilsdruyen.mythicplus.character.enums.Arms
-import de.nilsdruyen.mythicplus.character.enums.Assassination
-import de.nilsdruyen.mythicplus.character.enums.Balance
-import de.nilsdruyen.mythicplus.character.enums.BeastMastery
-import de.nilsdruyen.mythicplus.character.enums.Blood
-import de.nilsdruyen.mythicplus.character.enums.Brewmaster
-import de.nilsdruyen.mythicplus.character.enums.DeathKnightSpec
-import de.nilsdruyen.mythicplus.character.enums.Demonology
-import de.nilsdruyen.mythicplus.character.enums.Destruction
-import de.nilsdruyen.mythicplus.character.enums.Discipline
-import de.nilsdruyen.mythicplus.character.enums.DruidSpec
-import de.nilsdruyen.mythicplus.character.enums.Elemental
-import de.nilsdruyen.mythicplus.character.enums.Enhancement
-import de.nilsdruyen.mythicplus.character.enums.Feral
-import de.nilsdruyen.mythicplus.character.enums.Fire
-import de.nilsdruyen.mythicplus.character.enums.Fury
-import de.nilsdruyen.mythicplus.character.enums.Guardian
-import de.nilsdruyen.mythicplus.character.enums.Havoc
 import de.nilsdruyen.mythicplus.character.enums.ItemSlot
-import de.nilsdruyen.mythicplus.character.enums.MageSpec
-import de.nilsdruyen.mythicplus.character.enums.Marksmanship
-import de.nilsdruyen.mythicplus.character.enums.Mistweaver
-import de.nilsdruyen.mythicplus.character.enums.Outlaw
-import de.nilsdruyen.mythicplus.character.enums.PaladinSpec
-import de.nilsdruyen.mythicplus.character.enums.PriestSpec
-import de.nilsdruyen.mythicplus.character.enums.Retribution
-import de.nilsdruyen.mythicplus.character.enums.Shadow
-import de.nilsdruyen.mythicplus.character.enums.ShamanSpec
-import de.nilsdruyen.mythicplus.character.enums.Specialization
-import de.nilsdruyen.mythicplus.character.enums.Subtlety
-import de.nilsdruyen.mythicplus.character.enums.Survival
-import de.nilsdruyen.mythicplus.character.enums.Unholy
-import de.nilsdruyen.mythicplus.character.enums.Vengeance
-import de.nilsdruyen.mythicplus.character.enums.WarriorSpec
-import de.nilsdruyen.mythicplus.character.enums.Windwalker
-import de.nilsdruyen.mythicplus.character.enums.WoWClass
 import de.nilsdruyen.mythicplus.character.enums.toSlot
 import de.nilsdruyen.mythicplus.character.extensions.getColorForScore
+import de.nilsdruyen.mythicplus.character.extensions.getSpec
 import de.nilsdruyen.mythicplus.character.models.Character
 import de.nilsdruyen.mythicplus.character.models.DominationShard
 import de.nilsdruyen.mythicplus.character.models.Dungeon
@@ -58,10 +23,18 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
-class RaiderIoRepositoryImpl : RaiderIoRepository {
+class RaiderIoRepositoryImpl @Inject constructor() : RaiderIoRepository {
 
-  override suspend fun getCharacterList(charList: List<InputCharacter>, scoreTiers: List<ScoreTier>): List<Character> {
-    return charList.map { getCharacter(it, scoreTiers, getCurrentPeriod()) }
+  override suspend fun getCharacterList(charList: List<InputCharacter>): List<Character> {
+    val scoreTiers = getScoreTiers()
+    val currentPeriod = getCurrentPeriod()
+    return charList.map { getCharacter(it, scoreTiers, currentPeriod) }
+  }
+
+  override suspend fun getCharacter(char: InputCharacter): Character {
+    val scoreTiers = getScoreTiers()
+    val currentPeriod = getCurrentPeriod()
+    return getCharacter(char, scoreTiers, currentPeriod)
   }
 
   override suspend fun getCurrentAffixeIds(): List<Int> = RaiderIoApi.getCurrentAffixIds()
@@ -122,7 +95,7 @@ class RaiderIoRepositoryImpl : RaiderIoRepository {
     return Character(
       name = entity.name,
       realm = entity.realm,
-      specialization = getSpecForClass(entity.clazz, entity.spec),
+      specialization = entity.clazz.getSpec(entity.spec),
       profileUrl = entity.profileUrl,
       score = charScore,
       scoreColorHex = tiers.getColorForScore(charScore),
@@ -139,23 +112,5 @@ class RaiderIoRepositoryImpl : RaiderIoRepository {
     } else {
       Score(type, dungeon.score, dungeon.level, dungeon.upgrades, dungeon.clearTimeMs)
     }
-  }
-
-  private fun getSpecForClass(clazz: WoWClass, specializationRaw: String): Specialization {
-    val specList: List<Specialization> = when (clazz) {
-      WoWClass.DEATH_KNIGHT -> listOf(DeathKnightSpec.Frost, Blood, Unholy)
-      WoWClass.DEMON_HUNTER -> listOf(Havoc, Vengeance)
-      WoWClass.DRUID -> listOf(DruidSpec.Restoration, Balance, Feral, Guardian)
-      WoWClass.HUNTER -> listOf(BeastMastery, Marksmanship, Survival)
-      WoWClass.MAGE -> listOf(MageSpec.Frost, Fire, Arcane)
-      WoWClass.MONK -> listOf(Brewmaster, Mistweaver, Windwalker)
-      WoWClass.PALADIN -> listOf(PaladinSpec.Holy, Retribution, PaladinSpec.Protection)
-      WoWClass.PRIEST -> listOf(PriestSpec.Holy, Discipline, Shadow)
-      WoWClass.ROGUE -> listOf(Assassination, Outlaw, Subtlety)
-      WoWClass.SHAMAN -> listOf(ShamanSpec.Restoration, Elemental, Enhancement)
-      WoWClass.WARLOCK -> listOf(Affliction, Demonology, Destruction)
-      WoWClass.WARRIOR -> listOf(WarriorSpec.Protection, Fury, Arms)
-    }
-    return specList.firstOrNull { it.name == specializationRaw.lowercase() } ?: Blood
   }
 }

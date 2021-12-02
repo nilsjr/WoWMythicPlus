@@ -26,7 +26,6 @@ import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.selectors.hover
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.textDecoration
 import org.jetbrains.compose.web.css.width
@@ -74,14 +73,14 @@ object AppStylesheet : StyleSheet() {
 
 object TextStyle : StyleSheet(AppStylesheet) {
 
-  val default by style {
+  val body by style {
     color(Color.white)
     fontSize(20.px)
     fontWeight(600)
     textAlign("center")
   }
 
-  val defaultTitle by style {
+  val h1 by style {
     color(Color.white)
     fontSize(24.px)
     fontWeight(600)
@@ -132,7 +131,7 @@ object TextStyle : StyleSheet(AppStylesheet) {
     textAlign("center")
   }
 
-  val link by style {
+  val linkText by style {
     color(Color("white"))
     backgroundColor(Color("#1565c0"))
     fontSize(15.px)
@@ -255,7 +254,7 @@ object ImageStyle : StyleSheet(AppStylesheet) {
 
 object TableStyle : StyleSheet(AppStylesheet) {
 
-  val root by style {
+  val parent by style {
     width(100.percent)
     property("border-spacing", "8px")
   }

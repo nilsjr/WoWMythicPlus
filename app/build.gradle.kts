@@ -33,32 +33,42 @@ android {
   sourceSets.getByName("main").java.srcDirs("src/main/kotlin")
   buildFeatures {
     compose = true
+    aidl = false
+    buildConfig = false
+    renderScript = false
+    resValues = false
+    shaders = false
   }
   composeOptions {
-    kotlinCompilerExtensionVersion = Versions.jetpackCompose
+    kotlinCompilerExtensionVersion = Versions.Android.jetpackCompose
+  }
+  kapt {
+    arguments {
+      arg("room.schemaLocation", "$projectDir/schemas")
+    }
   }
 }
 
 dependencies {
   implementation(project(":character-data"))
 
-  implementation("androidx.core:core-ktx:1.7.0")
+  implementation(Deps.Android.ktx)
+  implementation(Deps.Android.material)
 
-  implementation("com.google.android.material:material:1.5.0-beta01")
+  implementation(Deps.Android.runtimeKtx)
+  implementation(Deps.Android.viewmodelKtx)
 
-  implementation("androidx.compose.ui:ui:${Versions.jetpackCompose}")
-  implementation("androidx.activity:activity-compose:1.4.0")
-  implementation("androidx.compose.material3:material3:1.0.0-alpha01")
-  implementation("androidx.compose.ui:ui-tooling:${Versions.jetpackCompose}")
-  implementation("androidx.compose.ui:ui-tooling-preview:${Versions.jetpackCompose}")
+  implementation(Deps.Android.Compose.activity)
+  implementation(Deps.Android.Compose.ui)
+  implementation(Deps.Android.Compose.material)
+  implementation(Deps.Android.Compose.uiTooling)
+  implementation(Deps.Android.Compose.uiToolingPreview)
 
-  implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
-  implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+  implementation(Deps.Android.Dagger.hilt)
+  kapt(Deps.Android.Dagger.hiltCompiler)
 
-  implementation("com.google.dagger:hilt-android:2.38.1")
-  kapt("com.google.dagger:hilt-android-compiler:2.38.1")
-
-  // startup,
+  implementation(Deps.Android.roomKtx)
+  kapt(Deps.Android.roomCompiler)
 }
 
 // Allow references to generated code

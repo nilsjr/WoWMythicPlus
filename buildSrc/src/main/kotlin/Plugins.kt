@@ -1,16 +1,18 @@
 object Plugins {
 
   object Kotlin {
+
     const val androidGradle = "android"
     const val android = "kotlin-android"
-    const val dokka = "org.jetbrains.dokka"
     const val multiplatform = "multiplatform"
     const val serial = "plugin.serialization"
-
     const val compose = "org.jetbrains.compose"
+    const val dokka = "org.jetbrains.dokka"
+    const val ksp = "com.google.devtools.ksp"
   }
 
   object Android {
+
     const val application = "com.android.application"
     const val library = "com.android.library"
 

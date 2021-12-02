@@ -13,6 +13,7 @@ object Versions {
   const val detekt = "1.19.0"
   const val ftpUploadPlugin = "0.0.2"
   const val buildConfig = "3.0.3"
+  const val ksp = "1.5.31-1.0.1"
 
   // android
   const val androidMinSdk = 24
@@ -20,7 +21,10 @@ object Versions {
   const val androidTargetSdk = 31
   const val androidBuildTools = "31.0.0"
 
-  const val androidGradle = "7.0.3"
-  const val jetpackCompose = "1.1.0-beta01"
-  const val daggerHilt = "2.40.2"
+  object Android {
+
+    const val gradle = "7.0.3"
+    const val jetpackCompose = "1.1.0-beta01"
+    const val daggerHilt = "2.40.3"
+  }
 }

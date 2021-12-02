@@ -33,13 +33,13 @@ fun ArgumentStatusPage(title: String) {
     }
   }) {
     P({
-      classes(TextStyle.defaultTitle)
+      classes(TextStyle.h1)
     }) {
       Text(title)
     }
     Br { }
     P({
-      classes(TextStyle.default)
+      classes(TextStyle.body)
     }) {
       Text("examples")
       Br { }
@@ -47,7 +47,7 @@ fun ArgumentStatusPage(title: String) {
       Text("multiple realms: ${PageConst.PARAM_EXAMPLE_MULTIPLE}")
       A(
         attrs = {
-          classes(TextStyle.link)
+          classes(TextStyle.linkText)
           target(ATarget.Self)
         },
         href = "$currentLocation${PageConst.PARAM_EXAMPLE_MULTIPLE}"
@@ -59,7 +59,7 @@ fun ArgumentStatusPage(title: String) {
       Text("single realm: ${PageConst.PARAM_EXAMPLE_SINGLE}")
       A(
         attrs = {
-          classes(TextStyle.link)
+          classes(TextStyle.linkText)
           target(ATarget.Self)
         },
         href = "$currentLocation${PageConst.PARAM_EXAMPLE_SINGLE}"

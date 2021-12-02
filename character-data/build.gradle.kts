@@ -1,7 +1,7 @@
 plugins {
-  kotlin("multiplatform")
+  kotlin(Plugins.Kotlin.multiplatform)
+  kotlin(Plugins.Kotlin.serial)
   id(Plugins.Android.library)
-  kotlin("plugin.serialization")
 }
 
 kotlin {
@@ -23,7 +23,13 @@ kotlin {
         implementation(Deps.Ktor.logging)
       }
     }
-    val androidMain by getting
+    val androidMain by getting {
+      dependencies {
+        implementation("javax.inject:javax.inject:1")
+        implementation(Deps.Android.roomKtx)
+      }
+    }
+    val jsMain by getting
   }
 }
 
@@ -31,7 +37,17 @@ android {
   compileSdk = Versions.androidCompileSdk
   defaultConfig.minSdk = Versions.androidMinSdk
   sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-  buildFeatures.buildConfig = false
+  sourceSets {
+    getByName("main").java.srcDirs("src/main/kotlin")
+    getByName("test").java.srcDirs("src/test/kotlin")
+  }
+  buildFeatures {
+    aidl = false
+    buildConfig = false
+    renderScript = false
+    resValues = false
+    shaders = false
+  }
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
