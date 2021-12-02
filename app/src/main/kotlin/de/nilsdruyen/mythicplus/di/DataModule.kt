@@ -10,10 +10,10 @@ import de.nilsdruyen.mythicplus.character.AppUsecase
 import de.nilsdruyen.mythicplus.character.AppUsecaseImpl
 import de.nilsdruyen.mythicplus.character.LocalCache
 import de.nilsdruyen.mythicplus.character.LocalCacheImpl
-import de.nilsdruyen.mythicplus.database.LocalDatabase
 import de.nilsdruyen.mythicplus.character.RaiderIoRepository
 import de.nilsdruyen.mythicplus.character.RaiderIoRepositoryImpl
 import de.nilsdruyen.mythicplus.character.daos.CharacterDao
+import de.nilsdruyen.mythicplus.database.LocalDatabase
 import javax.inject.Singleton
 
 @Module(includes = [StateDataModule::class])

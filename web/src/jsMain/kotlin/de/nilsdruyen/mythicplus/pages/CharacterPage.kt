@@ -6,10 +6,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import de.nilsdruyen.mythicplus.character.models.WebViewModel
 import de.nilsdruyen.mythicplus.components.gear.GearTable
 import de.nilsdruyen.mythicplus.components.mythicplus.MythicPlusTable
-import de.nilsdruyen.mythicplus.character.models.WebViewModel
 import de.nilsdruyen.mythicplus.states.ArgumentState
 
 @Composable

@@ -37,6 +37,9 @@ subprojects {
     "web" -> {
       configureDetekt("src/jsMain/kotlin")
     }
+    "app" -> {
+      configureDetekt("src/main/kotlin")
+    }
   }
 
   tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -52,7 +55,7 @@ fun Project.configureDetekt(vararg paths: String) {
     source = files(paths)
     parallel = true
     config = files("$rootDir/detekt-config.yml")
-    buildUponDefaultConfig = true
+    buildUponDefaultConfig = false
     ignoreFailures = false
   }
   tasks.withType<Detekt>().configureEach {
