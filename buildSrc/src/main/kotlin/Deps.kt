@@ -17,8 +17,9 @@ object Deps {
 
     const val ktx = "androidx.core:core-ktx:1.8.0-alpha01"
 
-    const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
-    const val viewmodelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+    const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
+    const val viewmodelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+    const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycle}"
 
     const val material = "com.google.android.material:material:1.6.0-alpha01"
 

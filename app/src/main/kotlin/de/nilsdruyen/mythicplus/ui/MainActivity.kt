@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import dagger.hilt.android.AndroidEntryPoint
 import de.nilsdruyen.mythicplus.theme.MythicPlusTheme
+import de.nilsdruyen.mythicplus.ui.overview.CharacterOverview
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -27,21 +28,21 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
 
     setContent {
-      App(viewModel)
+      App()
     }
   }
 }
 
 @ExperimentalMaterial3Api
 @Composable
-fun App(viewModel: MainViewModel) {
+fun App() {
   MythicPlusTheme {
     Scaffold(
       topBar = {
         AppBar()
       }
     ) {
-      CharacterOverview(viewModel)
+      CharacterOverview()
     }
   }
 }

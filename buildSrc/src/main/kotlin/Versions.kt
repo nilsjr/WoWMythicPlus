@@ -21,10 +21,12 @@ object Versions {
   const val androidTargetSdk = 31
   const val androidBuildTools = "31.0.0"
 
+  const val lifecycle = "2.4.0"
+
   object Android {
 
     const val gradle = "7.0.3"
     const val jetpackCompose = "1.1.0-beta04"
-    const val daggerHilt = "2.40.3"
+    const val daggerHilt = "2.40.4"
   }
 }
