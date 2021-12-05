@@ -26,7 +26,7 @@ object Versions {
   object Android {
 
     const val gradle = "7.0.3"
-    const val jetpackCompose = "1.1.0-beta04"
+    const val jetpackCompose = "1.0.5"
     const val daggerHilt = "2.40.4"
   }
 }

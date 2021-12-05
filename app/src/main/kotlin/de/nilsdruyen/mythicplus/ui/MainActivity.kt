@@ -63,10 +63,3 @@ fun AppBar() {
     },
   )
 }
-
-//@ExperimentalMaterial3Api
-//@Preview
-//@Composable
-//fun PreviewApp() {
-//  App()
-//}

@@ -3,14 +3,16 @@ import io.gitlab.arturbosch.detekt.Detekt
 plugins {
   kotlin(Plugins.Kotlin.multiplatform) version Versions.kotlin apply false
   kotlin(Plugins.Kotlin.serial) version Versions.kotlin apply false
+  id(Plugins.Kotlin.compose) version Versions.compose apply false
+  // android
   id(Plugins.Android.application) version Versions.Android.gradle apply false
   kotlin(Plugins.Kotlin.androidGradle) version Versions.kotlin apply false
   id(Plugins.Android.daggerHilt) version Versions.Android.daggerHilt apply false
-  id(Plugins.Kotlin.compose) version Versions.compose apply false
-  id(Plugins.Kotlin.ksp) version Versions.ksp apply false
+//  id(Plugins.Kotlin.ksp) version Versions.ksp apply false
+  // utils
+  id(Plugins.buildConfig) version Versions.buildConfig apply false
   id(Plugins.gradleVersions) version Versions.benManesVersions
   id(Plugins.detekt) version Versions.detekt
-  id(Plugins.buildConfig) version Versions.buildConfig apply false
   id(Plugins.uploadPlugin) version Versions.ftpUploadPlugin apply false
 }
 

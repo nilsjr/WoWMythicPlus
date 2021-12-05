@@ -13,4 +13,6 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
   val characterList: Flow<List<Character>> = appUsecase.observeCharacters()
+
+
 }
