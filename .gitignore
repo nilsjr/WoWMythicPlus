@@ -1,5 +1,11 @@
+
+# Created by https://www.toptal.com/developers/gitignore/api/kotlin,android,intellij,gradle
+# Edit at https://www.toptal.com/developers/gitignore?templates=kotlin,android,intellij,gradle
+
+### Android ###
 # Built application files
 *.apk
+*.aar
 *.ap_
 *.aab
 
@@ -13,16 +19,12 @@
 bin/
 gen/
 out/
+#  Uncomment the following line in case you need and you don't have the release build type files in your app
+# release/
 
 # Gradle files
-.gradle
 .gradle/
 build/
-gradle-app.setting
-.gradletasknamecache
-
-# Signing files
-.signing/
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -33,18 +35,6 @@ proguard/
 # Log Files
 *.log
 
-# Android Studio
-/*/build/
-/*/local.properties
-/*/out
-/*/*/build
-*.ipr
-*~
-*.swp
-
-# Android Patch
-gen-external-apklibs
-
 # Android Studio Navigation editor temp files
 .navigation/
 
@@ -53,27 +43,30 @@ captures/
 
 # IntelliJ
 *.iml
-*.iws
-.idea/*
-!.idea/codeStyles/Project.xml
-!.idea/codeStyles/codeStyleConfig.xml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/assetWizardSettings.xml
+.idea/dictionaries
+.idea/libraries
+.idea/jarRepositories.xml
+# Android Studio 3 in .gitignore file.
+.idea/caches
+.idea/modules.xml
+# Comment next line if keeping position of elements in Navigation Editor is relevant for you
+.idea/navEditor.xml
 
 # Keystore files
-*.jks
-*.keystore
-!debug.keystore
+# Uncomment the following lines if you do not want to check your keystore files in.
+#*.jks
+#*.keystore
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
-
-# NDK
-obj/
-
-# CMake
-cmake-build-*/
+.cxx/
 
 # Google Services (e.g. APIs or Firebase)
-google-services.json
+# google-services.json
 
 # Freeline
 freeline.py
@@ -87,19 +80,79 @@ fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
 
-#Crashlytics
-crashlytics-build.properties
-com_crashlytics_export_strings.xml
-crashlytics.properties
-fabric.properties
+# Version control
+vcs.xml
 
-## Plugin-specific files:
+# lint
+lint/intermediates/
+lint/generated/
+lint/outputs/
+lint/tmp/
+# lint/reports/
+
+# Android Profiling
+*.hprof
+
+### Android Patch ###
+gen-external-apklibs
+output.json
+
+# Replacement of .externalNativeBuild directories introduced
+# with Android Studio 3.5.
+
+### Intellij ###
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# AWS User-specific
+.idea/**/aws.xml
+
+# Generated files
+.idea/**/contentModel.xml
+
+# Sensitive or high-churn files
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+
+# Gradle
+.idea/**/gradle.xml
+.idea/**/libraries
+
+# Gradle and Maven with auto-import
+# When using Gradle or Maven with auto-import, you should exclude module files,
+# since they will be recreated, and may cause churn.  Uncomment if using
+# auto-import.
+.idea/artifacts
+.idea/compiler.xml
+.idea/*.iml
+.idea/modules
+*.ipr
+
+# CMake
+cmake-build-*/
+
+# Mongo Explorer plugin
+.idea/**/mongoSettings.xml
+
+# File-based project format
+*.iws
+
+# IntelliJ
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
-
-# Mongo Explorer plugin
-.idea/mongoSettings.xml
 
 # JIRA plugin
 atlassian-ide-plugin.xml
@@ -107,84 +160,93 @@ atlassian-ide-plugin.xml
 # Cursive Clojure plugin
 .idea/replstate.xml
 
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
 # Editor-based Rest Client
 .idea/httpRequests
 
-## OS specific files:
+# Android studio 3.1+ serialized cache file
+.idea/caches/build_file_checksums.ser
 
-# General
-.DS_Store
-.DS_Store?
-.AppleDouble
-.LSOverride
+### Intellij Patch ###
+# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
 
-# Icon must end with two \r
-Icon
+# *.iml
+# modules.xml
+# .idea/misc.xml
+# *.ipr
 
-# Thumbnails
-._*
+# Sonarlint plugin
+# https://plugins.jetbrains.com/plugin/7973-sonarlint
+.idea/**/sonarlint/
 
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
+# SonarQube Plugin
+# https://plugins.jetbrains.com/plugin/7238-sonarqube-community-plugin
+.idea/**/sonarIssues.xml
 
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+# Markdown Navigator plugin
+# https://plugins.jetbrains.com/plugin/7896-markdown-navigator-enhanced
+.idea/**/markdown-navigator.xml
+.idea/**/markdown-navigator-enh.xml
+.idea/**/markdown-navigator/
 
-# Windows thumbnail cache files
-Thumbs.db
-ehthumbs.db
-ehthumbs_vista.db
+# Cache file creation bug
+# See https://youtrack.jetbrains.com/issue/JBR-2257
+.idea/$CACHE_FILE$
 
-# Dump file
-*.stackdump
+# CodeStream plugin
+# https://plugins.jetbrains.com/plugin/12206-codestream
+.idea/codestream.xml
 
-# Folder config file
-[Dd]esktop.ini
+### Kotlin ###
+# Compiled class file
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
+# Log file
 
-# Windows Installer files
-*.cab
-*.msi
-*.msix
-*.msm
-*.msp
+# BlueJ files
+*.ctxt
 
-# Windows shortcuts
-*.lnk
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
 
-# temporary files which can be created if a process still has a handle open of a deleted file
-.fuse_hidden*
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
 
-# KDE directory preferences
-.directory
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
 
-# Linux trash folder which might appear on any partition or disk
-.Trash-*
+### Gradle ###
+.gradle
 
-# .nfs files are created when an open file is removed but is still being accessed
-.nfs*
+# Ignore Gradle GUI config
+gradle-app.setting
 
-# npm modules
-node_modules/
-package-lock.json
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
 
-# config files
-config/
+# Cache of project
+.gradletasknamecache
 
-# Changelog.md
-CHANGELOG.md
+# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
 
-# metrics report
-metrics.zip
+### Gradle Patch ###
+**/build/
+
+# Eclipse Gradle plugin generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# End of https://www.toptal.com/developers/gitignore/api/kotlin,android,intellij,gradle

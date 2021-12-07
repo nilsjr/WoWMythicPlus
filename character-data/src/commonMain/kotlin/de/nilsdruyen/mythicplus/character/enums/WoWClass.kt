@@ -42,7 +42,11 @@ enum class WoWClass {
   WARRIOR,
 }
 
-sealed class Specialization(val name: String, val role: Role, val wowClass: WoWClass) {
+sealed class Specialization(
+  val name: String,
+  private val role: Role,
+  val wowClass: WoWClass
+) {
 
   override fun toString(): String = "$name - ${role.name} - ${wowClass.name}"
 }

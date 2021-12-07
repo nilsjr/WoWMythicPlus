@@ -26,3 +26,7 @@ This website is available under: https://wow.nilsdruyen.de
 - links to raiderio, wowarmory
 - hover effect -> more details
 - sort option
+
+### app
+- add character
+- room, logging, mvi architecture

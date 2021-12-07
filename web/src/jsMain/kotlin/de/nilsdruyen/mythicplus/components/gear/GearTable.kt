@@ -3,8 +3,8 @@ package de.nilsdruyen.mythicplus.components.gear
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.mythicplus.character.enums.ItemSlot
 import de.nilsdruyen.mythicplus.character.models.Character
-import de.nilsdruyen.mythicplus.character.models.CharacterViewModel
 import de.nilsdruyen.mythicplus.character.models.Item
+import de.nilsdruyen.mythicplus.character.models.WebViewModel
 import de.nilsdruyen.mythicplus.character.utils.Constants
 import de.nilsdruyen.mythicplus.extensions.colorForItemLvl
 import de.nilsdruyen.mythicplus.styles.ColorConst
@@ -15,7 +15,6 @@ import org.jetbrains.compose.web.attributes.ATarget
 import org.jetbrains.compose.web.attributes.colspan
 import org.jetbrains.compose.web.attributes.target
 import org.jetbrains.compose.web.css.background
-import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
@@ -26,9 +25,9 @@ import org.jetbrains.compose.web.dom.Th
 import org.jetbrains.compose.web.dom.Tr
 
 @Composable
-fun GearTable(viewModel: CharacterViewModel.GearOverview) {
+fun GearTable(viewModel: WebViewModel.GearOverview) {
   Table({
-    classes(TableStyle.root)
+    classes(TableStyle.parent)
   }) {
 //    GearTableHeader()
     if (viewModel.characterList.isNotEmpty()) {
@@ -80,7 +79,6 @@ fun ItemCell(item: Item) {
     }
   }) {
     A(href = "https://www.wowhead.com/item=${item.id}", {
-//      attr("data-wh-rename-link", "false")
       attr("rel", "gems=${item.formattedGems}&bonus=${item.formattedBonus}&ilvl=${item.level}")
       target(ATarget.Blank)
     }) {

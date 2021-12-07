@@ -16,8 +16,11 @@ import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
 import io.ktor.client.request.get
+import io.ktor.client.request.header
 import io.ktor.client.request.host
 import io.ktor.client.request.parameter
+import io.ktor.client.utils.CacheControl
+import io.ktor.http.HttpHeaders
 import io.ktor.http.URLProtocol
 import kotlinx.serialization.json.Json
 
@@ -49,7 +52,8 @@ object RaiderIoApi {
     parameter("name", name)
     parameter(
       "fields",
-      "mythic_plus_best_runs:all,mythic_plus_alternate_runs:all,mythic_plus_scores_by_season:current,gear,mythic_plus_recent_runs"
+      "mythic_plus_best_runs:all,mythic_plus_alternate_runs:all," +
+        "mythic_plus_scores_by_season:current,gear,mythic_plus_recent_runs"
     )
   }
 

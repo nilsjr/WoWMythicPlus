@@ -7,10 +7,6 @@ complexity:
   ComplexMethod:
     ignoreSingleWhenExpression: true
 
-empty-blocks:
-  EmptyFunctionBlock:
-    active: false
-
 exceptions:
   TooGenericExceptionCaught:
     active: false
@@ -19,6 +15,8 @@ formatting:
   android: true
   ImportOrdering:
     active: true
+  Indentation:
+    active: false
   FinalNewline:
     insertFinalNewLine: false
   PackageName:
@@ -35,6 +33,8 @@ naming:
     active: false
 
 style:
+  ForbiddenComment:
+    active: false
   MagicNumber:
     active: false
   NewLineAtEndOfFile:

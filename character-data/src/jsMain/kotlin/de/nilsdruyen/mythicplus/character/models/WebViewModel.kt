@@ -1,17 +1,17 @@
 package de.nilsdruyen.mythicplus.character.models
 
-sealed interface CharacterViewModel {
+sealed interface WebViewModel {
 
-  object Loading : CharacterViewModel
+  object Loading : WebViewModel
 
   class CharacterOverview(
     val characterList: List<Character>,
     val currentAffixIds: List<Int>,
     val dungeons: List<Dungeon>,
     val scoreTiers: List<ScoreTier>,
-  ) : CharacterViewModel
+  ) : WebViewModel
 
   class GearOverview(
     val characterList: List<Character>,
-  ) : CharacterViewModel
+  ) : WebViewModel
 }
