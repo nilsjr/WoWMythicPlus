@@ -28,7 +28,7 @@ android {
     targetCompatibility = JavaVersion.VERSION_11
   }
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = "11"
   }
   sourceSets.getByName("main").java.srcDirs("src/main/kotlin")
   buildFeatures {

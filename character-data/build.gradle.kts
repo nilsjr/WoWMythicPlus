@@ -36,10 +36,9 @@ kotlin {
 android {
   compileSdk = Versions.androidCompileSdk
   defaultConfig.minSdk = Versions.androidMinSdk
-  sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-  sourceSets {
-    getByName("main").java.srcDirs("src/main/kotlin")
-    getByName("test").java.srcDirs("src/test/kotlin")
+  sourceSets.getByName("main") {
+    manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    java.srcDirs("src/main/kotlin")
   }
   buildFeatures {
     aidl = false
@@ -49,7 +48,7 @@ android {
     shaders = false
   }
   compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
   }
 }
