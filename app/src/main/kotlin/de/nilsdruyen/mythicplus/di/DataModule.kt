@@ -12,6 +12,8 @@ import de.nilsdruyen.mythicplus.character.LocalCache
 import de.nilsdruyen.mythicplus.character.LocalCacheImpl
 import de.nilsdruyen.mythicplus.character.RaiderIoRepository
 import de.nilsdruyen.mythicplus.character.RaiderIoRepositoryImpl
+import de.nilsdruyen.mythicplus.character.apis.WebApi
+import de.nilsdruyen.mythicplus.character.apis.WebApiImpl
 import de.nilsdruyen.mythicplus.character.daos.CharacterDao
 import de.nilsdruyen.mythicplus.database.LocalDatabase
 import javax.inject.Singleton
@@ -31,6 +33,10 @@ abstract class DataModule {
   @Binds
   @Singleton
   abstract fun bindsRaiderIoRepository(cache: RaiderIoRepositoryImpl): RaiderIoRepository
+
+  @Binds
+  @Singleton
+  abstract fun bindWebApi(api: WebApiImpl): WebApi
 }
 
 @Module

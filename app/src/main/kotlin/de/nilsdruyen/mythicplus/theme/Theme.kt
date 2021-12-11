@@ -1,13 +1,12 @@
 package de.nilsdruyen.mythicplus.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.darkColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-private val DarkColorPalette = darkColorScheme(
+private val DarkColorPalette = darkColors(
   background = background,
   onBackground = background800,
   primary = purplePrimary,
@@ -43,7 +42,7 @@ fun MythicPlusTheme(
 //  }
 
   MaterialTheme(
-    colorScheme = DarkColorPalette,
+    colors = DarkColorPalette,
     typography = DarkTypography,
     content = content
   )
