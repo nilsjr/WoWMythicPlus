@@ -1,8 +1,11 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
   kotlin(Plugins.Kotlin.multiplatform)
   kotlin(Plugins.Kotlin.serial)
   kotlin("kapt")
   id(Plugins.Android.library)
+  id("com.github.gmazzo.buildconfig")
 }
 
 kotlin {
@@ -40,6 +43,13 @@ kotlin {
     }
     val jsMain by getting
   }
+}
+
+buildConfig {
+  useKotlinOutput()
+  packageName("de.nilsdruyen.mythicplus.character")
+  buildConfigField("String", "CLIENT_ID", "\"${gradleLocalProperties(rootDir).getProperty("battlenet.client_id")}\"")
+  buildConfigField("String", "CLIENT_SECRET", "\"${gradleLocalProperties(rootDir).getProperty("battlenet.client_secret")}\"")
 }
 
 android {

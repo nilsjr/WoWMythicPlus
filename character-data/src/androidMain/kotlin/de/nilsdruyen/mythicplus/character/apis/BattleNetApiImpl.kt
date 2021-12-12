@@ -1,7 +1,6 @@
 package de.nilsdruyen.mythicplus.character.apis
 
-import de.nilsdruyen.mythicplus.character.apis.BattleNetConst.clientId
-import de.nilsdruyen.mythicplus.character.apis.BattleNetConst.clientSecret
+import de.nilsdruyen.mythicplus.character.BuildConfig
 import de.nilsdruyen.mythicplus.character.apis.BattleNetConst.redirectUri
 import de.nilsdruyen.mythicplus.character.entities.auth.AccessTokenInfo
 import de.nilsdruyen.mythicplus.character.entities.battlenet.UserInfoWebEntity
@@ -24,7 +23,6 @@ import io.ktor.client.request.header
 import io.ktor.http.Parameters
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
-
 
 class BattleNetApiImpl @Inject constructor(
   val authTokenProvider: AuthTokenProvider
@@ -71,8 +69,8 @@ class BattleNetApiImpl @Inject constructor(
             formParameters = Parameters.build {
               append("grant_type", "authorization_code")
               append("code", authTokenProvider.getAuthToken())
-              append("client_id", clientId)
-              append("client_secret", clientSecret)
+              append("client_id", BuildConfig.CLIENT_ID)
+              append("client_secret", BuildConfig.CLIENT_SECRET)
               append("redirect_uri", redirectUri)
             }
           )
