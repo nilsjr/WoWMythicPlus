@@ -1,7 +1,7 @@
 object Versions {
 
   // deps
-  const val kotlin = "1.5.31"
+  const val kotlin = "1.6.0"
   const val coroutines = "1.5.2"
   const val dateTime = "0.3.1"
 
@@ -25,8 +25,8 @@ object Versions {
 
   object Android {
 
-    const val gradle = "7.0.3"
-    const val jetpackCompose = "1.0.5"
+    const val gradle = "7.0.4"
+    const val jetpackCompose = "1.1.0-beta04"
     const val daggerHilt = "2.40.4"
   }
 }

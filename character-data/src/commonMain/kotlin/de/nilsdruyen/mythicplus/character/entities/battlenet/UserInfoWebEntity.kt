@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserInfoWebEntity(
-  val id: String,
+  val id: Long,
   val battletag: String,
 )

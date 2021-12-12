@@ -17,5 +17,5 @@ interface CharacterDao {
   fun getCharacter(): Flow<List<CharacterEntity>>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  fun addCharacterList(list: List<CharacterEntity>)
+  suspend fun addCharacterList(list: List<CharacterEntity>)
 }

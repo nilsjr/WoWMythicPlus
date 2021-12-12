@@ -34,8 +34,6 @@ kotlin {
         implementation(Deps.Android.roomKtx)
         implementation(Deps.Ktor.okHttp)
 
-        implementation("androidx.datastore:datastore-preferences:1.0.0")
-
         implementation(Deps.Android.Dagger.hilt)
         configurations["kapt"].dependencies.add(project.dependencies.create(Deps.Android.Dagger.hiltCompiler))
       }

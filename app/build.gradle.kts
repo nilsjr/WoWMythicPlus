@@ -64,13 +64,16 @@ dependencies {
   implementation(Deps.Android.Compose.material)
   implementation(Deps.Android.Compose.uiTooling)
   implementation(Deps.Android.Compose.uiToolingPreview)
-//  implementation("androidx.hilt:hilt-navigation-compose:1.0.0-beta01")
 
   implementation(Deps.Android.Dagger.hilt)
   kapt(Deps.Android.Dagger.hiltCompiler)
+  implementation("androidx.hilt:hilt-navigation-compose:1.0.0-beta01")
 
   implementation(Deps.Android.roomKtx)
   kapt(Deps.Android.roomCompiler)
+
+  implementation("androidx.datastore:datastore-preferences:1.0.0")
+  implementation("androidx.startup:startup-runtime:1.1.0")
 }
 
 // Allow references to generated code

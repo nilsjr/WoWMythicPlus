@@ -2,7 +2,7 @@ package de.nilsdruyen.mythicplus.character.apis
 
 interface AuthTokenProvider {
 
-  fun getAuthToken(): String
+  suspend fun getAuthToken(): String
 
-  fun setToken(token: String)
+  suspend fun setToken(token: String)
 }

@@ -10,4 +10,6 @@ interface AppUsecase {
   fun observeCharacters(): Flow<List<Character>>
 
   suspend fun loadCharacters()
+
+  suspend fun getBattleTag(): String
 }

@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import de.nilsdruyen.mythicplus.theme.MythicPlusTheme
 import de.nilsdruyen.mythicplus.ui.overview.CharacterOverview
@@ -38,7 +39,7 @@ fun App() {
         AppBar()
       }
     ) {
-      CharacterOverview()
+      CharacterOverview(hiltViewModel())
     }
   }
 }
