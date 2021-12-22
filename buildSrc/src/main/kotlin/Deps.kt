@@ -15,7 +15,7 @@ object Deps {
     const val auth = "io.ktor:ktor-client-auth:${Versions.ktor}"
   }
 
-  const val kermit = "co.touchlab:kermit:1.0.0"
+  const val kermit = "co.touchlab:kermit:1.0.3"
 
   object Android {
 
@@ -27,9 +27,9 @@ object Deps {
 
     const val material = "com.google.android.material:material:1.6.0-alpha01"
 
-    const val room = "androidx.room:room-runtime:2.4.0-rc01"
-    const val roomKtx = "androidx.room:room-ktx:2.4.0-rc01"
-    const val roomCompiler = "androidx.room:room-compiler:2.4.0-rc01"
+    const val room = "androidx.room:room-runtime:2.4.0"
+    const val roomKtx = "androidx.room:room-ktx:2.4.0"
+    const val roomCompiler = "androidx.room:room-compiler:2.4.0"
 
     object Compose {
 

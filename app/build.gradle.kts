@@ -67,7 +67,7 @@ dependencies {
 
   implementation(Deps.Android.Dagger.hilt)
   kapt(Deps.Android.Dagger.hiltCompiler)
-  implementation("androidx.hilt:hilt-navigation-compose:1.0.0-beta01")
+  implementation("androidx.hilt:hilt-navigation-compose:1.0.0-rc01")
 
   implementation(Deps.Android.roomKtx)
   kapt(Deps.Android.roomCompiler)

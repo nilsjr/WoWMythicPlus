@@ -1,12 +1,12 @@
 object Versions {
 
   // deps
-  const val kotlin = "1.6.0"
-  const val coroutines = "1.5.2"
+  const val kotlin = "1.6.10"
+  const val coroutines = "1.6.0"
   const val dateTime = "0.3.1"
 
-  const val ktor = "1.6.5"
-  const val compose = "1.0.0"
+  const val ktor = "1.6.7"
+  const val compose = "1.1.0-alpha1-dev536"
 
   // plugins
   const val benManesVersions = "0.39.0"
@@ -26,7 +26,7 @@ object Versions {
   object Android {
 
     const val gradle = "7.0.4"
-    const val jetpackCompose = "1.1.0-beta04"
-    const val daggerHilt = "2.40.4"
+    const val jetpackCompose = "1.1.0-rc02"
+    const val daggerHilt = "2.40.5"
   }
 }
