@@ -41,7 +41,8 @@ kotlin {
         configurations["kapt"].dependencies.add(project.dependencies.create(Deps.Android.Dagger.hiltCompiler))
       }
     }
-    val jsMain by getting
+    val jsMain by getting {
+    }
   }
 }
 
@@ -56,10 +57,6 @@ android {
   compileSdk = Versions.androidCompileSdk
   defaultConfig.minSdk = Versions.androidMinSdk
   sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-  sourceSets {
-    getByName("main").java.srcDirs("src/main/kotlin")
-    getByName("test").java.srcDirs("src/test/kotlin")
-  }
   buildFeatures {
     aidl = false
     buildConfig = false

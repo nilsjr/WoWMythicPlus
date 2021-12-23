@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import co.touchlab.kermit.Logger
-import de.nilsdruyen.mythicplus.character.apis.BattleNetConst.clientId
+import de.nilsdruyen.mythicplus.character.BuildConfig
 import de.nilsdruyen.mythicplus.character.apis.BattleNetConst.redirectUri
 import de.nilsdruyen.mythicplus.character.apis.BattleNetConst.scopes
 import java.util.UUID
@@ -22,7 +22,7 @@ private val uniqueState = UUID.randomUUID().toString()
 fun Auth(onCallback: (String) -> Unit = {}) {
   val uri = Uri.parse("https://eu.battle.net/oauth/authorize")
     .buildUpon()
-    .appendQueryParameter("client_id", clientId)
+    .appendQueryParameter("client_id", BuildConfig.CLIENT_ID)
     .appendQueryParameter("scope", scopes.joinToString(separator = " "))
     .appendQueryParameter("state", uniqueState)
     .appendQueryParameter("redirect_uri", redirectUri)

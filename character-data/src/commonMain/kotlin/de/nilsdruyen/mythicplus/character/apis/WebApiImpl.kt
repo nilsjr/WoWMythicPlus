@@ -1,18 +1,20 @@
 package de.nilsdruyen.mythicplus.character.apis
 
 import de.nilsdruyen.mythicplus.character.annotations.Inject
+import de.nilsdruyen.mythicplus.character.annotations.Named
 import de.nilsdruyen.mythicplus.character.entities.AffixesWebEntity
 import de.nilsdruyen.mythicplus.character.entities.PeriodWebEntity
 import de.nilsdruyen.mythicplus.character.entities.ProfileWebEntity
 import de.nilsdruyen.mythicplus.character.entities.ScoreTierWebEntity
 import de.nilsdruyen.mythicplus.character.entities.StaticDataWebEntity
 import de.nilsdruyen.mythicplus.character.models.ScoreTier
+import de.nilsdruyen.mythicplus.character.utils.NamedConst
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 
 class WebApiImpl @Inject constructor(
-  private val client: HttpClient
+  @Named(NamedConst.API_RAIDER_IO) val client: HttpClient
 ) : WebApi {
 
   override suspend fun getCharacter(realm: String, name: String): ProfileWebEntity =

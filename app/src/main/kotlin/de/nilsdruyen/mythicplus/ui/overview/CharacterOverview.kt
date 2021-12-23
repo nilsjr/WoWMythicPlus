@@ -18,13 +18,6 @@ import de.nilsdruyen.mythicplus.ui.auth.Auth
 @Composable
 fun CharacterOverview(viewModel: MainViewModel) {
   val screenState by viewModel.screenState
-//  val userState by produceState<State>(State.NoAccess, authCode) {
-//    value = if (authCode.isNotEmpty()) {
-//      State.LoggedIn(viewModel.getProfile(), viewModel.ge)
-//    } else {
-//      State.NoAccess
-//    }
-//  }
 
   when (screenState) {
     Screen.Overview -> {
@@ -40,26 +33,11 @@ fun CharacterOverview(viewModel: MainViewModel) {
           style = MaterialTheme.typography.body2,
           modifier = Modifier.padding(8.dp)
         )
-//        Button(
-//          modifier = Modifier.padding(8.dp),
-//          onClick = {
-//            screenState = Screen.Login
-//          }
-//        ) {
-//          Text("login")
-//        }
-//        if (userState is State.LoggedIn) {
-//          val id = (userState as State.LoggedIn).profile.id
-//          Text(
-//            text = id.toString(),
-//            style = MaterialTheme.typography.body2,
-//            modifier = Modifier.padding(8.dp))
-//        }
       }
     }
     Screen.Login -> {
       Column {
-        Text("not logged in", modifier = Modifier.padding(8.dp))
+        Text("Not logged in", modifier = Modifier.padding(8.dp))
         Auth {
           viewModel.setToken(it)
         }

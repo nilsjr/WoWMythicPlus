@@ -4,7 +4,6 @@ import io.ktor.client.HttpClientConfig
 import io.ktor.client.features.defaultRequest
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.features.logging.DEFAULT
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
@@ -20,7 +19,11 @@ fun HttpClientConfig<*>.applyDefaultConfig(baseUrl: String) = with(this) {
     }
   }
   install(Logging) {
-    logger = Logger.DEFAULT
+    logger = object : Logger {
+      override fun log(message: String) {
+        co.touchlab.kermit.Logger.d(message)
+      }
+    }
     level = LogLevel.INFO
   }
   install(JsonFeature) {

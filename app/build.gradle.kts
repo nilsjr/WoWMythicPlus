@@ -34,13 +34,14 @@ android {
   buildFeatures {
     compose = true
     aidl = false
-    buildConfig = false
+    buildConfig = true
     renderScript = false
     resValues = false
     shaders = false
   }
   composeOptions {
-    kotlinCompilerExtensionVersion = Versions.Android.jetpackCompose
+//    kotlinCompilerExtensionVersion = Versions.Android.jetpackCompose
+    kotlinCompilerExtensionVersion = "1.1.0-rc02"
   }
   kapt {
     arguments {
@@ -74,6 +75,14 @@ dependencies {
 
   implementation("androidx.datastore:datastore-preferences:1.0.0")
   implementation("androidx.startup:startup-runtime:1.1.0")
+
+  implementation(platform(Deps.Android.OkHttp.bom))
+  implementation(Deps.Android.OkHttp.okhttp)
+  implementation(Deps.Android.OkHttp.logging)
+
+  implementation(Deps.Android.Common.timber)
+
+
 }
 
 // Allow references to generated code

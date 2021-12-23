@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.touchlab.kermit.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import de.nilsdruyen.mythicplus.character.AppUsecase
 import de.nilsdruyen.mythicplus.character.apis.AuthTokenProvider
@@ -26,21 +27,36 @@ class MainViewModel @Inject constructor(
   val screenState: State<Screen> get() = _screenState
 
   init {
+    tryLogin()
+  }
+
+  fun setToken(authToken: String) {
     viewModelScope.launch {
-      val tag = appUsecase.getBattleTag()
-      if (tag.isEmpty()) {
-        _screenState.value = Screen.Login
-      } else {
-        appUsecase.loadCharacters()
-        _screenState.value = Screen.Overview
-      }
+      _screenState.value = Screen.Loading
+      authTokenProvider.setAuthToken(authToken)
+      val accessToken = authTokenProvider.convertAuthTokenToAccessToken(authToken)
+      Logger.d("token: $accessToken")
+//      tryLogin()
     }
   }
 
-  fun setToken(token: String) {
+  private fun tryLogin() {
     viewModelScope.launch {
-      authTokenProvider.setToken(token)
-      _screenState.value = Screen.Overview
+      val token = authTokenProvider.getAccessToken()
+      val authToken = authTokenProvider.getAuthToken()
+      Logger.d("token: $token - $authToken")
+
+      if (token.isNotEmpty()) {
+        val tag = appUsecase.getBattleTag()
+        if (tag.isEmpty()) {
+          _screenState.value = Screen.Login
+        } else {
+          appUsecase.loadCharacters()
+          _screenState.value = Screen.Overview
+        }
+      } else {
+        _screenState.value = Screen.Login
+      }
     }
   }
 }

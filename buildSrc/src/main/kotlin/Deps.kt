@@ -19,7 +19,7 @@ object Deps {
 
   object Android {
 
-    const val ktx = "androidx.core:core-ktx:1.8.0-alpha01"
+    const val ktx = "androidx.core:core-ktx:1.8.0-alpha02"
 
     const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
     const val viewmodelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
@@ -49,6 +49,18 @@ object Deps {
       const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.Android.daggerHilt}"
     }
 
+    object OkHttp {
+      const val bom = "com.squareup.okhttp3:okhttp-bom:${Versions.okhttp}"
+
+      const val okhttp = "com.squareup.okhttp3:okhttp"
+      const val logging = "com.squareup.okhttp3:logging-interceptor"
+    }
+
     const val startup = "androidx.startup:startup-runtime:1.1.0"
+
+    object Common {
+
+      const val timber = "com.jakewharton.timber:timber:5.0.1"
+    }
   }
 }

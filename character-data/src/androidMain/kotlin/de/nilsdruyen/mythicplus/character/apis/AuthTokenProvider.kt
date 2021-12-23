@@ -4,5 +4,9 @@ interface AuthTokenProvider {
 
   suspend fun getAuthToken(): String
 
-  suspend fun setToken(token: String)
+  suspend fun setAuthToken(token: String)
+
+  suspend fun getAccessToken(): String
+
+  suspend fun convertAuthTokenToAccessToken(authToken: String): String
 }
