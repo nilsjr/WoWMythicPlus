@@ -6,7 +6,7 @@ import de.nilsdruyen.mythicplus.character.extensions.toIdentifier
 
 object Constants {
 
-  val Dungeons = listOf("NW", "SOA", "MISTS", "DOS", "SD", "HOA", "PF", "TOP")
+  val Dungeons = listOf("NW", "SOA", "MISTS", "DOS", "SD", "HOA", "PF", "TOP", "GMBT", "STRT")
 
   const val TYRANNICAL = 9
   const val FORTIFIED = 10
