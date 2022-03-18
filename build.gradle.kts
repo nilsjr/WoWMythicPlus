@@ -1,5 +1,7 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -76,4 +78,10 @@ fun Project.configureDetekt(vararg paths: String) {
   dependencies {
     "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:$version")
   }
+}
+
+// On Apple Silicon we need Node.js 16.0.0
+// https://youtrack.jetbrains.com/issue/KT-49109
+rootProject.plugins.withType(NodeJsRootPlugin::class) {
+  rootProject.the(NodeJsRootExtension::class).nodeVersion = "16.0.0"
 }
