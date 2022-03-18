@@ -19,8 +19,11 @@ kotlin {
         implementation(libs.datetime)
 
         implementation(libs.ktorClientCore)
-        implementation(libs.ktorClientSerial)
+        implementation(libs.ktorClientContentNegotiation)
         implementation(libs.ktorClientLogging)
+        implementation(libs.ktorClientRes)
+
+        implementation(libs.ktorSerialJson)
       }
     }
 //    val androidMain by getting {

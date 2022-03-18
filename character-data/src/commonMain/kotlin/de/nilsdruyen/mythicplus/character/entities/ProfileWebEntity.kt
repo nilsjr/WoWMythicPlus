@@ -2,8 +2,18 @@ package de.nilsdruyen.mythicplus.character.entities
 
 import de.nilsdruyen.mythicplus.character.enums.Role
 import de.nilsdruyen.mythicplus.character.enums.WoWClass
+import io.ktor.resources.Resource
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+@Serializable
+@Resource("characters/profile")
+data class ProfileRequest(
+  val realm: String,
+  val name: String,
+  val fields: String,
+  val region: String = "eu",
+)
 
 @Serializable
 data class ProfileWebEntity(

@@ -1,6 +1,7 @@
 package de.nilsdruyen.mythicplus.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import de.nilsdruyen.mythicplus.external.AnimationConfig
 import de.nilsdruyen.mythicplus.external.lottie
 import io.ktor.http.encodeURLPath
@@ -19,16 +20,17 @@ fun BattleNetLogo() {
       height(80.px)
     }
   }) {
-    DomSideEffect {
+    DisposableEffect(Unit) {
       val logoPath = "${window.origin.encodeURLPath()}/assets/loading-bnet.json"
       val data = jsObject<AnimationConfig> {
-        container = it
+        container = scopeElement
         renderer = "svg"
         loop = true
         autoplay = true
         path = logoPath
       }
       lottie.loadAnimation(data)
+      onDispose { }
     }
   }
 }

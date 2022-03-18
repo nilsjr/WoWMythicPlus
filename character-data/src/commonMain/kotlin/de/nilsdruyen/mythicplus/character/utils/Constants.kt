@@ -11,6 +11,26 @@ object Constants {
   const val TYRANNICAL = 9
   const val FORTIFIED = 10
 
+  object Api {
+
+    object Fields {
+
+      private const val BEST_RUNS = "mythic_plus_best_runs:all"
+      private const val ALT_RUNS = "mythic_plus_alternate_runs:all"
+      private const val RECENT_RUNS = "mythic_plus_recent_runs"
+      private const val SCORES_BY_SEASON = "mythic_plus_scores_by_season:current"
+      private const val GEAR = "gear"
+
+      fun all() = listOf(
+        BEST_RUNS,
+        ALT_RUNS,
+        RECENT_RUNS,
+        SCORES_BY_SEASON,
+        GEAR
+      ).joinToString(",")
+    }
+  }
+
   object Icons {
 
     fun dungeonIcon(zoneId: Int): String = "https://cdnassets.raider.io/images/keystone-icons/$zoneId.jpg"
