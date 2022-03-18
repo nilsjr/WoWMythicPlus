@@ -21,4 +21,7 @@ pluginManagement {
 
 include(":web")
 include(":character-data")
-include(":app")
+//include(":app")
+
+enableFeaturePreview("VERSION_CATALOGS")
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

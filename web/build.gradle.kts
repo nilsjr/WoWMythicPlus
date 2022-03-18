@@ -1,5 +1,6 @@
 import de.nilsdruyen.gradle.ftp.UploadExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
   kotlin("multiplatform")
@@ -27,15 +28,15 @@ kotlin {
         implementation(compose.web.core)
         implementation(compose.runtime)
 
-        implementation(Deps.Kotlin.coroutines)
+        implementation(libs.coroutines)
 
-        implementation(project(":character-data"))
+        implementation(projects.characterData)
       }
     }
   }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+tasks.withType<KotlinCompile> {
   kotlinOptions {
     jvmTarget = "11"
   }

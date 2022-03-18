@@ -1,19 +1,21 @@
 import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-  kotlin(Plugins.Kotlin.multiplatform) version Versions.kotlin apply false
-  kotlin(Plugins.Kotlin.serial) version Versions.kotlin apply false
-  id(Plugins.Kotlin.compose) version Versions.compose apply false
+  kotlin("multiplatform") version libs.versions.kotlin.get() apply false
+  kotlin("plugin.serialization") version libs.versions.kotlin.get() apply false
+  id("org.jetbrains.compose") version libs.versions.compose.get() apply false
   // android
-  id(Plugins.Android.application) version Versions.Android.gradle apply false
-  kotlin(Plugins.Kotlin.androidGradle) version Versions.kotlin apply false
-  id(Plugins.Android.daggerHilt) version Versions.Android.daggerHilt apply false
-//  id(Plugins.Kotlin.ksp) version Versions.ksp apply false
-  // utils
-  id(Plugins.buildConfig) version Versions.buildConfig apply false
-  id(Plugins.gradleVersions) version Versions.benManesVersions
-  id(Plugins.detekt) version Versions.detekt
-  id(Plugins.uploadPlugin) version Versions.ftpUploadPlugin apply false
+//  id(Plugins.Android.application) version Versions.Android.gradle apply false
+//  kotlin(Plugins.Kotlin.androidGradle) version Versions.kotlin apply false
+//  id(Plugins.Android.daggerHilt) version Versions.Android.daggerHilt apply false
+
+  id("com.github.gmazzo.buildconfig") version libs.versions.buildKonfig.get() apply false
+  id("com.github.ben-manes.versions") version libs.versions.versionUpdates.get()
+  id("io.gitlab.arturbosch.detekt") version libs.versions.detekt.get()
+
+  alias(libs.plugins.ftpupload) apply false
 }
 
 group = "de.nilsdruyen"
@@ -28,7 +30,7 @@ allprojects {
 }
 
 subprojects {
-  apply(plugin = Plugins.detekt)
+  apply(plugin = "io.gitlab.arturbosch.detekt")
 
   version = rootProject.version
 
@@ -52,8 +54,9 @@ subprojects {
 }
 
 fun Project.configureDetekt(vararg paths: String) {
-  configure<io.gitlab.arturbosch.detekt.extensions.DetektExtension> {
-    toolVersion = Versions.detekt
+  val version = rootProject.libs.versions.detekt.get()
+  configure<DetektExtension> {
+    toolVersion = version
     source = files(paths)
     parallel = true
     config = files("$rootDir/detekt-config.yml")
@@ -71,6 +74,6 @@ fun Project.configureDetekt(vararg paths: String) {
     }
   }
   dependencies {
-    "detektPlugins"(Plugins.detektFormatting)
+    "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:$version")
   }
 }
