@@ -11,15 +11,7 @@ plugins {
 
 kotlin {
   js(IR) {
-    browser {
-      testTask {
-        testLogging.showStandardStreams = true
-        useKarma {
-          useChromeHeadless()
-          useFirefox()
-        }
-      }
-    }
+    browser()
     binaries.executable()
   }
   sourceSets {
