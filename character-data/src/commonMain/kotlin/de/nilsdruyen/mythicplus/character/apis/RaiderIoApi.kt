@@ -28,7 +28,7 @@ object RaiderIoApi {
 
   private val client = HttpClient {
     defaultRequest {
-      url("https://raider.io/api/v1")
+      url("https://raider.io/api/v1/")
     }
     install(Logging) {
       logger = Logger.DEFAULT
@@ -38,6 +38,7 @@ object RaiderIoApi {
       json(Json {
         prettyPrint = true
         isLenient = true
+        ignoreUnknownKeys = true
       })
     }
     install(Resources)
