@@ -45,7 +45,7 @@ fun MythicPlusContent(state: MythicPlusState, changeOrder: (ListOrder) -> Unit) 
       if (state.characterList.size > 1) {
         CharacterMythicPlusSummaryRow(state.characterList.generateSummary(state.scoreTiers, state.dungeons))
       }
-      EmptyRow()
+      EmptyRow(state.dungeons.size)
       state.characterList.forEach {
         CharacterMythicPlusRow(it, state.currentAffixIds)
       }
@@ -53,13 +53,12 @@ fun MythicPlusContent(state: MythicPlusState, changeOrder: (ListOrder) -> Unit) 
   }
 }
 
-const val ROWS = 20
-const val NAME_SPAN = 3
+const val NAME_SPAN = 4
 
 @Composable
 fun MythicPlusTableHeader(activeOrder: ListOrder, changeOrder: (ListOrder) -> Unit, dungeons: List<Dungeon>) {
   Tr {
-    Th({ colspan(NAME_SPAN + 1) })
+    Th({ colspan(NAME_SPAN) })
     dungeons.forEach {
       Th({
         colspan(2)
@@ -85,12 +84,12 @@ fun MythicPlusTableHeader(activeOrder: ListOrder, changeOrder: (ListOrder) -> Un
 }
 
 @Composable
-fun EmptyRow() {
+fun EmptyRow(dungeonCount: Int) {
   Tr({
     style {
       background(ColorConst.GRAY)
     }
-  }) { Td({ colspan(ROWS) }) {} }
+  }) { Td({ colspan(dungeonCount * 2 + NAME_SPAN) }) {} }
 }
 
 @Composable
