@@ -59,6 +59,7 @@ data class DominationShard(
 
 data class DungeonScore(
   val shortName: String,
+  val slug: String,
   val tyrannicalScore: Score,
   val fortifiedScore: Score,
 ) {

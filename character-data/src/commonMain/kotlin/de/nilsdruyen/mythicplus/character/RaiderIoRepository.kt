@@ -7,9 +7,7 @@ import de.nilsdruyen.mythicplus.character.models.ScoreTier
 
 interface RaiderIoRepository {
 
-  suspend fun getCharacterList(charList: List<InputCharacter>): List<Character>
-
-  suspend fun getCharacter(char: InputCharacter): Character
+  suspend fun getCharacterList(charList: List<InputCharacter>, dungeons: List<Dungeon>): List<Character>
 
   suspend fun getCurrentAffixeIds(): List<Int>
 

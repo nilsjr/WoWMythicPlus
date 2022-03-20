@@ -9,7 +9,7 @@ class CharacterUsecaseImpl(private val repository: RaiderIoRepository) : Charact
     val dungeons = repository.getDungeons()
     val scoreTiers = repository.getScoreTiers()
     val currentAffixes = repository.getCurrentAffixeIds()
-    val characterList = repository.getCharacterList(inputList)
+    val characterList = repository.getCharacterList(inputList, dungeons)
     return CharacterOverview(characterList, currentAffixes, dungeons, scoreTiers)
   }
 }

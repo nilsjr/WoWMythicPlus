@@ -25,30 +25,24 @@ import kotlinx.datetime.toLocalDateTime
 
 class RaiderIoRepositoryImpl @Inject constructor() : RaiderIoRepository {
 
-  override suspend fun getCharacterList(charList: List<InputCharacter>): List<Character> {
+  override suspend fun getCharacterList(charList: List<InputCharacter>, dungeons: List<Dungeon>): List<Character> {
     val scoreTiers = getScoreTiers()
     val currentPeriod = getCurrentPeriod()
-    return charList.map { getCharacter(it, scoreTiers, currentPeriod) }
-  }
-
-  override suspend fun getCharacter(char: InputCharacter): Character {
-    val scoreTiers = getScoreTiers()
-    val currentPeriod = getCurrentPeriod()
-    return getCharacter(char, scoreTiers, currentPeriod)
+    return charList.map { getCharacter(it, scoreTiers, currentPeriod, dungeons) }
   }
 
   override suspend fun getCurrentAffixeIds(): List<Int> = RaiderIoApi.getCurrentAffixIds()
 
   override suspend fun getDungeons(): List<Dungeon> {
-    return RaiderIoApi.getStaticData().dungeons.map { Dungeon(it.id, it.shortName) }.sortedBy {
-      Constants.Dungeons.indexOf(it.shortName)
-    }
+    return RaiderIoApi.getStaticData().dungeons
+      .map { Dungeon(it.id, it.shortName, it.slug) }
+      .sortedBy { it.slug }
   }
 
   override suspend fun getScoreTiers(): List<ScoreTier> = RaiderIoApi.getScoreTiers()
 
   private suspend fun getCurrentPeriod(): LocalDateTime {
-    val period = RaiderIoApi.getCurrentPeriod().periods.firstOrNull { it.region == "eu" }
+    val period = RaiderIoApi.getCurrentPeriod().periods.firstOrNull { it.region=="eu" }
     val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
     return period?.let {
       listOf(it.previous, it.current, it.next).first { item -> item.isCurrentWeek(now) }.startDate
@@ -59,15 +53,16 @@ class RaiderIoRepositoryImpl @Inject constructor() : RaiderIoRepository {
     char: InputCharacter,
     tiers: List<ScoreTier>,
     currentPeriod: LocalDateTime,
+    dungeons: List<Dungeon>,
   ): Character {
     val entity = RaiderIoApi.getCharacter(char.realm, char.name)
     val charScore = entity.scoreBySeason.first().scores.all
-    val list = Constants.Dungeons.map { dungeon ->
-      val filteredDungeons = (entity.bestRuns + entity.altRuns).filter { it.shortName == dungeon }
+    val list = dungeons.map { dungeon ->
+      val filteredDungeons = (entity.bestRuns + entity.altRuns).filter { it.shortName==dungeon.shortName }
       val tyrannical = filteredDungeons.mapToScore(Constants.TYRANNICAL)
       val fortified = filteredDungeons.mapToScore(Constants.FORTIFIED)
-      DungeonScore(dungeon, tyrannical, fortified)
-    }
+      DungeonScore(dungeon.shortName, dungeon.slug, tyrannical, fortified)
+    }.sortedBy { it.slug }
 
     val items = entity.gear.items.map {
       val (key, data) = it
@@ -106,8 +101,8 @@ class RaiderIoRepositoryImpl @Inject constructor() : RaiderIoRepository {
   }
 
   private fun List<MythicPlusDungeonWebEntity>.mapToScore(type: Int): Score {
-    val dungeon = this.firstOrNull { it.affixes.any { affix -> affix.id == type } }
-    return if (dungeon == null) {
+    val dungeon = this.firstOrNull { it.affixes.any { affix -> affix.id==type } }
+    return if (dungeon==null) {
       Score.empty(type)
     } else {
       Score(type, dungeon.score, dungeon.level, dungeon.upgrades, dungeon.clearTimeMs)

@@ -43,7 +43,7 @@ fun MythicPlusContent(state: MythicPlusState, changeOrder: (ListOrder) -> Unit) 
     MythicPlusTableHeader(state.order, changeOrder, state.dungeons)
     if (state.characterList.isNotEmpty()) {
       if (state.characterList.size > 1) {
-        CharacterMythicPlusSummaryRow(state.characterList.generateSummary(state.scoreTiers))
+        CharacterMythicPlusSummaryRow(state.characterList.generateSummary(state.scoreTiers, state.dungeons))
       }
       EmptyRow()
       state.characterList.forEach {
@@ -77,7 +77,7 @@ fun MythicPlusTableHeader(activeOrder: ListOrder, changeOrder: (ListOrder) -> Un
     OrderButton(ListOrder.Runs, activeOrder, changeOrder)
     OrderButton(ListOrder.Class, activeOrder, changeOrder)
     OrderButton(ListOrder.Score, activeOrder, changeOrder)
-    repeat(Constants.Dungeons.size) {
+    repeat(dungeons.size) {
       AffixIcon(Constants.Icons.FORTIFIED_URL, "fortified")
       AffixIcon(Constants.Icons.TYRANNICAL_URL, "tyrannical")
     }

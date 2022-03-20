@@ -11,6 +11,8 @@ data class StaticDataWebEntity(
 @Serializable
 data class DungeonInfoWebEntity(
   val id: Int,
-  @SerialName("short_name") val shortName: String,
-  val slug: String
+  @SerialName("short_name")
+  val shortName: String,
+  @SerialName("slug")
+  val slug: String,
 )
