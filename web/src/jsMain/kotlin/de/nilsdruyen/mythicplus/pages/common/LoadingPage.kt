@@ -1,4 +1,4 @@
-package de.nilsdruyen.mythicplus.pages
+package de.nilsdruyen.mythicplus.pages.common
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.mythicplus.components.BattleNetLogo

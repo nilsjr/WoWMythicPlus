@@ -1,4 +1,4 @@
-package de.nilsdruyen.mythicplus.components.mythicplus
+package de.nilsdruyen.mythicplus.pages.mythicplus
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.mythicplus.character.models.Character

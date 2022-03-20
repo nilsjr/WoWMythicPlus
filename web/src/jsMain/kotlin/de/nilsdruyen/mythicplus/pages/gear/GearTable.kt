@@ -1,10 +1,9 @@
-package de.nilsdruyen.mythicplus.components.gear
+package de.nilsdruyen.mythicplus.pages.gear
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.mythicplus.character.enums.ItemSlot
 import de.nilsdruyen.mythicplus.character.models.Character
 import de.nilsdruyen.mythicplus.character.models.Item
-import de.nilsdruyen.mythicplus.character.models.WebViewModel
 import de.nilsdruyen.mythicplus.character.utils.Constants
 import de.nilsdruyen.mythicplus.extensions.colorForItemLvl
 import de.nilsdruyen.mythicplus.styles.ColorConst
@@ -25,13 +24,11 @@ import org.jetbrains.compose.web.dom.Th
 import org.jetbrains.compose.web.dom.Tr
 
 @Composable
-fun GearTable(viewModel: WebViewModel.GearOverview) {
-  Table({
-    classes(TableStyle.parent)
-  }) {
+fun GearTable(characterList: List<Character>) {
+  Table({ classes(TableStyle.parent) }) {
 //    GearTableHeader()
-    if (viewModel.characterList.isNotEmpty()) {
-      viewModel.characterList.forEach {
+    if (characterList.isNotEmpty()) {
+      characterList.forEach {
         CharacterGearRow(it)
       }
     }

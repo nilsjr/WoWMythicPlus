@@ -3,7 +3,7 @@ import androidx.compose.runtime.compositionLocalOf
 import de.nilsdruyen.mythicplus.character.CharacterUsecase
 import de.nilsdruyen.mythicplus.character.CharacterUsecaseImpl
 import de.nilsdruyen.mythicplus.character.RaiderIoRepositoryImpl
-import de.nilsdruyen.mythicplus.pages.MythicPlusWebPage
+import de.nilsdruyen.mythicplus.pages.WebPage
 import de.nilsdruyen.mythicplus.styles.AppStylesheet
 import kotlinx.browser.window
 import org.jetbrains.compose.web.css.Style
@@ -17,7 +17,7 @@ fun main() {
   renderComposable(rootElementId = "root") {
     Style(AppStylesheet)
     CompositionLocalProvider(LocalCharacterUsecase provides characterUsecase) {
-      MythicPlusWebPage()
+      WebPage()
     }
   }
 }
