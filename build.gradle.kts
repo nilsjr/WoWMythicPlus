@@ -47,12 +47,6 @@ subprojects {
       configureDetekt("src/main/kotlin")
     }
   }
-
-  tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-      jvmTarget = "11"
-    }
-  }
 }
 
 fun Project.configureDetekt(vararg paths: String) {
@@ -61,11 +55,12 @@ fun Project.configureDetekt(vararg paths: String) {
     toolVersion = version
     source = files(paths)
     parallel = true
-    config = files("$rootDir/detekt-config.yml")
+    config = files("$rootDir/config/detekt-config.yml")
     buildUponDefaultConfig = false
     ignoreFailures = false
   }
   tasks.withType<Detekt>().configureEach {
+    this.jvmTarget = "11"
     reports {
       xml {
         required.set(true)
