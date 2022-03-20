@@ -5,4 +5,5 @@ data class CharacterOverview(
   val currentAffixIds: List<Int> = emptyList(),
   val dungeons: List<Dungeon> = emptyList(),
   val scoreTiers: List<ScoreTier> = emptyList(),
+  val raid: Raid? = null,
 )

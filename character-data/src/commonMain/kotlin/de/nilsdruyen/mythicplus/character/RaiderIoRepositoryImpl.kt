@@ -11,9 +11,11 @@ import de.nilsdruyen.mythicplus.character.models.Character
 import de.nilsdruyen.mythicplus.character.models.DominationShard
 import de.nilsdruyen.mythicplus.character.models.Dungeon
 import de.nilsdruyen.mythicplus.character.models.DungeonScore
+import de.nilsdruyen.mythicplus.character.models.Encounter
 import de.nilsdruyen.mythicplus.character.models.Gear
 import de.nilsdruyen.mythicplus.character.models.InputCharacter
 import de.nilsdruyen.mythicplus.character.models.Item
+import de.nilsdruyen.mythicplus.character.models.Raid
 import de.nilsdruyen.mythicplus.character.models.Score
 import de.nilsdruyen.mythicplus.character.models.ScoreTier
 import de.nilsdruyen.mythicplus.character.utils.Constants
@@ -31,15 +33,15 @@ class RaiderIoRepositoryImpl @Inject constructor() : RaiderIoRepository {
     return charList.map { getCharacter(it, scoreTiers, currentPeriod, dungeons) }
   }
 
-  override suspend fun getCurrentAffixeIds(): List<Int> = RaiderIoApi.getCurrentAffixIds()
+  override suspend fun getCurrentAffixeIds(): List<Int> = RaiderIoApi.MythicPlus.getCurrentAffixIds()
 
   override suspend fun getDungeons(): List<Dungeon> {
-    return RaiderIoApi.getStaticData().dungeons
+    return RaiderIoApi.MythicPlus.getStaticData().dungeons
       .map { Dungeon(it.id, it.shortName, it.slug) }
       .sortedBy { it.slug }
   }
 
-  override suspend fun getScoreTiers(): List<ScoreTier> = RaiderIoApi.getScoreTiers()
+  override suspend fun getScoreTiers(): List<ScoreTier> = RaiderIoApi.MythicPlus.getScoreTiers()
 
   private suspend fun getCurrentPeriod(): LocalDateTime {
     val period = RaiderIoApi.getCurrentPeriod().periods.firstOrNull { it.region=="eu" }
@@ -106,6 +108,22 @@ class RaiderIoRepositoryImpl @Inject constructor() : RaiderIoRepository {
       Score.empty(type)
     } else {
       Score(type, dungeon.score, dungeon.level, dungeon.upgrades, dungeon.clearTimeMs)
+    }
+  }
+
+  override suspend fun getCurrentRaid(): Raid {
+    val raidEntity = RaiderIoApi.Raiding.getStaticData()
+    return with(raidEntity.raids.last()) {
+      Raid(
+        id = id,
+        slug = slug,
+        name = name,
+        shortName = shortName,
+        icon = icon,
+        encounters = encounters.map {
+          Encounter(id, slug, name)
+        }
+      )
     }
   }
 }

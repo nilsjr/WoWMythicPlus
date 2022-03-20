@@ -4,6 +4,7 @@ import de.nilsdruyen.mythicplus.character.entities.AffixesWebEntity
 import de.nilsdruyen.mythicplus.character.entities.PeriodWebEntity
 import de.nilsdruyen.mythicplus.character.entities.ProfileRequest
 import de.nilsdruyen.mythicplus.character.entities.ProfileWebEntity
+import de.nilsdruyen.mythicplus.character.entities.RaidStaticDataWebEntity
 import de.nilsdruyen.mythicplus.character.entities.ScoreTierWebEntity
 import de.nilsdruyen.mythicplus.character.entities.StaticDataWebEntity
 import de.nilsdruyen.mythicplus.character.models.ScoreTier
@@ -12,6 +13,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.BrowserUserAgent
 import io.ktor.client.plugins.ContentNegotiation
+import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
@@ -30,6 +32,7 @@ object RaiderIoApi {
     defaultRequest {
       url("https://raider.io/api/v1/")
     }
+    install(HttpCache)
     install(Logging) {
       logger = Logger.DEFAULT
       level = LogLevel.INFO
@@ -49,20 +52,30 @@ object RaiderIoApi {
     return client.get(ProfileRequest(realm, name, Constants.Api.Fields.all())).body()
   }
 
-  suspend fun getCurrentAffixIds(): List<Int> = client.get("mythic-plus/affixes") {
-    parameter("region", "eu")
-    parameter("locale", "en")
-  }.body<AffixesWebEntity>().details.map { it.id }
-
-  suspend fun getStaticData(): StaticDataWebEntity = client.get("mythic-plus/static-data") {
-    parameter("expansion_id", "8")
-  }.body()
-
-  suspend fun getScoreTiers(): List<ScoreTier> = client.get("mythic-plus/score-tiers")
-    .body<List<ScoreTierWebEntity>>()
-    .map {
-      ScoreTier(it.score, it.rgbHex)
-    }
-
   suspend fun getCurrentPeriod(): PeriodWebEntity = client.get("periods").body()
+
+  object MythicPlus {
+
+    suspend fun getCurrentAffixIds(): List<Int> = client.get("mythic-plus/affixes") {
+      parameter("region", "eu")
+      parameter("locale", "en")
+    }.body<AffixesWebEntity>().details.map { it.id }
+
+    suspend fun getStaticData(): StaticDataWebEntity = client.get("mythic-plus/static-data") {
+      parameter("expansion_id", "8")
+    }.body()
+
+    suspend fun getScoreTiers(): List<ScoreTier> = client.get("mythic-plus/score-tiers")
+      .body<List<ScoreTierWebEntity>>()
+      .map {
+        ScoreTier(it.score, it.rgbHex)
+      }
+  }
+
+  object Raiding {
+
+    suspend fun getStaticData(): RaidStaticDataWebEntity = client.get("raiding/static-data") {
+      parameter("expansion_id", "8")
+    }.body()
+  }
 }

@@ -95,7 +95,7 @@ fun PageWithArguments(arguments: PageState.PageArguments, page: MutableState<Pag
     val overview = state.value.characterOverview
     when (page.value) {
       Page.MythicPlus -> MythicPlusPage(overview)
-      Page.Raid -> RaidPage()
+      Page.Raid -> RaidPage(overview)
       Page.Gear -> GearTable(overview.characterList)
     }
   }

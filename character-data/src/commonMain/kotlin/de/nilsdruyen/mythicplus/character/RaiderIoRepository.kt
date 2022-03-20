@@ -3,6 +3,7 @@ package de.nilsdruyen.mythicplus.character
 import de.nilsdruyen.mythicplus.character.models.Character
 import de.nilsdruyen.mythicplus.character.models.Dungeon
 import de.nilsdruyen.mythicplus.character.models.InputCharacter
+import de.nilsdruyen.mythicplus.character.models.Raid
 import de.nilsdruyen.mythicplus.character.models.ScoreTier
 
 interface RaiderIoRepository {
@@ -14,4 +15,6 @@ interface RaiderIoRepository {
   suspend fun getDungeons(): List<Dungeon>
 
   suspend fun getScoreTiers(): List<ScoreTier>
+
+  suspend fun getCurrentRaid(): Raid
 }

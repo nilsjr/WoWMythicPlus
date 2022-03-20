@@ -18,13 +18,15 @@ object Constants {
       private const val RECENT_RUNS = "mythic_plus_recent_runs"
       private const val SCORES_BY_SEASON = "mythic_plus_scores_by_season:current"
       private const val GEAR = "gear"
+      private const val RAID_PROGRESS = "raid_progression"
 
       fun all() = listOf(
         BEST_RUNS,
         ALT_RUNS,
         RECENT_RUNS,
         SCORES_BY_SEASON,
-        GEAR
+        GEAR,
+        RAID_PROGRESS,
       ).joinToString(",")
     }
   }
