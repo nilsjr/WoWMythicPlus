@@ -114,28 +114,27 @@ fun Menu(isVisible: Boolean, currentPage: Page, onMenuItemClick: (Page) -> Unit)
     classes(AppStylesheet.pageMenu)
   }) {
     if (isVisible) {
-      Button(
-        attrs = {
-          classes(if (currentPage==Page.MythicPlus) ButtonStyle.buttonActive else ButtonStyle.button)
-          onClick {
-            onMenuItemClick(Page.MythicPlus)
-          }
-        }
-      ) {
-        Text("Mythic+ Scores")
+      MenuButton(Page.MythicPlus, currentPage==Page.MythicPlus) {
+        onMenuItemClick(Page.MythicPlus)
       }
-      Button(
-        attrs = {
-          classes(if (currentPage==Page.Gear) ButtonStyle.buttonActive else ButtonStyle.button)
-          onClick {
-            onMenuItemClick(Page.Gear)
-          }
-        }
-      ) {
-        Text("Character gear")
+      MenuButton(Page.Raid, currentPage==Page.Raid) {
+        onMenuItemClick(Page.Raid)
+      }
+      MenuButton(Page.Gear, currentPage==Page.Gear) {
+        onMenuItemClick(Page.Gear)
       }
     }
   }
+}
+
+@Composable
+fun MenuButton(page: Page, isActive: Boolean, onMenuItemClick: () -> Unit) {
+  Button(
+    attrs = {
+      classes(if (isActive) ButtonStyle.buttonActive else ButtonStyle.button)
+      onClick { onMenuItemClick() }
+    }
+  ) { Text(page.title()) }
 }
 
 @Composable

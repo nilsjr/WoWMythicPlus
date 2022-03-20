@@ -27,3 +27,9 @@ fun String?.jumpTo(): Page {
     else -> Page.MythicPlus
   }
 }
+
+fun Page.title() = when (this) {
+  Page.MythicPlus -> "Mythic+ Scores"
+  Page.Raid -> "Raid Progression"
+  Page.Gear -> "Character gear"
+}
