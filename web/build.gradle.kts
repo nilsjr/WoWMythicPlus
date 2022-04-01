@@ -1,6 +1,5 @@
 import de.nilsdruyen.gradle.ftp.UploadExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
   kotlin("multiplatform")

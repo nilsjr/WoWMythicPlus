@@ -72,7 +72,7 @@ fun CharacterMythicPlusSummaryRow(character: CharacterSummary) {
   Tr {
     Td({
       classes(TextStyle.title)
-      colspan(NAME_SPAN)
+      colspan((NAME_SPAN - 1))
     }) { Text("best of") }
 
     Td({
