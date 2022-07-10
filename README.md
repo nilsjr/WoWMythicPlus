@@ -33,5 +33,8 @@ This website is available under: https://wow.nilsdruyen.de
 - sort option
 
 ## app
+
 - add character
 - room, logging, mvi architecture
+
+# deployment

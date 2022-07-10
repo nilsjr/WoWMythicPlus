@@ -1,7 +1,7 @@
 plugins {
   kotlin("multiplatform")
   kotlin("plugin.serialization")
-//  id(Plugins.Android.library)
+  id("de.nilsdruyen.mythicplus.plugin.detekt")
 }
 
 kotlin {

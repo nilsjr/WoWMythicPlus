@@ -1,11 +1,14 @@
 import de.nilsdruyen.gradle.ftp.UploadExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 
 plugins {
   kotlin("multiplatform")
   id("org.jetbrains.compose")
   id("de.nilsdruyen.gradle-ftp-upload-plugin")
   id("com.github.gmazzo.buildconfig")
+  id("de.nilsdruyen.mythicplus.plugin.detekt")
 }
 
 kotlin {
@@ -27,10 +30,19 @@ kotlin {
   }
 }
 
-afterEvaluate {
-  rootProject.extensions.configure<NodeJsRootExtension> {
-    versions.webpackDevServer.version = "4.0.0"
-    versions.webpackCli.version = "4.9.0"
+rootProject.plugins.withType<YarnPlugin> {
+  rootProject.the<YarnRootExtension>().apply {
+    lockFileDirectory = project.rootDir.resolve("kotlin-js-store")
+    resolution("async", "2.6.4")
+    resolution("minimist", "1.2.6")
+    resolution("eventsource", "1.1.1")
+  }
+  rootProject.the<NodeJsRootExtension>().apply {
+    versions.webpackDevServer.version = "4.9.3"
+    versions.webpack.version = "5.73.0"
+    versions.webpackCli.version = "4.10.0"
+    versions.karma.version = "6.4.0"
+    versions.mocha.version = "10.0.0"
   }
 }
 
