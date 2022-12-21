@@ -40,7 +40,7 @@ class RaiderIoRepositoryImpl @Inject constructor(
 
   override suspend fun getDungeons(): List<Dungeon> {
     return client.getStaticData().seasons
-      .first { it.slug=="season-df-1" }.dungeons
+      .first { it.slug == "season-df-1" }.dungeons
       .map { Dungeon(it.id, it.shortName, it.slug) }
       .sortedBy { it.slug }
   }
@@ -48,7 +48,7 @@ class RaiderIoRepositoryImpl @Inject constructor(
   override suspend fun getScoreTiers(): List<ScoreTier> = client.getScoreTiers()
 
   private suspend fun getCurrentPeriod(): LocalDateTime {
-    val period = client.getCurrentPeriod().periods.firstOrNull { it.region=="eu" }
+    val period = client.getCurrentPeriod().periods.firstOrNull { it.region == "eu" }
     val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
     return period?.let {
       listOf(it.previous, it.current, it.next).first { item -> item.isCurrentWeek(now) }.startDate
@@ -65,7 +65,7 @@ class RaiderIoRepositoryImpl @Inject constructor(
     val charScore = entity.scoreBySeason.first().scores.all
     val allRuns = entity.bestRuns + entity.altRuns
     val list = dungeons.map { dungeon ->
-      val filteredDungeons = allRuns.filter { it.shortName==dungeon.shortName }
+      val filteredDungeons = allRuns.filter { it.shortName == dungeon.shortName }
       val tyrannical = filteredDungeons.filterForAffix(Constants.TYRANNICAL)
       val fortified = filteredDungeons.filterForAffix(Constants.FORTIFIED)
       DungeonScore(dungeon.shortName, dungeon.slug, tyrannical, fortified)
@@ -109,7 +109,7 @@ class RaiderIoRepositoryImpl @Inject constructor(
 
   private fun List<MythicPlusDungeonWebEntity>.filterForAffix(affixId: Int): Score {
     val dungeon = firstOrNull { it.affixes.map { affix -> affix.id }.contains(affixId) }
-    return if (dungeon==null) {
+    return if (dungeon == null) {
       println("dungeon affix not found $affixId")
       Score.empty(affixId)
     } else {
@@ -133,4 +133,3 @@ class RaiderIoRepositoryImpl @Inject constructor(
     }
   }
 }
-

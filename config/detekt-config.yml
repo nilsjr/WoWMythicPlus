@@ -11,19 +11,6 @@ exceptions:
   TooGenericExceptionCaught:
     active: false
 
-formatting:
-  android: true
-  ImportOrdering:
-    active: true
-  Indentation:
-    active: false
-  FinalNewline:
-    insertFinalNewLine: false
-  PackageName:
-    active: false
-  ParameterListWrapping:
-    indentSize: 2
-
 naming:
   ConstructorParameterNaming:
     excludeClassPattern: '.*Entity$'

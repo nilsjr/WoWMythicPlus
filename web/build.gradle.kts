@@ -8,6 +8,7 @@ plugins {
   id("org.jetbrains.compose")
   id("de.nilsdruyen.gradle-ftp-upload-plugin")
   id("com.github.gmazzo.buildconfig")
+  id("de.nilsdruyen.mythicplus.plugin.kotlin")
   id("de.nilsdruyen.mythicplus.plugin.detekt")
 }
 

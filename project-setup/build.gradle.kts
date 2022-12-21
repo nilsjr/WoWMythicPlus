@@ -14,6 +14,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 }
 
 dependencies {
+  implementation(libs.kotlin.plugin)
   implementation(libs.detekt.plugin)
 }
 
@@ -22,6 +23,10 @@ gradlePlugin {
     val detektPlugin by registering {
       id = "de.nilsdruyen.mythicplus.plugin.detekt"
       implementationClass = "de.nilsdruyen.mythicplus.plugins.DetektConventionPlugin"
+    }
+    val kotlinConventionPlugin by registering {
+      id = "de.nilsdruyen.mythicplus.plugin.kotlin"
+      implementationClass = "de.nilsdruyen.mythicplus.plugins.KotlinConventionPlugin"
     }
   }
 }

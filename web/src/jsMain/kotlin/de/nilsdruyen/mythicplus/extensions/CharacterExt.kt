@@ -14,7 +14,7 @@ import kotlin.math.roundToInt
 
 fun Item.colorForItemLvl(): String = when {
   isLegendary -> ColorConst.Gear.ORANGE
-  level > 184 -> if (level==230) ColorConst.Gear.BLUE else ColorConst.Gear.PURPLE
+  level > 184 -> if (level == 230) ColorConst.Gear.BLUE else ColorConst.Gear.PURPLE
   level > 130 -> ColorConst.Gear.BLUE
   else -> ColorConst.Gear.GREEN
 }
@@ -22,7 +22,7 @@ fun Item.colorForItemLvl(): String = when {
 fun List<Character>.generateSummary(scoreTiers: List<ScoreTier>, dungeons: List<Dungeon>): CharacterSummary {
   val dungeonSummary = dungeons.map { dungeon ->
     this.map { char ->
-      char.dungeons.first { it.shortName==dungeon.shortName }
+      char.dungeons.first { it.shortName == dungeon.shortName }
     } to dungeon
   }.map { scorePair ->
     val (scores, dungeon) = scorePair

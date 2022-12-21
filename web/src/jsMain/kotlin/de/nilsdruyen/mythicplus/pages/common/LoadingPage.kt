@@ -6,9 +6,7 @@ import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.alignItems
 import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.height
-import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.percent
-import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Div
 
 @Composable

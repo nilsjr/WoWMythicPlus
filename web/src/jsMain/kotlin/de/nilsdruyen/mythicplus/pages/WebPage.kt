@@ -114,13 +114,13 @@ fun Menu(isVisible: Boolean, currentPage: Page, onMenuItemClick: (Page) -> Unit)
     classes(AppStylesheet.pageMenu)
   }) {
     if (isVisible) {
-      MenuButton(Page.MythicPlus, currentPage==Page.MythicPlus) {
+      MenuButton(Page.MythicPlus, currentPage == Page.MythicPlus) {
         onMenuItemClick(Page.MythicPlus)
       }
-      MenuButton(Page.Raid, currentPage==Page.Raid) {
+      MenuButton(Page.Raid, currentPage == Page.Raid) {
         onMenuItemClick(Page.Raid)
       }
-      MenuButton(Page.Gear, currentPage==Page.Gear) {
+      MenuButton(Page.Gear, currentPage == Page.Gear) {
         onMenuItemClick(Page.Gear)
       }
     }

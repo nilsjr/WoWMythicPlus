@@ -1,6 +1,7 @@
 plugins {
   kotlin("multiplatform")
   kotlin("plugin.serialization")
+  id("de.nilsdruyen.mythicplus.plugin.kotlin")
   id("de.nilsdruyen.mythicplus.plugin.detekt")
 }
 
@@ -40,7 +41,7 @@ kotlin {
   }
 }
 
-//android {
+// android {
 //  compileSdk = Versions.androidCompileSdk
 //  defaultConfig.minSdk = Versions.androidMinSdk
 //  sourceSets.getByName("main") {
@@ -58,4 +59,4 @@ kotlin {
 //    sourceCompatibility = JavaVersion.VERSION_11
 //    targetCompatibility = JavaVersion.VERSION_11
 //  }
-//}
+// }

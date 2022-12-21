@@ -26,7 +26,7 @@ class CharacterTransformerImpl : CharacterTransformer {
   override fun toEntity(model: Character): CharacterEntity {
     return with(model) {
       CharacterEntity(
-        uuid = "${name}_${realm}",
+        uuid = "${name}_$realm",
         name = name,
         realm = realm,
         wowClass = specialization.wowClass,
@@ -59,7 +59,9 @@ class CharacterTransformerImpl : CharacterTransformer {
 
   private fun fromGear(model: Gear): GearEntity {
     return with(model) {
-      GearEntity(itemLevel, items.map {
+      GearEntity(
+          itemLevel,
+          items.map {
         ItemEntity(
           it.id,
           it.slot,
@@ -75,13 +77,16 @@ class CharacterTransformerImpl : CharacterTransformer {
           it.gems,
           it.bonuses
         )
-      })
+      }
+      )
     }
   }
 
   private fun toGear(entity: GearEntity): Gear {
     return with(entity) {
-      Gear(itemLevel, items.map {
+      Gear(
+          itemLevel,
+          items.map {
         Item(
           it.id,
           it.slot,
@@ -97,7 +102,8 @@ class CharacterTransformerImpl : CharacterTransformer {
           it.gems,
           it.bonuses
         )
-      })
+      }
+      )
     }
   }
 

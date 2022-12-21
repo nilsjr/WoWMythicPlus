@@ -12,7 +12,9 @@ fun String.convertToCharacterList(realm: String): List<InputCharacter> {
     }.map {
       InputCharacter(it, realm)
     }
-  } else throw InvalidArgumentsException
+  } else {
+      throw InvalidArgumentsException
+  }
 }
 
 fun String.convertToCharacterList(): List<InputCharacter> {
@@ -28,12 +30,16 @@ fun String.convertToCharacterList(): List<InputCharacter> {
     } catch (e: Throwable) {
       throw InvalidArgumentsException
     }
-  } else emptyList()
+  } else {
+      emptyList()
+  }
 }
 
 fun convertToCharacter(charRaw: String): InputCharacter {
   return if (charRaw.contains(":")) {
     val splittedChar = charRaw.split(":", limit = 2)
     InputCharacter(splittedChar[0], splittedChar[1])
-  } else throw InvalidArgumentsException
+  } else {
+      throw InvalidArgumentsException
+  }
 }

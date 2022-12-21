@@ -63,7 +63,6 @@ object AppStylesheet : StyleSheet() {
   }
 
   val pageContent by style {
-
   }
 
   val pageFooter by style {
@@ -146,7 +145,6 @@ object TextStyle : StyleSheet(AppStylesheet) {
     hover(self) style {
       opacity(1)
     }
-
   }
 
   val itemLevel by style {

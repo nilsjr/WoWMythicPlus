@@ -1,7 +1,6 @@
 package de.nilsdruyen.mythicplus.character.entities
 
 import de.nilsdruyen.mythicplus.character.enums.Role
-import de.nilsdruyen.mythicplus.character.enums.WoWClass
 import io.ktor.resources.Resource
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -85,4 +84,3 @@ data class SeasonWebEntity(
 data class SeasonScoreWebEntity(
   val all: Double
 )
-

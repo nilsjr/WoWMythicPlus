@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   alias(libs.plugins.kotlin.multiplatform) apply false
@@ -13,16 +11,3 @@ plugins {
 
 group = "de.nilsdruyen"
 version = "0.2.2"
-
-subprojects {
-  tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-      val arguments = listOf(
-        "-progressive",
-        "-Xopt-in=kotlin.RequiresOptIn"
-      )
-      freeCompilerArgs = freeCompilerArgs + arguments
-      jvmTarget = "11"
-    }
-  }
-}

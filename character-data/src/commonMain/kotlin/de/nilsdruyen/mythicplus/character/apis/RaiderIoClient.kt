@@ -25,11 +25,13 @@ object RaiderIoClient {
       level = LogLevel.INFO
     }
     install(ContentNegotiation) {
-      json(Json {
+      json(
+          Json {
         prettyPrint = true
         isLenient = true
         ignoreUnknownKeys = true
-      })
+      }
+      )
     }
     install(Resources)
     BrowserUserAgent()

@@ -34,12 +34,14 @@ class MythicPlusViewModel constructor(
   }
 
   private fun sortCharacters(sortBy: ListOrder) {
-    _state.value = state.value.copy(characterList = when (sortBy) {
+    _state.value = state.value.copy(
+        characterList = when (sortBy) {
       ListOrder.Name -> state.value.characterList.sortedBy(Character::name)
       ListOrder.Runs -> state.value.characterList.sortedByDescending(Character::completedKeysThisWeek)
       ListOrder.Class -> state.value.characterList.sortedBy { it.specialization.wowClass.name }
       ListOrder.Score -> state.value.characterList.sortedByDescending(Character::score)
-    })
+    }
+    )
   }
 }
 

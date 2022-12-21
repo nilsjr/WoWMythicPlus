@@ -23,5 +23,5 @@ data class MythicPlusState(
 
 sealed class MythicPlusIntent {
 
-  data class Reorder(val order: ListOrder): MythicPlusIntent()
+  data class Reorder(val order: ListOrder) : MythicPlusIntent()
 }

@@ -56,7 +56,7 @@ fun WoWClass.getSpec(specializationRaw: String): Specialization {
     WoWClass.WARLOCK -> listOf(Affliction, Demonology, Destruction)
     WoWClass.WARRIOR -> listOf(WarriorSpec.Protection, Fury, Arms)
     WoWClass.UNKNOWN -> emptyList()
-  }.firstOrNull { it.name==specializationRaw.lowercase() } ?: Blood
+  }.firstOrNull { it.name == specializationRaw.lowercase() } ?: Blood
 }
 
 fun String.map(): WoWClass = when (this) {

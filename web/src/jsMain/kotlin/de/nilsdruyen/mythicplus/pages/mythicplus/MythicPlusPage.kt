@@ -97,7 +97,7 @@ fun OrderButton(order: ListOrder, activeOrderButton: ListOrder, changeOrder: (Li
   Th {
     Button(
       attrs = {
-        classes(if (order==activeOrderButton) ButtonStyle.orderActive else ButtonStyle.order)
+        classes(if (order == activeOrderButton) ButtonStyle.orderActive else ButtonStyle.order)
         onClick { changeOrder(order) }
       }
     ) {
