@@ -75,10 +75,13 @@ fun ItemCell(item: Item) {
       background(item.colorForItemLvl())
     }
   }) {
-    A(href = "https://www.wowhead.com/item=${item.id}", {
-      attr("rel", "gems=${item.formattedGems}&bonus=${item.formattedBonus}&ilvl=${item.level}")
-      target(ATarget.Blank)
-    }) {
+    A(
+      href = "https://www.wowhead.com/item=${item.id}",
+      attrs = {
+        attr("rel", "gems=${item.formattedGems}&bonus=${item.formattedBonus}&ilvl=${item.level}")
+        target(ATarget.Blank)
+      }
+    ) {
       Img(Constants.Icons.gearIcon(item.icon), item.name) {
         classes(ImageStyle.item)
       }

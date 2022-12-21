@@ -26,9 +26,3 @@ subprojects {
     }
   }
 }
-
-// On Apple Silicon we need Node.js 16.0.0
-// https://youtrack.jetbrains.com/issue/KT-49109
-//rootProject.plugins.withType(NodeJsRootPlugin::class) {
-//  rootProject.the(NodeJsRootExtension::class).nodeVersion = "16.0.0"
-//}
