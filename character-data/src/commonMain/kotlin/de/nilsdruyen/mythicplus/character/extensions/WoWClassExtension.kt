@@ -11,6 +11,7 @@ import de.nilsdruyen.mythicplus.character.enums.Brewmaster
 import de.nilsdruyen.mythicplus.character.enums.DeathKnightSpec
 import de.nilsdruyen.mythicplus.character.enums.Demonology
 import de.nilsdruyen.mythicplus.character.enums.Destruction
+import de.nilsdruyen.mythicplus.character.enums.Devastation
 import de.nilsdruyen.mythicplus.character.enums.Discipline
 import de.nilsdruyen.mythicplus.character.enums.DruidSpec
 import de.nilsdruyen.mythicplus.character.enums.Elemental
@@ -25,6 +26,7 @@ import de.nilsdruyen.mythicplus.character.enums.Marksmanship
 import de.nilsdruyen.mythicplus.character.enums.Mistweaver
 import de.nilsdruyen.mythicplus.character.enums.Outlaw
 import de.nilsdruyen.mythicplus.character.enums.PaladinSpec
+import de.nilsdruyen.mythicplus.character.enums.Preservation
 import de.nilsdruyen.mythicplus.character.enums.PriestSpec
 import de.nilsdruyen.mythicplus.character.enums.Retribution
 import de.nilsdruyen.mythicplus.character.enums.Shadow
@@ -43,6 +45,7 @@ fun WoWClass.getSpec(specializationRaw: String): Specialization {
     WoWClass.DEATH_KNIGHT -> listOf(DeathKnightSpec.Frost, Blood, Unholy)
     WoWClass.DEMON_HUNTER -> listOf(Havoc, Vengeance)
     WoWClass.DRUID -> listOf(DruidSpec.Restoration, Balance, Feral, Guardian)
+    WoWClass.EVOKER -> listOf(Preservation, Devastation)
     WoWClass.HUNTER -> listOf(BeastMastery, Marksmanship, Survival)
     WoWClass.MAGE -> listOf(MageSpec.Frost, Fire, Arcane)
     WoWClass.MONK -> listOf(Brewmaster, Mistweaver, Windwalker)
@@ -52,5 +55,23 @@ fun WoWClass.getSpec(specializationRaw: String): Specialization {
     WoWClass.SHAMAN -> listOf(ShamanSpec.Restoration, Elemental, Enhancement)
     WoWClass.WARLOCK -> listOf(Affliction, Demonology, Destruction)
     WoWClass.WARRIOR -> listOf(WarriorSpec.Protection, Fury, Arms)
-  }.firstOrNull { it.name == specializationRaw.lowercase() } ?: Blood
+    WoWClass.UNKNOWN -> emptyList()
+  }.firstOrNull { it.name==specializationRaw.lowercase() } ?: Blood
+}
+
+fun String.map(): WoWClass = when (this) {
+  "Death Knight" -> WoWClass.DEATH_KNIGHT
+  "Demon Hunter" -> WoWClass.DEMON_HUNTER
+  "Druid" -> WoWClass.DRUID
+  "Evoker" -> WoWClass.EVOKER
+  "Hunter" -> WoWClass.HUNTER
+  "Mage" -> WoWClass.MAGE
+  "Monk" -> WoWClass.MONK
+  "Paladin" -> WoWClass.PALADIN
+  "Priest" -> WoWClass.PRIEST
+  "Rogue" -> WoWClass.ROGUE
+  "Shaman" -> WoWClass.SHAMAN
+  "Warlock" -> WoWClass.WARLOCK
+  "Warrior" -> WoWClass.WARRIOR
+  else -> WoWClass.UNKNOWN
 }

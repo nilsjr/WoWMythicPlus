@@ -50,7 +50,7 @@ rootProject.plugins.withType<YarnPlugin> {
 buildConfig {
   useKotlinOutput()
   packageName("de.nilsdruyen.mythicplus")
-  buildConfigField("String", "VERSION", "\"${project.version}\"")
+  buildConfigField("String", "VERSION", "\"${rootProject.version}\"")
 }
 
 configure<UploadExtension> {

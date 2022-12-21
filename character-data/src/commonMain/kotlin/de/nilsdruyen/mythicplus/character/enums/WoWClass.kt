@@ -1,45 +1,20 @@
 package de.nilsdruyen.mythicplus.character.enums
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-
-@Serializable
 enum class WoWClass {
-  @SerialName("Death Knight")
   DEATH_KNIGHT,
-
-  @SerialName("Demon Hunter")
   DEMON_HUNTER,
-
-  @SerialName("Druid")
   DRUID,
-
-  @SerialName("Hunter")
+  EVOKER,
   HUNTER,
-
-  @SerialName("Mage")
   MAGE,
-
-  @SerialName("Monk")
   MONK,
-
-  @SerialName("Paladin")
   PALADIN,
-
-  @SerialName("Priest")
   PRIEST,
-
-  @SerialName("Rouge")
   ROGUE,
-
-  @SerialName("Shaman")
   SHAMAN,
-
-  @SerialName("Warlock")
   WARLOCK,
-
-  @SerialName("Warrior")
   WARRIOR,
+  UNKNOWN,
 }
 
 sealed class Specialization(
@@ -62,6 +37,10 @@ object Unholy : DeathKnightSpec("unholy", Role.DPS)
 sealed class DemonHunterSpec(name: String, role: Role) : Specialization(name, role, WoWClass.DEMON_HUNTER)
 object Havoc : DemonHunterSpec("havoc", Role.DPS)
 object Vengeance : DemonHunterSpec("vengeance", Role.TANK)
+
+sealed class EvokerSpec(name: String, role: Role) : Specialization(name, role, WoWClass.EVOKER)
+object Preservation : EvokerSpec("preservation", Role.HEALER)
+object Devastation : EvokerSpec("devastation", Role.DPS)
 
 sealed class DruidSpec(name: String, role: Role) : Specialization(name, role, WoWClass.DRUID) {
 

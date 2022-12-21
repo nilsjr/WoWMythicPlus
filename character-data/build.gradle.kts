@@ -32,7 +32,11 @@ kotlin {
 //        implementation(Deps.Android.roomKtx)
 //      }
 //    }
-    val jsMain by getting
+    val jsMain by getting {
+      dependencies {
+        implementation(libs.ktor.client.js)
+      }
+    }
   }
 }
 

@@ -7,6 +7,7 @@ import de.nilsdruyen.mythicplus.character.enums.ItemSlot
 import de.nilsdruyen.mythicplus.character.enums.toSlot
 import de.nilsdruyen.mythicplus.character.extensions.getColorForScore
 import de.nilsdruyen.mythicplus.character.extensions.getSpec
+import de.nilsdruyen.mythicplus.character.extensions.map
 import de.nilsdruyen.mythicplus.character.models.Character
 import de.nilsdruyen.mythicplus.character.models.DominationShard
 import de.nilsdruyen.mythicplus.character.models.Dungeon
@@ -25,7 +26,9 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
-class RaiderIoRepositoryImpl @Inject constructor() : RaiderIoRepository {
+class RaiderIoRepositoryImpl @Inject constructor(
+  private val client: RaiderIoApi
+) : RaiderIoRepository {
 
   override suspend fun getCharacterList(charList: List<InputCharacter>, dungeons: List<Dungeon>): List<Character> {
     val scoreTiers = getScoreTiers()
@@ -33,18 +36,19 @@ class RaiderIoRepositoryImpl @Inject constructor() : RaiderIoRepository {
     return charList.map { getCharacter(it, scoreTiers, currentPeriod, dungeons) }
   }
 
-  override suspend fun getCurrentAffixeIds(): List<Int> = RaiderIoApi.MythicPlus.getCurrentAffixIds()
+  override suspend fun getCurrentAffixeIds(): List<Int> = client.getCurrentAffixIds()
 
   override suspend fun getDungeons(): List<Dungeon> {
-    return RaiderIoApi.MythicPlus.getStaticData().dungeons
+    return client.getStaticData().seasons
+      .first { it.slug=="season-df-1" }.dungeons
       .map { Dungeon(it.id, it.shortName, it.slug) }
       .sortedBy { it.slug }
   }
 
-  override suspend fun getScoreTiers(): List<ScoreTier> = RaiderIoApi.MythicPlus.getScoreTiers()
+  override suspend fun getScoreTiers(): List<ScoreTier> = client.getScoreTiers()
 
   private suspend fun getCurrentPeriod(): LocalDateTime {
-    val period = RaiderIoApi.getCurrentPeriod().periods.firstOrNull { it.region=="eu" }
+    val period = client.getCurrentPeriod().periods.firstOrNull { it.region=="eu" }
     val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
     return period?.let {
       listOf(it.previous, it.current, it.next).first { item -> item.isCurrentWeek(now) }.startDate
@@ -57,12 +61,13 @@ class RaiderIoRepositoryImpl @Inject constructor() : RaiderIoRepository {
     currentPeriod: LocalDateTime,
     dungeons: List<Dungeon>,
   ): Character {
-    val entity = RaiderIoApi.getCharacter(char.realm, char.name)
+    val entity = client.getCharacter(char.realm, char.name)
     val charScore = entity.scoreBySeason.first().scores.all
+    val allRuns = entity.bestRuns + entity.altRuns
     val list = dungeons.map { dungeon ->
-      val filteredDungeons = (entity.bestRuns + entity.altRuns).filter { it.shortName==dungeon.shortName }
-      val tyrannical = filteredDungeons.mapToScore(Constants.TYRANNICAL)
-      val fortified = filteredDungeons.mapToScore(Constants.FORTIFIED)
+      val filteredDungeons = allRuns.filter { it.shortName==dungeon.shortName }
+      val tyrannical = filteredDungeons.filterForAffix(Constants.TYRANNICAL)
+      val fortified = filteredDungeons.filterForAffix(Constants.FORTIFIED)
       DungeonScore(dungeon.shortName, dungeon.slug, tyrannical, fortified)
     }.sortedBy { it.slug }
 
@@ -92,7 +97,7 @@ class RaiderIoRepositoryImpl @Inject constructor() : RaiderIoRepository {
     return Character(
       name = entity.name,
       realm = entity.realm,
-      specialization = entity.clazz.getSpec(entity.spec),
+      specialization = entity.clazz.map().getSpec(entity.spec),
       profileUrl = entity.profileUrl,
       score = charScore,
       scoreColorHex = tiers.getColorForScore(charScore),
@@ -102,17 +107,18 @@ class RaiderIoRepositoryImpl @Inject constructor() : RaiderIoRepository {
     )
   }
 
-  private fun List<MythicPlusDungeonWebEntity>.mapToScore(type: Int): Score {
-    val dungeon = this.firstOrNull { it.affixes.any { affix -> affix.id==type } }
+  private fun List<MythicPlusDungeonWebEntity>.filterForAffix(affixId: Int): Score {
+    val dungeon = firstOrNull { it.affixes.map { affix -> affix.id }.contains(affixId) }
     return if (dungeon==null) {
-      Score.empty(type)
+      println("dungeon affix not found $affixId")
+      Score.empty(affixId)
     } else {
-      Score(type, dungeon.score, dungeon.level, dungeon.upgrades, dungeon.clearTimeMs)
+      Score(affixId, dungeon.score, dungeon.level, dungeon.upgrades, dungeon.clearTimeMs)
     }
   }
 
   override suspend fun getCurrentRaid(): Raid {
-    val raidEntity = RaiderIoApi.Raiding.getStaticData()
+    val raidEntity = client.getRaidStaticData()
     return with(raidEntity.raids.last()) {
       Raid(
         id = id,
@@ -127,3 +133,4 @@ class RaiderIoRepositoryImpl @Inject constructor() : RaiderIoRepository {
     }
   }
 }
+

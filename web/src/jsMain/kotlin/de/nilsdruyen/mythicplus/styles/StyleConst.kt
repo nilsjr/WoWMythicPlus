@@ -24,6 +24,7 @@ object ColorConst {
     const val DK = "#C41E3A"
     const val DH = "#A330C9"
     const val DR = "#FF7C0A"
+    const val EV = "#FF7C0A" // TODO: correct color
     const val HU = "#AAD372"
     const val MA = "#3FC7EB"
     const val MO = "#00FF98"

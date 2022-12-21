@@ -66,6 +66,18 @@ fun ArgumentStatusPage(title: String) {
       ) {
         Text("test it")
       }
+      Br { }
+      Br { }
+      Text("single realm: ${PageConst.PARAM_EXAMPLE_SINGLE_2}")
+      A(
+        attrs = {
+          classes(TextStyle.linkText)
+          target(ATarget.Self)
+        },
+        href = "$currentLocation${PageConst.PARAM_EXAMPLE_SINGLE_2}"
+      ) {
+        Text("test it")
+      }
     }
   }
 }
