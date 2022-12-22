@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 enum class Role {
   TANK,
+
   @SerialName("HEALING")
   HEALER,
   DPS
