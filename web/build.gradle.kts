@@ -31,6 +31,11 @@ kotlin {
   }
 }
 
+val compilerVersion = libs.versions.composeCompiler.get()
+compose {
+  kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:$compilerVersion")
+}
+
 rootProject.plugins.withType<YarnPlugin> {
   rootProject.the<YarnRootExtension>().apply {
     lockFileDirectory = project.rootDir.resolve("kotlin-js-store")
@@ -40,9 +45,9 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("loader-utils", "2.0.3")
   }
   rootProject.the<NodeJsRootExtension>().apply {
-    versions.webpackDevServer.version = "4.9.3"
-    versions.webpack.version = "5.73.0"
-    versions.webpackCli.version = "4.10.0"
+    versions.webpackDevServer.version = "4.12.0"
+    versions.webpack.version = "5.76.0"
+    versions.webpackCli.version = "5.0.1"
     versions.karma.version = "6.4.0"
     versions.mocha.version = "10.0.0"
   }
