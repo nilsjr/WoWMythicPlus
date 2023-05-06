@@ -8,7 +8,7 @@ ktor = "2.3.0"
 serialization = "1.5.0"
 detekt = "1.22.0"
 html = "0.7.3"
-buildKonfig = "4.0.2"
+buildKonfig = "4.0.4"
 ftpUpload = "0.4.0"
 
 [libraries]
