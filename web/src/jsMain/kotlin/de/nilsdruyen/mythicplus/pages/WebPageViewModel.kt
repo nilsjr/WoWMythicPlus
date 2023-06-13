@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
-class WebPageViewModel constructor(
+class WebPageViewModel(
   private val coroutineScope: CoroutineScope,
   private val characterUsecase: CharacterUsecase
 ) {

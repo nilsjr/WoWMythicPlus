@@ -17,6 +17,7 @@ val currentLocation = "${window.location.protocol}//${window.location.host}"
 fun main() {
   val api = RaiderIoApiImpl(RaiderIoClient.build())
   val characterUseCase: CharacterUsecase = CharacterUsecaseImpl(RaiderIoRepositoryImpl(api))
+
   renderComposable(rootElementId = "root") {
     Style(AppStylesheet)
     CompositionLocalProvider(LocalCharacterUsecase provides characterUseCase) {
