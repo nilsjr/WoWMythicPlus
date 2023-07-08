@@ -1,15 +1,15 @@
 [versions]
-kotlin = "1.8.21"
-coroutines = "1.7.1"
-jetbrainsCompose = "1.4.0"
+buildKonfig = "4.1.1"
 composeCompiler = "1.4.7"
-gradleVersionsPlugin = "0.47.0"
-ktor = "2.3.1"
-serialization = "1.5.0"
+coroutines = "1.7.2"
 detekt = "1.23.0"
-html = "0.7.3"
-buildKonfig = "4.0.4"
 ftpUpload = "0.4.0"
+gradleVersionsPlugin = "0.47.0"
+html = "0.7.3"
+jetbrainsCompose = "1.4.1"
+kotlin = "1.8.21"
+ktor = "2.3.2"
+serialization = "1.5.0"
 
 [libraries]
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -17,12 +17,12 @@ datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 detekt-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 ktorClientCio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktorClientContentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktorClientCore = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktorClientLogging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktorClientRes = { module = "io.ktor:ktor-client-resources", version.ref = "ktor" }
-ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 ktorSerialJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "serialization" }
 serializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }

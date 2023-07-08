@@ -20,8 +20,8 @@ kotlin {
   sourceSets {
     val jsMain by getting {
       dependencies {
-        implementation(compose.web.core)
         implementation(compose.runtime)
+        implementation(compose.html.core)
 
         implementation(libs.coroutines)
 
@@ -31,7 +31,7 @@ kotlin {
   }
 }
 
-val compilerVersion = libs.versions.composeCompiler.get()
+val compilerVersion: String = libs.versions.composeCompiler.get()
 compose {
   kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:$compilerVersion")
 }
