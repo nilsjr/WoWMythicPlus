@@ -1,5 +1,5 @@
 [versions]
-buildKonfig = "4.1.1"
+buildKonfig = "4.1.2"
 composeCompiler = "1.4.7"
 coroutines = "1.7.2"
 detekt = "1.23.0"
