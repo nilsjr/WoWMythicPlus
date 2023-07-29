@@ -26,14 +26,12 @@ kotlin {
         implementation(libs.coroutines)
 
         implementation(projects.characterData)
+
+        implementation(libs.ktorClientCore)
+        implementation(libs.ktor.client.js)
       }
     }
   }
-}
-
-val compilerVersion: String = libs.versions.composeCompiler.get()
-compose {
-  kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:$compilerVersion")
 }
 
 rootProject.plugins.withType<YarnPlugin> {
