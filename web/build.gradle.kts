@@ -62,7 +62,7 @@ configure<UploadExtension> {
   port = properties.getOrDefault("ftp.port", 22).toString().toInt()
   username = properties.getOrDefault("ftp.username", "").toString()
   password = properties.getOrDefault("ftp.password", "").toString()
-  sourceDir = "${project.buildDir}/distributions"
+  sourceDir = "${project.layout.buildDirectory}/distributions"
   targetDir = "/html/wowmythicplus"
 }
 
