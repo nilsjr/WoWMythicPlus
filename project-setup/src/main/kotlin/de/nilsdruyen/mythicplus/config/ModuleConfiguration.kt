@@ -14,7 +14,7 @@ internal fun Project.configure() {
   tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
       jvmTarget = JavaVersion.VERSION_11.toString()
-      languageVersion = "1.8"
+      languageVersion = "1.9"
       freeCompilerArgs = freeCompilerArgs + listOfNotNull(
         "-progressive", // https://kotlinlang.org/docs/whatsnew13.html#progressive-mode
         "-Xcontext-receivers",

@@ -34,6 +34,11 @@ kotlin {
   }
 }
 
+val compilerVersion: String = libs.versions.jetbrainsComposeCompiler.get()
+compose {
+  kotlinCompilerPlugin.set(compilerVersion)
+}
+
 rootProject.plugins.withType<YarnPlugin> {
   rootProject.the<YarnRootExtension>().apply {
     lockFileDirectory = project.rootDir.resolve("kotlin-js-store")
