@@ -1,5 +1,6 @@
 import de.nilsdruyen.gradle.ftp.UploadExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 
@@ -42,6 +43,9 @@ compose {
 rootProject.plugins.withType<YarnPlugin> {
   rootProject.the<YarnRootExtension>().apply {
     lockFileDirectory = project.rootDir.resolve("kotlin-js-store")
+    yarnLockMismatchReport = YarnLockMismatchReport.WARNING
+    yarnLockAutoReplace = false
+
     resolution("async", "2.6.4")
     resolution("minimist", "1.2.6")
     resolution("eventsource", "1.1.1")
