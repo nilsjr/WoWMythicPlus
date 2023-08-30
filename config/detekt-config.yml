@@ -26,3 +26,6 @@ style:
     active: false
   NewLineAtEndOfFile:
     active: false
+
+formatting:
+  active: false

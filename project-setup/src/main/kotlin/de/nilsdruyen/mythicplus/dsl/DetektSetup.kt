@@ -19,7 +19,14 @@ internal fun Project.applyDetekt() {
 
   configure<DetektExtension> {
     parallel = true
-    config.setFrom(files("$rootDir/config/detekt-config.yml"))
+    source.setFrom(
+      layout.projectDirectory.files(
+        "src/jsMain/kotlin",
+        "src/commonMain/kotlin",
+        "src/androidMain/kotlin",
+      )
+    )
+    config.setFrom(rootProject.layout.projectDirectory.file("config/detekt-config.yml"))
     buildUponDefaultConfig = true
   }
   tasks.withType<Detekt>().configureEach {
@@ -27,7 +34,7 @@ internal fun Project.applyDetekt() {
     reports {
       xml {
         required.set(true)
-        outputLocation.set(file("${layout.buildDirectory}/reports/detekt/detekt.xml"))
+        outputLocation.set(layout.buildDirectory.file("reports/detekt/detekt.xml"))
       }
       html.required.set(false)
       txt.required.set(false)
@@ -45,20 +52,20 @@ internal fun Project.applyDetektFormatting() {
   fun Detekt.configure(enableAutoCorrect: Boolean) {
     description = "Run detekt ktlint wrapper"
     parallel = true
-    setSource(files(projectDir))
-    config.setFrom(files("$rootDir/config/detekt-formatting.yml"))
+    setSource(layout.projectDirectory)
+    config.setFrom(rootProject.layout.projectDirectory.file("config/detekt-formatting.yml"))
     buildUponDefaultConfig = true
     disableDefaultRuleSets = true
     autoCorrect = enableAutoCorrect
     reports {
       xml {
         required.set(true)
-        outputLocation.set(file("${layout.buildDirectory}/reports/detekt/detektFormatting.xml"))
+        outputLocation.set(layout.buildDirectory.file("reports/detekt/detektFormatting.xml"))
       }
       html.required.set(false)
       txt.required.set(false)
     }
-    if (project == rootProject) {
+    if (project==rootProject) {
       include(listOf("*.kts", "build-logic/**/*.kt", "build-logic/**/*.kts"))
       exclude("build-logic/build/")
     } else {

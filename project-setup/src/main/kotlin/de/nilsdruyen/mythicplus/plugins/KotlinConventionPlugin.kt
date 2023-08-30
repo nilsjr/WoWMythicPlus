@@ -10,8 +10,6 @@ internal class KotlinConventionPlugin : Plugin<Project> {
   override fun apply(target: Project) {
     with(target) {
       configure()
-//      applyDetekt()
-//      applyDetektFormatting()
     }
   }
 }

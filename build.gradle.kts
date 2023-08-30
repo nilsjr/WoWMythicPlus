@@ -1,4 +1,3 @@
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   alias(libs.plugins.kotlin.multiplatform) apply false
   alias(libs.plugins.kotlin.serialization) apply false
@@ -10,4 +9,4 @@ plugins {
 }
 
 group = "de.nilsdruyen"
-version = "0.3.0"
+version = "0.4.0"
