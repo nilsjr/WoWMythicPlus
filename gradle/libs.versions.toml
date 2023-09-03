@@ -13,7 +13,7 @@ serialization = "1.6.0"
 
 [libraries]
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
+datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.1"
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 detekt-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
