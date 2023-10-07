@@ -8,7 +8,7 @@ html = "0.7.3"
 jetbrainsCompose = "1.5.1"
 jetbrainsComposeCompiler = "1.5.2-beta01"
 kotlin = "1.9.10"
-ktor = "2.3.4"
+ktor = "2.3.5"
 serialization = "1.6.0"
 
 [libraries]
