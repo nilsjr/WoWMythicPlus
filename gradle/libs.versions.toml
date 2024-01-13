@@ -1,5 +1,5 @@
 [versions]
-buildKonfig = "5.3.2"
+buildKonfig = "5.3.5"
 coroutines = "1.7.3"
 detekt = "1.23.4"
 ftpUpload = "0.4.1"
