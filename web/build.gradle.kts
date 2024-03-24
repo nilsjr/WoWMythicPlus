@@ -42,19 +42,23 @@ compose {
 
 rootProject.plugins.withType<YarnPlugin> {
   rootProject.the<YarnRootExtension>().apply {
-    lockFileDirectory = project.rootDir.resolve("kotlin-js-store")
+    lockFileDirectory = project.rootDir.resolve(".kotlin-js-store")
     yarnLockMismatchReport = YarnLockMismatchReport.WARNING
     yarnLockAutoReplace = false
 
     resolution("async", "2.6.4")
-    resolution("minimist", "1.2.6")
     resolution("eventsource", "1.1.1")
-    resolution("loader-utils", "2.0.3")
+    resolution("json5", "2.2.2")
+    resolution("loader-utils", "2.0.4")
+    resolution("minimist", "1.2.6")
+    resolution("socket.io-parser", "4.2.3")
+    resolution("ua-parser-js", "0.7.33")
+
   }
   rootProject.the<NodeJsRootExtension>().apply {
-    versions.webpackDevServer.version = "4.12.0"
-    versions.webpack.version = "5.76.0"
-    versions.webpackCli.version = "5.0.1"
+    versions.webpackDevServer.version = "5.0.4"
+    versions.webpack.version = "5.91.0"
+    versions.webpackCli.version = "5.1.4"
     versions.karma.version = "6.4.0"
     versions.mocha.version = "10.0.0"
   }
