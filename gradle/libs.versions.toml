@@ -1,7 +1,7 @@
 [versions]
 buildKonfig = "5.3.5"
 coroutines = "1.8.0"
-detekt = "1.23.5"
+detekt = "1.23.6"
 ftpUpload = "0.4.2"
 gradleVersionsPlugin = "0.51.0"
 html = "0.7.3"
