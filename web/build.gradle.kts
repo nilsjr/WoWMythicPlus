@@ -11,6 +11,7 @@ plugins {
   id("com.github.gmazzo.buildconfig")
   id("de.nilsdruyen.mythicplus.plugin.kotlin")
   id("de.nilsdruyen.mythicplus.plugin.detekt")
+  alias(libs.plugins.kotlin.compose)
 }
 
 kotlin {
@@ -33,11 +34,6 @@ kotlin {
       }
     }
   }
-}
-
-val compilerVersion: String = libs.versions.jetbrainsComposeCompiler.get()
-compose {
-  kotlinCompilerPlugin.set(compilerVersion)
 }
 
 rootProject.plugins.withType<YarnPlugin> {
@@ -74,8 +70,9 @@ configure<UploadExtension> {
   port = properties.getOrDefault("ftp.port", 22).toString().toInt()
   username = properties.getOrDefault("ftp.username", "").toString()
   password = properties.getOrDefault("ftp.password", "").toString()
-  sourceDir = "${project.layout.buildDirectory}/distributions"
+  sourceDir = "${project.layout.buildDirectory.get()}/dist/js/productionExecutable"
   targetDir = "/html/wowmythicplus"
+  clearDirectoryBeforeUpload = true
 }
 
 val buildTask = tasks.named("jsBrowserProductionWebpack")

@@ -4,6 +4,7 @@ pluginManagement {
   includeBuild("project-setup")
 
   repositories {
+    mavenLocal()
     google()
     mavenCentral()
     gradlePluginPortal()
