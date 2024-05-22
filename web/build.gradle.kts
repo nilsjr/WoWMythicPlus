@@ -72,7 +72,6 @@ configure<UploadExtension> {
   password = properties.getOrDefault("ftp.password", "").toString()
   sourceDir = "${project.layout.buildDirectory.get()}/dist/js/productionExecutable"
   targetDir = "/html/wowmythicplus"
-  clearDirectoryBeforeUpload = true
 }
 
 val buildTask = tasks.named("jsBrowserProductionWebpack")
