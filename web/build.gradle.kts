@@ -11,7 +11,6 @@ plugins {
   id("com.github.gmazzo.buildconfig")
   id("de.nilsdruyen.mythicplus.plugin.kotlin")
   id("de.nilsdruyen.mythicplus.plugin.detekt")
-  alias(libs.plugins.kotlin.compose)
 }
 
 kotlin {
