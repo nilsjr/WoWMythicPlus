@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: '21'
       - name: Run detekt with ktlint
         run: ./gradlew detekt ktlintCheck
 
@@ -31,7 +31,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: '21'
 
       - name: Build web
         run: ./gradlew :web:jsBrowserProductionWebpack
