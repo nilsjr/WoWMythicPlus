@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
   `kotlin-dsl`
@@ -11,6 +12,7 @@ tasks.withType<JavaCompile>().configureEach {
 }
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
   compilerOptions {
+    languageVersion.set(KotlinVersion.KOTLIN_2_0)
     jvmTarget.set(JvmTarget.JVM_17)
     allWarningsAsErrors.set(false)
     progressiveMode.set(true)
