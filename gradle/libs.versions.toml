@@ -8,7 +8,7 @@ jetbrainsCompose = "1.6.11"
 kotlin = "2.0.20"
 kotlinx-datetime = "0.6.1"
 ktor = "3.0.0-beta-2"
-serialization = "1.7.1"
+serialization = "1.7.2"
 
 [libraries]
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
