@@ -21,10 +21,11 @@ import de.nilsdruyen.mythicplus.character.models.Score
 import de.nilsdruyen.mythicplus.character.models.ScoreTier
 import de.nilsdruyen.mythicplus.character.utils.Constants
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import kotlin.math.roundToInt
 
 class RaiderIoRepositoryImpl @Inject constructor(
   private val client: RaiderIoApi
@@ -40,7 +41,7 @@ class RaiderIoRepositoryImpl @Inject constructor(
 
   override suspend fun getDungeons(): List<Dungeon> {
     return client.getStaticData().seasons
-      .first { it.slug == "season-df-1" }.dungeons
+      .first { it.slug == Constants.SEASON_SLUG }.dungeons
       .map { Dungeon(it.id, it.shortName, it.slug) }
       .sortedBy { it.slug }
   }
@@ -63,34 +64,34 @@ class RaiderIoRepositoryImpl @Inject constructor(
   ): Character {
     val entity = client.getCharacter(char.realm, char.name)
     val charScore = entity.scoreBySeason.first().scores.all
-    val allRuns = entity.bestRuns + entity.altRuns
+    val allRuns = entity.bestRuns
     val list = dungeons.map { dungeon ->
       val filteredDungeons = allRuns.filter { it.shortName == dungeon.shortName }
-      val tyrannical = filteredDungeons.filterForAffix(Constants.TYRANNICAL)
-      val fortified = filteredDungeons.filterForAffix(Constants.FORTIFIED)
-      DungeonScore(dungeon.shortName, dungeon.slug, tyrannical, fortified)
+      val firstAffix = filteredDungeons.filterForAffix(Constants.FIRST_AFFIX)
+      val secondAffix = filteredDungeons.filterForAffix(Constants.SECOND_AFFIX)
+      DungeonScore(dungeon.shortName, dungeon.slug, firstAffix, secondAffix)
     }.sortedBy { it.slug }
 
     val items = entity.gear.items.map {
       val (key, data) = it
       Item(
-        data.id,
-        key.toSlot() ?: ItemSlot.Neck,
-        data.name,
-        data.itemLevel,
-        data.icon,
-        data.isLegendary,
-        data.dominationShards.map { shard ->
+        id = data.id,
+        slot = key.toSlot() ?: ItemSlot.Neck,
+        name = data.name,
+        level = data.itemLevel,
+        icon = data.icon,
+        isLegendary = data.isLegendary,
+        dominationShards = data.dominationShards.map { shard ->
           DominationShard(shard.quality, shard.name, shard.icon, shard.itemId)
         },
-        data.gems,
-        data.bonuses,
+        gems = data.gems,
+        bonuses = data.bonuses,
       )
     }
-    val gear = Gear(entity.gear.iLvlEquipped, items)
+    val gear = Gear(entity.gear.iLvlEquipped.roundToInt(), items)
 
     val keysThisWeek = entity.recentRuns.filter {
-      val dateTime = it.completedAt.toInstant().toLocalDateTime(TimeZone.currentSystemDefault())
+      val dateTime = Instant.parse(it.completedAt).toLocalDateTime(TimeZone.currentSystemDefault())
       dateTime > currentPeriod
     }.size
 

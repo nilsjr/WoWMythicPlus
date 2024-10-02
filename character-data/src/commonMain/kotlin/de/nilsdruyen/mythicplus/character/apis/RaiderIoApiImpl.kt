@@ -15,7 +15,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.plugins.resources.get as resGet
 
-class RaiderIoApiImpl constructor(
+class RaiderIoApiImpl(
   private val client: HttpClient
 ) : RaiderIoApi {
 
@@ -31,7 +31,7 @@ class RaiderIoApiImpl constructor(
   }.body<AffixesWebEntity>().details.map { it.id }
 
   override suspend fun getStaticData(): StaticDataWebEntity = client.get("mythic-plus/static-data") {
-    parameter("expansion_id", "9")
+    parameter("expansion_id", Constants.EXPANSION)
   }.body()
 
   override suspend fun getScoreTiers(): List<ScoreTier> = client.get("mythic-plus/score-tiers")
@@ -41,6 +41,6 @@ class RaiderIoApiImpl constructor(
     }
 
   override suspend fun getRaidStaticData(): RaidStaticDataWebEntity = client.get("raiding/static-data") {
-    parameter("expansion_id", "9")
+    parameter("expansion_id", Constants.EXPANSION)
   }.body()
 }

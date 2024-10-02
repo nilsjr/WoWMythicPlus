@@ -36,8 +36,6 @@ data class ProfileWebEntity(
   val profileUrl: String,
   @SerialName("mythic_plus_best_runs")
   val bestRuns: List<MythicPlusDungeonWebEntity>,
-  @SerialName("mythic_plus_alternate_runs")
-  val altRuns: List<MythicPlusDungeonWebEntity>,
   @SerialName("mythic_plus_scores_by_season")
   val scoreBySeason: List<SeasonWebEntity>,
   @SerialName("mythic_plus_recent_runs")

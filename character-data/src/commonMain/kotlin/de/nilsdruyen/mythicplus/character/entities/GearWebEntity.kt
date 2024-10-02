@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GearWebEntity(
-  @SerialName("item_level_equipped") val iLvlEquipped: Int,
+  @SerialName("item_level_equipped") val iLvlEquipped: Double,
   val items: Map<String, ItemWebEntity>,
 )
 
