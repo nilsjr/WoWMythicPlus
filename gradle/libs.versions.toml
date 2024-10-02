@@ -1,10 +1,10 @@
 [versions]
-buildKonfig = "5.5.0"
+buildConfig = "5.5.0"
 coroutines = "1.9.0"
 detekt = "1.23.7"
 ftpUpload = "0.5.0"
 gradleVersionsPlugin = "0.51.0"
-jetbrainsCompose = "1.6.11"
+jetbrainsCompose = "1.7.0-rc01"
 kotlin = "2.0.20"
 kotlinx-datetime = "0.6.1"
 ktor = "3.0.0-rc-1"
@@ -29,7 +29,7 @@ serializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json
 [bundles]
 
 [plugins]
-buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildKonfig" }
+buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ftpupload = { id = "de.nilsdruyen.gradle-ftp-upload-plugin", version.ref = "ftpUpload" }
 gradleVersions = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionsPlugin" }
