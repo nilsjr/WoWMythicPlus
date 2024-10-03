@@ -58,10 +58,13 @@ const val NAME_SPAN = 4
 @Composable
 fun MythicPlusTableHeader(activeOrder: ListOrder, changeOrder: (ListOrder) -> Unit, dungeons: List<Dungeon>) {
   Tr {
-    Th({ colspan(NAME_SPAN) })
+    OrderButton(ListOrder.Name, activeOrder, changeOrder)
+    OrderButton(ListOrder.Runs, activeOrder, changeOrder)
+    OrderButton(ListOrder.Class, activeOrder, changeOrder)
+    OrderButton(ListOrder.Score, activeOrder, changeOrder)
     dungeons.forEach {
       Th({
-        colspan(2)
+//        colspan(2)
         classes(TextStyle.headText)
       }) {
         Img(Constants.Icons.dungeonIcon(it.id), it.shortName) {
@@ -69,16 +72,6 @@ fun MythicPlusTableHeader(activeOrder: ListOrder, changeOrder: (ListOrder) -> Un
         }
         Text(it.shortName)
       }
-    }
-  }
-  Tr {
-    OrderButton(ListOrder.Name, activeOrder, changeOrder)
-    OrderButton(ListOrder.Runs, activeOrder, changeOrder)
-    OrderButton(ListOrder.Class, activeOrder, changeOrder)
-    OrderButton(ListOrder.Score, activeOrder, changeOrder)
-    repeat(dungeons.size) {
-      AffixIcon(Constants.Icons.FORTIFIED_URL, "fortified")
-      AffixIcon(Constants.Icons.TYRANNICAL_URL, "tyrannical")
     }
   }
 }

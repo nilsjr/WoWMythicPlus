@@ -54,9 +54,6 @@ object Constants {
     fun clazzIcon(clazz: WoWClass) =
       "https://cdnassets.raider.io/images/classes/class_${clazz.toIdentifier()}.png"
 
-    const val FORTIFIED_URL = "https://cdnassets.raider.io/images/wow/icons/medium/ability_toughness.jpg"
-    const val TYRANNICAL_URL = "https://cdnassets.raider.io/images/wow/icons/medium/achievement_boss_archaedas.jpg"
-
     const val HEALER = "https://cdnassets.raider.io/assets/img/role_healer-984e5e9867d6508a714a9c878d87441b.png"
     const val TANK = "https://cdnassets.raider.io/assets/img/role_tank-6cee7610058306ba277e82c392987134.png"
     const val DPS = "https://cdnassets.raider.io/assets/img/role_dps-eb25989187d4d3ac866d609dc009f090.png"

@@ -8,7 +8,6 @@ import de.nilsdruyen.mythicplus.character.models.Score
 import de.nilsdruyen.mythicplus.extensions.color
 import de.nilsdruyen.mythicplus.styles.ColorConst
 import de.nilsdruyen.mythicplus.styles.ImageStyle
-import de.nilsdruyen.mythicplus.styles.StyleConst
 import de.nilsdruyen.mythicplus.styles.TableStyle
 import de.nilsdruyen.mythicplus.styles.TextStyle
 import org.jetbrains.compose.web.attributes.colspan
@@ -16,7 +15,6 @@ import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.color
-import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
@@ -89,14 +87,16 @@ fun CharacterMythicPlusSummaryRow(character: CharacterSummary) {
 
 @Composable
 fun DungeonScoresSummary(dungeon: DungeonScore) {
-  Score(dungeon.fortifiedScore, showTime = false)
-  Score(dungeon.tyrannicalScore, showTime = false)
+//  Score(dungeon.fortifiedScore, showTime = false)
+//  Score(dungeon.tyrannicalScore, showTime = false)
+  Score(dungeon.bestScore, showTime = false)
 }
 
 @Composable
 fun DungeonScores(dungeon: DungeonScore, currentAffixes: List<Int>) {
-  Score(dungeon.fortifiedScore, currentAffixes)
-  Score(dungeon.tyrannicalScore, currentAffixes)
+  Score(dungeon.bestScore, currentAffixes)
+//  Score(dungeon.fortifiedScore, currentAffixes)
+//  Score(dungeon.tyrannicalScore, currentAffixes)
 }
 
 @Composable
@@ -113,7 +113,7 @@ fun Score(score: Score, currentAffixes: List<Int> = emptyList(), showTime: Boole
       } else {
         background(ColorConst.RED)
       }
-      if (currentAffixes.isNotEmpty() && currentAffixes.none { it == score.id }) opacity(StyleConst.OPACITY)
+//      if (currentAffixes.isNotEmpty() && currentAffixes.none { it == score.id }) opacity(StyleConst.OPACITY)
     }
   }) {
     Div({

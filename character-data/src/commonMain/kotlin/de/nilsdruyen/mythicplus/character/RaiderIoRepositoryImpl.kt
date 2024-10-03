@@ -67,9 +67,8 @@ class RaiderIoRepositoryImpl @Inject constructor(
     val allRuns = entity.bestRuns
     val list = dungeons.map { dungeon ->
       val filteredDungeons = allRuns.filter { it.shortName == dungeon.shortName }
-      val firstAffix = filteredDungeons.filterForAffix(Constants.FIRST_AFFIX)
-      val secondAffix = filteredDungeons.filterForAffix(Constants.SECOND_AFFIX)
-      DungeonScore(dungeon.shortName, dungeon.slug, firstAffix, secondAffix)
+      val bestScore = filteredDungeons.getBestScore()
+      DungeonScore(dungeon.shortName, dungeon.slug, bestScore)
     }.sortedBy { it.slug }
 
     val items = entity.gear.items.map {
@@ -108,13 +107,13 @@ class RaiderIoRepositoryImpl @Inject constructor(
     )
   }
 
-  private fun List<MythicPlusDungeonWebEntity>.filterForAffix(affixId: Int): Score {
-    val dungeon = firstOrNull { it.affixes.map { affix -> affix.id }.contains(affixId) }
+  private fun List<MythicPlusDungeonWebEntity>.getBestScore(): Score {
+    val dungeon = maxByOrNull { it.score }
     return if (dungeon == null) {
-      println("dungeon affix not found $affixId")
-      Score.empty(affixId)
+      println("nur run found")
+      Score.empty()
     } else {
-      Score(affixId, dungeon.score, dungeon.level, dungeon.upgrades, dungeon.clearTimeMs)
+      Score(dungeon.score, dungeon.level, dungeon.upgrades, dungeon.clearTimeMs)
     }
   }
 

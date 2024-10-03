@@ -8,7 +8,6 @@ import de.nilsdruyen.mythicplus.character.models.DungeonScore
 import de.nilsdruyen.mythicplus.character.models.Item
 import de.nilsdruyen.mythicplus.character.models.Score
 import de.nilsdruyen.mythicplus.character.models.ScoreTier
-import de.nilsdruyen.mythicplus.character.utils.Constants
 import de.nilsdruyen.mythicplus.styles.ColorConst
 import kotlin.math.roundToInt
 
@@ -26,17 +25,15 @@ fun List<Character>.generateSummary(scoreTiers: List<ScoreTier>, dungeons: List<
     } to dungeon
   }.map { scorePair ->
     val (scores, dungeon) = scorePair
-    val bestTyrannical = scores.maxByOrNull { it.tyrannicalScore.score }?.tyrannicalScore
-    val bestFortified = scores.maxByOrNull { it.fortifiedScore.score }?.fortifiedScore
+    val bestScore = scores.maxByOrNull { it.bestScore.score }?.bestScore
     DungeonScore(
       shortName = dungeon.shortName,
       slug = dungeon.slug,
-      tyrannicalScore = bestTyrannical ?: Score.empty(Constants.TYRANNICAL),
-      fortifiedScore = bestFortified ?: Score.empty(Constants.FORTIFIED)
+      bestScore = bestScore ?: Score.empty(),
     )
   }.sortedBy { it.slug }
 
-  val score = dungeonSummary.sumOf { it.score }
+  val score = dungeonSummary.sumOf { it.bestScore.score }
   val colorForScore = scoreTiers.getColorForScore(score)
 
   return CharacterSummary(

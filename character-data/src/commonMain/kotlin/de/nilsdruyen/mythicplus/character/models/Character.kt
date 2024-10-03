@@ -4,8 +4,6 @@ import de.nilsdruyen.mythicplus.character.enums.ItemSlot
 import de.nilsdruyen.mythicplus.character.enums.Specialization
 import de.nilsdruyen.mythicplus.character.utils.Constants
 import de.nilsdruyen.mythicplus.character.utils.format
-import kotlin.math.max
-import kotlin.math.min
 
 data class Character(
   val name: String,
@@ -60,16 +58,10 @@ data class DominationShard(
 data class DungeonScore(
   val shortName: String,
   val slug: String,
-  val tyrannicalScore: Score,
-  val fortifiedScore: Score,
-) {
-
-  val score =
-    max(tyrannicalScore.score, fortifiedScore.score) * 1.5 + min(tyrannicalScore.score, fortifiedScore.score) * 0.5
-}
+  val bestScore: Score,
+)
 
 data class Score(
-  val id: Int,
   val score: Double,
   val level: Int,
   val upgrade: Int,
@@ -86,6 +78,6 @@ data class Score(
 
   companion object {
 
-    fun empty(type: Int): Score = Score(type, 0.0, 0, 0, 0)
+    fun empty(): Score = Score(0.0, 0, 0, 0)
   }
 }
