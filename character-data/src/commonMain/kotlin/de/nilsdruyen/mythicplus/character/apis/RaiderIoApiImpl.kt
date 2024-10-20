@@ -1,6 +1,5 @@
 package de.nilsdruyen.mythicplus.character.apis
 
-import de.nilsdruyen.mythicplus.character.entities.AffixesWebEntity
 import de.nilsdruyen.mythicplus.character.entities.PeriodWebEntity
 import de.nilsdruyen.mythicplus.character.entities.ProfileRequest
 import de.nilsdruyen.mythicplus.character.entities.ProfileWebEntity
@@ -24,11 +23,6 @@ class RaiderIoApiImpl(
   }
 
   override suspend fun getCurrentPeriod(): PeriodWebEntity = client.get("periods").body()
-
-  override suspend fun getCurrentAffixIds(): List<Int> = client.get("mythic-plus/affixes") {
-    parameter("region", "eu")
-    parameter("locale", "en")
-  }.body<AffixesWebEntity>().details.map { it.id }
 
   override suspend fun getStaticData(): StaticDataWebEntity = client.get("mythic-plus/static-data") {
     parameter("expansion_id", Constants.EXPANSION)

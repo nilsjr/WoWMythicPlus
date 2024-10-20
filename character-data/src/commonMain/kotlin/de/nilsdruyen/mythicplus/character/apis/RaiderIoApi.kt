@@ -12,8 +12,6 @@ interface RaiderIoApi {
 
   suspend fun getCurrentPeriod(): PeriodWebEntity
 
-  suspend fun getCurrentAffixIds(): List<Int>
-
   suspend fun getStaticData(): StaticDataWebEntity
 
   suspend fun getScoreTiers(): List<ScoreTier>

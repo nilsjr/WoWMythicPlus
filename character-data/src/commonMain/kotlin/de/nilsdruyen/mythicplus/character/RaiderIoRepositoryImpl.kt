@@ -37,8 +37,6 @@ class RaiderIoRepositoryImpl @Inject constructor(
     return charList.map { getCharacter(it, scoreTiers, currentPeriod, dungeons) }
   }
 
-  override suspend fun getCurrentAffixeIds(): List<Int> = client.getCurrentAffixIds()
-
   override suspend fun getDungeons(): List<Dungeon> {
     return client.getStaticData().seasons
       .first { it.slug == Constants.SEASON_SLUG }.dungeons
