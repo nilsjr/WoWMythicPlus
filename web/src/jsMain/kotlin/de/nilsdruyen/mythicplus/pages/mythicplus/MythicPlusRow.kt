@@ -23,7 +23,7 @@ import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.Tr
 
 @Composable
-fun CharacterMythicPlusRow(character: Character, currentAffixes: List<Int>) {
+fun CharacterMythicPlusRow(character: Character) {
   Tr {
     Td({
       classes(TextStyle.title)
@@ -61,7 +61,7 @@ fun CharacterMythicPlusRow(character: Character, currentAffixes: List<Int>) {
     }) {
       Text(character.score.toString())
     }
-    character.dungeons.forEach { DungeonScores(it, currentAffixes) }
+    character.dungeons.forEach { DungeonScores(it) }
   }
 }
 
@@ -93,14 +93,14 @@ fun DungeonScoresSummary(dungeon: DungeonScore) {
 }
 
 @Composable
-fun DungeonScores(dungeon: DungeonScore, currentAffixes: List<Int>) {
-  Score(dungeon.bestScore, currentAffixes)
+fun DungeonScores(dungeon: DungeonScore) {
+  Score(dungeon.bestScore)
 //  Score(dungeon.fortifiedScore, currentAffixes)
 //  Score(dungeon.tyrannicalScore, currentAffixes)
 }
 
 @Composable
-fun Score(score: Score, currentAffixes: List<Int> = emptyList(), showTime: Boolean = true) {
+fun Score(score: Score, showTime: Boolean = true) {
   Td({
     classes(TableStyle.cellLevel)
     style {

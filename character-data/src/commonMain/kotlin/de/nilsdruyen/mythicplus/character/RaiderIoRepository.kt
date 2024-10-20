@@ -10,8 +10,6 @@ interface RaiderIoRepository {
 
   suspend fun getCharacterList(charList: List<InputCharacter>, dungeons: List<Dungeon>): List<Character>
 
-  suspend fun getCurrentAffixeIds(): List<Int>
-
   suspend fun getDungeons(): List<Dungeon>
 
   suspend fun getScoreTiers(): List<ScoreTier>

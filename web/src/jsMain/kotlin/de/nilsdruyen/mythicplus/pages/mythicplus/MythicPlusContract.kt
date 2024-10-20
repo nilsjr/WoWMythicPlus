@@ -7,7 +7,6 @@ import de.nilsdruyen.mythicplus.character.models.ScoreTier
 
 data class MythicPlusState(
   val characterList: List<Character> = emptyList(),
-  val currentAffixIds: List<Int> = emptyList(),
   val dungeons: List<Dungeon> = emptyList(),
   val scoreTiers: List<ScoreTier> = emptyList(),
   val order: ListOrder = ListOrder.Score,
@@ -15,7 +14,6 @@ data class MythicPlusState(
 
   constructor(characterOverview: CharacterOverview) : this(
     characterList = characterOverview.characterList,
-    currentAffixIds = characterOverview.currentAffixIds,
     dungeons = characterOverview.dungeons,
     scoreTiers = characterOverview.scoreTiers,
   )

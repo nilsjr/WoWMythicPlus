@@ -8,9 +8,8 @@ class CharacterUsecaseImpl(private val repository: RaiderIoRepository) : Charact
   override suspend fun execute(inputList: List<InputCharacter>): CharacterOverview {
     val dungeons = repository.getDungeons()
     val scoreTiers = repository.getScoreTiers()
-    val currentAffixes = repository.getCurrentAffixeIds()
     val characterList = repository.getCharacterList(inputList, dungeons)
     val raid = repository.getCurrentRaid()
-    return CharacterOverview(characterList, currentAffixes, dungeons, scoreTiers, raid)
+    return CharacterOverview(characterList, dungeons, scoreTiers, raid)
   }
 }

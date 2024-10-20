@@ -47,7 +47,7 @@ fun MythicPlusContent(state: MythicPlusState, changeOrder: (ListOrder) -> Unit) 
       }
       EmptyRow(state.dungeons.size)
       state.characterList.forEach {
-        CharacterMythicPlusRow(it, state.currentAffixIds)
+        CharacterMythicPlusRow(it)
       }
     }
   }
