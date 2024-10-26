@@ -70,7 +70,7 @@ configure<UploadExtension> {
   port = properties.getOrDefault("ftp.port", 22).toString().toInt()
   username = properties.getOrDefault("ftp.username", "").toString()
   password = properties.getOrDefault("ftp.password", "").toString()
-  sourceDir = "${project.layout.buildDirectory.get()}/dist/js/productionExecutable"
+  sourceDir = "${project.layout.buildDirectory.get()}/processedResources/js/main"
   targetDir = "/html/wowmythicplus"
   clearDirectoryBeforeUpload = true
 }
@@ -78,11 +78,19 @@ configure<UploadExtension> {
 val buildTask = tasks.named("jsBrowserProductionWebpack")
 val uploadTask = tasks.named("uploadFilesToFtp")
 
+tasks.register<Copy>("copyJs") {
+  from("${project.layout.buildDirectory.get()}/kotlin-webpack/js/productionExecutable")
+  into("${project.layout.buildDirectory.get()}/processedResources/js/main")
+}
+
+val copyTask = tasks.named("copyJs")
+
 tasks.register("deployWebsite") {
   group = "deployment"
   description = "Build & deploy website"
 
-  dependsOn(buildTask, uploadTask)
+  dependsOn(buildTask, copyTask, uploadTask)
+  copyTask.get().mustRunAfter(buildTask)
   uploadTask.get().mustRunAfter(buildTask)
 
   doLast {
