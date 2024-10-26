@@ -6,12 +6,6 @@ import de.nilsdruyen.mythicplus.character.extensions.toIdentifier
 
 object Constants {
 
-  const val FIRST_AFFIX = 148
-  const val SECOND_AFFIX = 159
-
-  const val TYRANNICAL = 9
-  const val FORTIFIED = 10
-
   const val EXPANSION = 10
   const val SEASON_SLUG = "season-tww-1"
 

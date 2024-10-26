@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
-class MythicPlusViewModel constructor(
+class MythicPlusViewModel(
   initalState: CharacterOverview,
   private val coroutineScope: CoroutineScope,
 ) {

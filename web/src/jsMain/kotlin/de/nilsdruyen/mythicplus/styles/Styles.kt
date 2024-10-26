@@ -229,12 +229,6 @@ object ImageStyle : StyleSheet(AppStylesheet) {
     property("vertical-align", "middle")
   }
 
-  val affix by style {
-    width(25.px)
-    height(25.px)
-    borderRadius(50.percent)
-  }
-
   val item by style {
     width(30.px)
     height(30.px)
@@ -255,6 +249,7 @@ object TableStyle : StyleSheet(AppStylesheet) {
   val parent by style {
     width(100.percent)
     property("border-spacing", "8px")
+    property("table-layout", "fixed")
   }
 
   val cellLevel by style {

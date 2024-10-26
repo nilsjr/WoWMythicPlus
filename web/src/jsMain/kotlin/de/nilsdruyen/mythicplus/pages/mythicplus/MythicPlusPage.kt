@@ -98,12 +98,3 @@ fun OrderButton(order: ListOrder, activeOrderButton: ListOrder, changeOrder: (Li
     }
   }
 }
-
-@Composable
-fun AffixIcon(url: String, alt: String) {
-  Td({
-    classes(TableStyle.cellImage)
-  }) {
-    Img(url, alt) { classes(ImageStyle.affix) }
-  }
-}

@@ -61,16 +61,8 @@ data class MythicPlusDungeonWebEntity(
   val clearTimeMs: Long,
   @SerialName("par_time_ms")
   val parTimeMs: Long,
-  @SerialName("affixes")
-  val affixes: List<AffixWebEntity>,
   @SerialName("completed_at")
   val completedAt: String,
-)
-
-@Serializable
-data class AffixWebEntity(
-  val id: Int,
-  val icon: String
 )
 
 @Serializable

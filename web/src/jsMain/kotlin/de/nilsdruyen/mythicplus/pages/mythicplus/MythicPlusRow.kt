@@ -87,16 +87,12 @@ fun CharacterMythicPlusSummaryRow(character: CharacterSummary) {
 
 @Composable
 fun DungeonScoresSummary(dungeon: DungeonScore) {
-//  Score(dungeon.fortifiedScore, showTime = false)
-//  Score(dungeon.tyrannicalScore, showTime = false)
   Score(dungeon.bestScore, showTime = false)
 }
 
 @Composable
 fun DungeonScores(dungeon: DungeonScore) {
   Score(dungeon.bestScore)
-//  Score(dungeon.fortifiedScore, currentAffixes)
-//  Score(dungeon.tyrannicalScore, currentAffixes)
 }
 
 @Composable
@@ -113,7 +109,6 @@ fun Score(score: Score, showTime: Boolean = true) {
       } else {
         background(ColorConst.RED)
       }
-//      if (currentAffixes.isNotEmpty() && currentAffixes.none { it == score.id }) opacity(StyleConst.OPACITY)
     }
   }) {
     Div({
