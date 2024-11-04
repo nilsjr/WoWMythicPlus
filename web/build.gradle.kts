@@ -49,6 +49,7 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("minimist", "1.2.6")
     resolution("socket.io-parser", "4.2.3")
     resolution("ua-parser-js", "0.7.33")
+    resolution("http-proxy-middleware", "2.0.7")
   }
   rootProject.the<NodeJsRootExtension>().apply {
     versions.webpackDevServer.version = "5.0.4"
