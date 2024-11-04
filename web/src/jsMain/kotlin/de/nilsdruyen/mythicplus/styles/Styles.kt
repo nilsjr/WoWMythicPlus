@@ -18,6 +18,7 @@ import org.jetbrains.compose.web.css.gridTemplateColumns
 import org.jetbrains.compose.web.css.gridTemplateRows
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.justifyContent
+import org.jetbrains.compose.web.css.justifyItems
 import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.margin
 import org.jetbrains.compose.web.css.marginLeft
@@ -63,6 +64,7 @@ object AppStylesheet : StyleSheet() {
   }
 
   val pageContent by style {
+    justifyItems("center")
   }
 
   val pageFooter by style {
@@ -247,7 +249,6 @@ object ImageStyle : StyleSheet(AppStylesheet) {
 object TableStyle : StyleSheet(AppStylesheet) {
 
   val parent by style {
-    width(100.percent)
     property("border-spacing", "8px")
     property("table-layout", "fixed")
   }

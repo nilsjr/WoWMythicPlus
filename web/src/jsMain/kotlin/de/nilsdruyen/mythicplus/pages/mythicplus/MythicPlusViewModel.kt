@@ -39,7 +39,7 @@ class MythicPlusViewModel(
       ListOrder.Name -> state.value.characterList.sortedBy(Character::name)
       ListOrder.Runs -> state.value.characterList.sortedByDescending(Character::completedKeysThisWeek)
       ListOrder.Class -> state.value.characterList.sortedBy { it.specialization.wowClass.name }
-      ListOrder.Score -> state.value.characterList.sortedByDescending(Character::score)
+          ListOrder.Score -> state.value.characterList.sortedWith(compareBy(Character::score, { !it.invalid }))
     }
     )
   }

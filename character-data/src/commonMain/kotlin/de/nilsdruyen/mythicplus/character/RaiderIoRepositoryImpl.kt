@@ -61,7 +61,7 @@ class RaiderIoRepositoryImpl @Inject constructor(
     dungeons: List<Dungeon>,
   ): Character {
     val entity = client.getCharacter(char.realm, char.name)
-    val charScore = entity.scoreBySeason.first().scores.all
+    val charScore = entity.scoreBySeason.firstOrNull()?.scores?.all ?: -1.0
     val allRuns = entity.bestRuns
     val list = dungeons.map { dungeon ->
       val filteredDungeons = allRuns.filter { it.shortName == dungeon.shortName }
@@ -108,7 +108,7 @@ class RaiderIoRepositoryImpl @Inject constructor(
   private fun List<MythicPlusDungeonWebEntity>.getBestScore(): Score {
     val dungeon = maxByOrNull { it.score }
     return if (dungeon == null) {
-      println("nur run found")
+      println("no run found")
       Score.empty()
     } else {
       Score(dungeon.score, dungeon.level, dungeon.upgrades, dungeon.clearTimeMs)

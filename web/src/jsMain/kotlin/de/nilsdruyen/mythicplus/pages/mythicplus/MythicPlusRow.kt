@@ -15,6 +15,7 @@ import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.color
+import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
@@ -24,7 +25,13 @@ import org.jetbrains.compose.web.dom.Tr
 
 @Composable
 fun CharacterMythicPlusRow(character: Character) {
-  Tr {
+  Tr({
+    style {
+      if (character.invalid) {
+        opacity(0.3)
+      }
+    }
+  }) {
     Td({
       classes(TextStyle.title)
       style {
@@ -101,7 +108,7 @@ fun Score(score: Score, showTime: Boolean = true) {
     classes(TableStyle.cellLevel)
     style {
       if (score.played) {
-        if (score.upgrade == 0) {
+        if (score.upgrade==0) {
           background(ColorConst.GRAY)
         } else {
           background(ColorConst.GREEN)

@@ -19,6 +19,8 @@ data class Character(
 
   fun iconForSpec() = Constants.Icons.clazzSpecIcon(specialization)
   fun iconForClazz() = Constants.Icons.clazzIcon(specialization.wowClass)
+
+  val invalid = score==-1.0
 }
 
 data class CharacterSummary(
