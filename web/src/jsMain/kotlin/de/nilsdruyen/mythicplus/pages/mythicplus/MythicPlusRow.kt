@@ -108,7 +108,7 @@ fun Score(score: Score, showTime: Boolean = true) {
     classes(TableStyle.cellLevel)
     style {
       if (score.played) {
-        if (score.upgrade==0) {
+        if (score.upgrade == 0) {
           background(ColorConst.GRAY)
         } else {
           background(ColorConst.GREEN)
