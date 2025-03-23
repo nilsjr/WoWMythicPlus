@@ -1,3 +1,6 @@
+import jdk.javadoc.internal.Versions
+import jdk.tools.jlink.resources.plugins
+
 plugins {
   id("com.android.application")
   kotlin("android")
@@ -28,7 +31,7 @@ android {
     targetCompatibility = JavaVersion.VERSION_17
   }
   kotlinOptions {
-    jvmTarget = "11"
+    jvmTarget = "21"
   }
   sourceSets.getByName("main").java.srcDirs("src/main/kotlin")
   buildFeatures {

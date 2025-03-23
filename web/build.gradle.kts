@@ -72,7 +72,7 @@ configure<UploadExtension> {
   username = properties.getOrDefault("ftp.username", "").toString()
   password = properties.getOrDefault("ftp.password", "").toString()
   sourceDir = "${project.layout.buildDirectory.get()}/processedResources/js/main"
-  targetDir =  "${properties["wowmyhthicplus.serverPath"].toString()}/web/wowmythicplus"
+  targetDir = "${properties["wowmyhthicplus.serverPath"]}/web/wowmythicplus"
   clearDirectoryBeforeUpload = true
 }
 

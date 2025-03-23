@@ -1,19 +1,17 @@
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
   `kotlin-dsl`
 }
 
 tasks.withType<JavaCompile>().configureEach {
-  sourceCompatibility = JavaVersion.VERSION_17.toString()
-  targetCompatibility = JavaVersion.VERSION_17.toString()
+  sourceCompatibility = JavaVersion.VERSION_21.toString()
+  targetCompatibility = JavaVersion.VERSION_21.toString()
 }
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
   compilerOptions {
-    languageVersion.set(KotlinVersion.KOTLIN_2_0)
-    jvmTarget.set(JvmTarget.JVM_17)
+    jvmTarget.set(JvmTarget.JVM_21)
     allWarningsAsErrors.set(false)
     progressiveMode.set(true)
     explicitApiMode.set(ExplicitApiMode.Strict)
