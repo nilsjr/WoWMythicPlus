@@ -16,7 +16,15 @@
         "^com.google.devtools.ksp",
         "^androidx.compose.compiler"
       ],
-      "groupName": "kotlin"
+      "groupName": "Kotlin and KSP"
+    },
+    {
+      "description": "Automerge non-major updates",
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ],
+      "automerge": true
     }
   ]
 }
