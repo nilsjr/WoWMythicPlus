@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "de.nilsdruyen"
-version = "0.6.0"
+version = "0.7.0"
 
 tasks.withType<DependencyUpdatesTask> {
   rejectVersionIf {
