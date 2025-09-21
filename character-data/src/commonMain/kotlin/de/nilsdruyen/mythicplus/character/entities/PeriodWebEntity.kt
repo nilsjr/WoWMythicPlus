@@ -30,9 +30,10 @@ data class PeriodDetailWebEntity(
   // Convert start/end to UTC to avoid system-dependent timezone shifts
   @OptIn(ExperimentalTime::class)
   val startDate = Instant.parse(start).toLocalDateTime(TimeZone.UTC)
+
   @OptIn(ExperimentalTime::class)
   private val endDate = Instant.parse(end).toLocalDateTime(TimeZone.UTC)
 
   // Use half-open interval [start, end) to prevent overlap on boundary
-  fun isCurrentWeek(now: LocalDateTime): Boolean = now >= startDate && now < endDate
+  fun isCurrentWeek(now: LocalDateTime): Boolean = now in startDate..<endDate
 }
