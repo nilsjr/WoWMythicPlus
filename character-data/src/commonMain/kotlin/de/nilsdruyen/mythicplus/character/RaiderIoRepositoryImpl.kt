@@ -20,12 +20,13 @@ import de.nilsdruyen.mythicplus.character.models.Raid
 import de.nilsdruyen.mythicplus.character.models.Score
 import de.nilsdruyen.mythicplus.character.models.ScoreTier
 import de.nilsdruyen.mythicplus.character.utils.Constants
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.math.roundToInt
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 class RaiderIoRepositoryImpl @Inject constructor(
   private val client: RaiderIoApi
@@ -46,6 +47,7 @@ class RaiderIoRepositoryImpl @Inject constructor(
 
   override suspend fun getScoreTiers(): List<ScoreTier> = client.getScoreTiers()
 
+  @OptIn(ExperimentalTime::class)
   private suspend fun getCurrentPeriod(): LocalDateTime {
     val period = client.getCurrentPeriod().periods.firstOrNull { it.region == "eu" }
     val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
@@ -54,6 +56,7 @@ class RaiderIoRepositoryImpl @Inject constructor(
     } ?: now
   }
 
+  @OptIn(ExperimentalTime::class)
   private suspend fun getCharacter(
     char: InputCharacter,
     tiers: List<ScoreTier>,

@@ -19,6 +19,9 @@ kotlin {
     browser()
     binaries.executable()
   }
+  compilerOptions {
+    optIn.add("kotlin.time.ExperimentalTime")
+  }
   sourceSets {
     val jsMain by getting {
       dependencies {
