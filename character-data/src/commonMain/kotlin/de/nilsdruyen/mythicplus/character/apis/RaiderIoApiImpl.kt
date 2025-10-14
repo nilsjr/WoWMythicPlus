@@ -24,7 +24,7 @@ class RaiderIoApiImpl(
   override suspend fun getCharacter(realm: String, name: String): ProfileWebEntity {
     return try {
       client.resGet(ProfileRequest(realm, name, Constants.Api.Fields.all())).body()
-    } catch (e: JsonConvertException) {
+    } catch (_: JsonConvertException) {
       ProfileWebEntity(
         name = name,
         clazz = "",

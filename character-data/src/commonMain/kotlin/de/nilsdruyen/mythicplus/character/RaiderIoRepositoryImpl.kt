@@ -3,6 +3,7 @@ package de.nilsdruyen.mythicplus.character
 import de.nilsdruyen.mythicplus.character.annotations.Inject
 import de.nilsdruyen.mythicplus.character.apis.RaiderIoApi
 import de.nilsdruyen.mythicplus.character.entities.MythicPlusDungeonWebEntity
+import de.nilsdruyen.mythicplus.character.entities.SeasonInfoWebEntity
 import de.nilsdruyen.mythicplus.character.enums.ItemSlot
 import de.nilsdruyen.mythicplus.character.enums.toSlot
 import de.nilsdruyen.mythicplus.character.extensions.getColorForScore
@@ -19,7 +20,6 @@ import de.nilsdruyen.mythicplus.character.models.Item
 import de.nilsdruyen.mythicplus.character.models.Raid
 import de.nilsdruyen.mythicplus.character.models.Score
 import de.nilsdruyen.mythicplus.character.models.ScoreTier
-import de.nilsdruyen.mythicplus.character.utils.Constants
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -40,7 +40,7 @@ class RaiderIoRepositoryImpl @Inject constructor(
 
   override suspend fun getDungeons(): List<Dungeon> {
     return client.getStaticData().seasons
-      .first { it.slug == Constants.SEASON_SLUG }.dungeons
+      .first { checkDateRange(it) }.dungeons
       .map { Dungeon(it.id, it.shortName, it.slug) }
       .sortedBy { it.slug }
   }
@@ -131,6 +131,24 @@ class RaiderIoRepositoryImpl @Inject constructor(
           Encounter(id, slug, name)
         }
       )
+    }
+  }
+
+  @OptIn(ExperimentalTime::class)
+  private fun checkDateRange(entity: SeasonInfoWebEntity): Boolean {
+    // Parse EU start/end timestamps (ISO-8601, e.g., "2025-08-13T04:00:00Z") and check if now is in range
+    val startUtc = runCatching { Instant.parse(entity.starts.eu).toLocalDateTime(TimeZone.UTC) }.getOrNull()
+    val endUtc = runCatching { Instant.parse(entity.ends.eu).toLocalDateTime(TimeZone.UTC) }.getOrNull()
+    val nowUtc = Clock.System.now().toLocalDateTime(TimeZone.UTC)
+
+    // If start is missing or unparsable, we cannot determine the season window
+    if (startUtc == null) return false
+
+    // If end is missing, treat it as open-ended season starting at 'start'
+    return if (endUtc == null) {
+      nowUtc >= startUtc
+    } else {
+      nowUtc in startUtc..endUtc
     }
   }
 }

@@ -7,7 +7,6 @@ import de.nilsdruyen.mythicplus.character.extensions.toIdentifier
 object Constants {
 
   const val EXPANSION = 10
-  const val SEASON_SLUG = "season-tww-1"
 
   object Api {
 

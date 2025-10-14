@@ -14,6 +14,8 @@ data class SeasonInfoWebEntity(
   val slug: String,
   val name: String,
   val dungeons: List<DungeonInfoWebEntity>,
+  val starts: TimeFrameWebEntity,
+  val ends: TimeFrameWebEntity,
 )
 
 @Serializable
@@ -25,4 +27,9 @@ data class DungeonInfoWebEntity(
   val shortName: String,
   @SerialName("slug")
   val slug: String,
+)
+
+@Serializable
+data class TimeFrameWebEntity(
+  val eu: String,
 )
