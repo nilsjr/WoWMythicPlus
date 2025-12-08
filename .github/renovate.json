@@ -3,20 +3,20 @@
   "extends": [
     "config:best-practices"
   ],
-  "baseBranches": [
+  "baseBranchPatterns": [
     "develop"
   ],
   "schedule": [
-    "before 5am every saturday"
+    "before 5am on saturday"
   ],
   "packageRules": [
     {
-      "matchPackagePatterns": [
-        "^org.jetbrains.kotlin",
-        "^com.google.devtools.ksp",
-        "^androidx.compose.compiler"
-      ],
-      "groupName": "Kotlin and KSP"
+      "groupName": "Kotlin and KSP",
+      "matchPackageNames": [
+        "/^org.jetbrains.kotlin/",
+        "/^com.google.devtools.ksp/",
+        "/^androidx.compose.compiler/"
+      ]
     },
     {
       "description": "Automerge non-major updates",
