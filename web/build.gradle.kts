@@ -53,6 +53,7 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("loader-utils", "2.0.4")
     resolution("minimist", "1.2.6")
     resolution("node-forge", "1.3.2")
+    resolution("qs", "6.14.1")
     resolution("socket.io-parser", "4.2.3")
     resolution("ua-parser-js", "0.7.33")
   }
