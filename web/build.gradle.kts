@@ -46,14 +46,18 @@ rootProject.plugins.withType<YarnPlugin> {
     yarnLockAutoReplace = false
 
     resolution("async", "2.6.4")
+    resolution("body-parser", "1.20.3")
     resolution("eventsource", "1.1.1")
     resolution("glob", "10.5.0")
     resolution("http-proxy-middleware", "2.0.7")
+    resolution("http-proxy-middleware", "2.0.7")
     resolution("json5", "2.2.2")
     resolution("loader-utils", "2.0.4")
+    resolution("minimatch", "9.0.6")
     resolution("minimist", "1.2.6")
     resolution("node-forge", "1.3.2")
     resolution("qs", "6.14.1")
+    resolution("serialize-javascript", "7.0.3")
     resolution("socket.io-parser", "4.2.3")
     resolution("ua-parser-js", "0.7.33")
   }
