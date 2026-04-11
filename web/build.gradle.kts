@@ -1,3 +1,4 @@
+
 import de.nilsdruyen.gradle.ftp.UploadExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
@@ -56,10 +57,10 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("http-proxy-middleware", "2.0.7")
     resolution("json5", "2.2.2")
     resolution("loader-utils", "2.0.4")
-    resolution("minimatch", "9.0.6")
+    resolution("minimatch", "9.0.7")
     resolution("minimist", "1.2.6")
-    resolution("node-forge", "1.3.2")
-    resolution("path-to-regexp", "0.1.12")
+    resolution("node-forge", "1.4.0")
+    resolution("path-to-regexp", "0.1.13")
     resolution("qs", "6.14.1")
     resolution("serialize-javascript", "7.0.3")
     resolution("socket.io-parser", "4.2.6")
