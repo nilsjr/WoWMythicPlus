@@ -46,8 +46,7 @@ rootProject.plugins.withType<YarnPlugin> {
     yarnLockMismatchReport = YarnLockMismatchReport.WARNING
     yarnLockAutoReplace = false
 
-    resolution("ajv@^6.0.0", "6.15.0")
-    resolution("ajv@^8.0.0", "8.20.0")
+    resolution("ajv", "8.20.0")
     resolution("async", "2.6.4")
     resolution("body-parser", "1.20.6")
     resolution("brace-expansion", "5.0.8")
