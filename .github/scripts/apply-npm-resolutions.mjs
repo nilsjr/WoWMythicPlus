@@ -17,15 +17,22 @@
 
 import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
 
-const SEVERITIES = ["LOW", "MODERATE", "HIGH", "CRITICAL"];
-const THRESHOLD = SEVERITIES.indexOf("HIGH");
+import {
+  SEVERITIES,
+  THRESHOLD,
+  compareVersions,
+  fail,
+  fixedVersionsFor,
+  joinLines,
+  lineOf,
+  parseVersion,
+  readLines,
+  sameLine,
+  severityOf,
+  table,
+} from "./lib/osv-common.mjs";
 
 // ---------------------------------------------------------------- arguments
-
-function fail(message) {
-  console.error(`::error::${message}`);
-  process.exit(1);
-}
 
 function parseArgs(argv) {
   const out = { dryRun: false };
@@ -43,96 +50,10 @@ function parseArgs(argv) {
   return out;
 }
 
-// ------------------------------------------------------------------- semver
-
-// Deliberately minimal: every version handled here comes from a lockfile or from an
-// OSV `fixed` event, so it is always a concrete release, never a range.
-function parseVersion(raw) {
-  const pattern = /^v?(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?$/;
-  const trimmed = String(raw).trim();
-  const match = pattern.exec(trimmed);
-  if (!match) return null;
-  return {
-    major: Number(match[1]),
-    minor: Number(match[2]),
-    patch: Number(match[3]),
-    prerelease: match[4] ?? null,
-    // `raw` is written straight into resolution("<pkg>", "<raw>"), so drop any leading
-    // "v". OSV does not forbid a `fixed: "v1.2.3"` event, and yarn would reject it.
-    raw: trimmed.replace(/^v/, ""),
-  };
-}
-
-function compareVersions(a, b) {
-  if (a.major !== b.major) return a.major - b.major;
-  if (a.minor !== b.minor) return a.minor - b.minor;
-  if (a.patch !== b.patch) return a.patch - b.patch;
-  // A release outranks any prerelease of the same X.Y.Z.
-  if (a.prerelease === null && b.prerelease === null) return 0;
-  if (a.prerelease === null) return 1;
-  if (b.prerelease === null) return -1;
-  // Simplification: identifiers compare as plain strings rather than per semver
-  // section 11. Harmless here - prerelease candidates are rejected outright below.
-  if (a.prerelease < b.prerelease) return -1;
-  return a.prerelease > b.prerelease ? 1 : 0;
-}
-
-// `sameMajor` is not enough: under semver a 0.x minor bump is a breaking change, and
-// below 0.1.0 even a patch bump is, so 0.1.4 -> 0.2.0 and 0.0.3 -> 0.0.4 must never be
-// applied automatically. A 0.0.x package therefore always lands in the skipped table
-// for a human to decide - deliberate, since nothing can be assumed compatible there.
-// How `sameLine` describes the range it will stay inside, for the skip reasons.
-function lineOf(version) {
-  if (version.major > 0) return `${version.major}.x`;
-  if (version.minor > 0) return `0.${version.minor}.x`;
-  return `0.0.${version.patch}`;
-}
-
-function sameLine(current, candidate) {
-  if (current.major !== candidate.major) return false;
-  if (current.major === 0 && current.minor !== candidate.minor) return false;
-  if (current.major === 0 && current.minor === 0) return false;
-  return true;
-}
-
 // ------------------------------------------------------------------ scanning
 
-function severityOf(vulnerability) {
-  const explicit = vulnerability?.database_specific?.severity;
-  if (typeof explicit === "string" && SEVERITIES.includes(explicit.toUpperCase())) {
-    return explicit.toUpperCase();
-  }
-  // Fallback only. `groups[].max_severity` is a CVSS *score* string ("8.7") and is
-  // empty for advisories without a CVSS vector, so it is never the primary signal:
-  // brace-expansion GHSA-3jxr scores 5.3 on CVSS yet GitHub rates it HIGH.
-  for (const affected of vulnerability?.affected ?? []) {
-    const nested = affected?.database_specific?.severity;
-    if (typeof nested === "string" && SEVERITIES.includes(nested.toUpperCase())) {
-      return nested.toUpperCase();
-    }
-  }
-  return null;
-}
-
-// Advisories carry one `affected` entry per maintained major line, so every entry has
-// to be inspected - taking the first `fixed` event would pick an arbitrary major.
-function fixedVersionsFor(vulnerability, packageName) {
-  const versions = [];
-  for (const affected of vulnerability?.affected ?? []) {
-    const pkg = affected?.package;
-    if (!pkg || pkg.name !== packageName) continue;
-    if (!String(pkg.ecosystem ?? "").startsWith("npm")) continue;
-    for (const range of affected?.ranges ?? []) {
-      if (range?.type === "GIT") continue;
-      for (const event of range?.events ?? []) {
-        if (!event?.fixed) continue;
-        const parsed = parseVersion(event.fixed);
-        if (parsed) versions.push(parsed);
-      }
-    }
-  }
-  return versions;
-}
+const npmFixedVersionsFor = (vulnerability, name) =>
+  fixedVersionsFor(vulnerability, name, "npm");
 
 function record(byPackage, name, installed, advisory) {
   let bucket = byPackage.get(name);
@@ -172,7 +93,7 @@ function collectFindings(report) {
         }
         if (SEVERITIES.indexOf(severity) < THRESHOLD) continue;
 
-        const fixes = fixedVersionsFor(vulnerability, pkg.name);
+        const fixes = npmFixedVersionsFor(vulnerability, pkg.name);
         const newer = fixes.filter((fix) => compareVersions(fix, installed) > 0);
         const candidates = newer
           // Never jump onto a prerelease unless the installed version already is one.
@@ -209,16 +130,7 @@ function collectFindings(report) {
 // ------------------------------------------------------------- gradle file io
 
 function readGradle(path) {
-  const text = readFileSync(path, "utf8");
-  // The working tree is CRLF (core.autocrlf=true) while git blobs are LF. Getting
-  // this wrong rewrites every line of the file instead of the handful that changed.
-  const eol = text.includes("\r\n") ? "\r\n" : "\n";
-  const trailingNewline = /\r?\n$/.test(text);
-  const lines = text.split(/\r?\n/);
-  // A trailing newline leaves an empty final element behind; drop it here and add the
-  // newline back on join, so the flag is the single source of truth either way.
-  if (trailingNewline) lines.pop();
-  return { lines, eol, trailingNewline };
+  return readLines(readFileSync(path, "utf8"));
 }
 
 const RESOLUTION_RE = /^(\s*)resolution\("([^"]+)",\s*"([^"]+)"\)\s*$/;
@@ -251,14 +163,6 @@ function locateResolutions(lines) {
 }
 
 // ----------------------------------------------------------------- reporting
-
-function table(header, rows) {
-  return [
-    `| ${header.join(" | ")} |`,
-    `|${header.map(() => "---").join("|")}|`,
-    ...rows.map((row) => `| ${row.join(" | ")} |`),
-  ].join("\n");
-}
 
 function renderBody(updates, skipped) {
   const out = ["## Automated npm security fixes", ""];
@@ -388,8 +292,7 @@ if (updates.length > 0 && !args.dryRun) {
     .map(([name, version]) => `${block.indent}resolution("${name}", "${version}")`);
 
   gradle.lines.splice(block.first, block.last - block.first + 1, ...rebuilt);
-  const text = gradle.lines.join(gradle.eol) + (gradle.trailingNewline ? gradle.eol : "");
-  writeFileSync(args.gradle, text);
+  writeFileSync(args.gradle, joinLines(gradle));
 }
 
 const summary = {

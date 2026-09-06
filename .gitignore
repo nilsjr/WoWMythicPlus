@@ -254,3 +254,7 @@ gradle-app.setting
 # End of https://www.toptal.com/developers/gitignore/api/kotlin,android,intellij,gradle
 
 .kotlin/
+
+# Written by security-gradle.yml to feed osv-scanner, then deleted. Committing it would
+# switch on Gradle dependency verification for real builds.
+gradle/verification-metadata.xml
