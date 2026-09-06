@@ -44,3 +44,24 @@ This project is a website for World of Warcraft players to inspect their charact
 - `character-data/src/commonMain/kotlin`: Shared data logic and network clients.
 - `project-setup/src/main/kotlin`: Custom Gradle plugins.
 - `src/jsMain/resources`: Static assets like `index.html` and images.
+
+## CI & Security
+
+- **`check-and-build.yml`** — on pushes to `develop` and on PRs to `develop`/`main`:
+  runs `detekt ktlintCheck` and builds the web bundle
+  (`:web:jsBrowserProductionWebpack`).
+- **`security-yarn-lock.yml`** — Friday 18:17 UTC (and manual dispatch, defaulting to a
+  dry run). Scans `.kotlin-js-store/yarn.lock` with `osv-scanner`, pins HIGH/CRITICAL
+  findings via `.github/scripts/apply-npm-resolutions.mjs`, regenerates the lockfile,
+  verifies the build, then opens a `develop` PR that squash-merges once checks pass.
+  It exists because the lockfile has no `package.json`, so neither Dependabot nor
+  Renovate can patch it — see the comment block at the top of the workflow.
+
+The npm pins the scanner writes live in the `YarnRootExtension` block of
+`web/build.gradle.kts`; Renovate's `customManagers` in `.github/renovate.json5` keep
+those `resolution(...)` lines and the pinned `OSV_SCANNER_VERSION` current.
+
+The workflow needs a `RELEASE_TOKEN` repository secret (a PAT with `repo` scope). It is
+used for every write — pushes and PRs made with the default `GITHUB_TOKEN` do not
+trigger `pull_request` events, so Check and Build would never report and the merge gate
+would wait forever.
