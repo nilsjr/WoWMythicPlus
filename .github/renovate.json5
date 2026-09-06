@@ -12,6 +12,60 @@
   schedule: [
     'before 5am on saturday'
   ],
+
+  // Renovate's own security path, complementing security-yarn-lock.yml.
+  // Renovate does not manage .kotlin-js-store/yarn.lock (there is no package.json to
+  // hang an npm manager off), so `osvVulnerabilityAlerts` queries osv.dev for the deps
+  // it *does* see - which, thanks to the npm customManager below, includes every
+  // existing resolution() line. A pin that later turns vulnerable then gets its own
+  // immediate PR instead of waiting for Saturday.
+  osvVulnerabilityAlerts: true,
+
+  // Mergeable object: these keys layer on top of the defaults. Inherited unchanged:
+  //   schedule: []                    -> ignores the Saturday window above
+  //   prCreation: "immediate"
+  //   groupName: null                 -> never folded into a grouped PR
+  //   commitMessageSuffix: "[SECURITY]"
+  //   vulnerabilityFixStrategy: "lowest"
+  // `automerge` is deliberately NOT set here, so the patch/minor rule below still
+  // decides: minor/patch security fixes automerge, a major one waits for a human.
+  // Note there is no severity matcher in Renovate, so this cannot be limited to
+  // HIGH/CRITICAL the way the workflow is - expect the occasional MODERATE/LOW PR.
+  vulnerabilityAlerts: {
+    labels: [
+      'dependencies',
+      'security'
+    ],
+    // Everything here is an exact pin, so the inherited "update-lockfile" is a no-op.
+    rangeStrategy: 'replace'
+  },
+
+  customManagers: [
+    {
+      customType: 'regex',
+      description: 'Update YarnPlugin npm resolutions in build.gradle.kts',
+      managerFilePatterns: [
+        '(^|.*/)build\\.gradle\\.kts$'
+      ],
+      matchStrings: [
+        'resolution\\("(?<depName>[^"]+)",\\s*"(?<currentValue>[^"]+)"'
+      ],
+      datasourceTemplate: 'npm'
+    },
+    {
+      customType: 'regex',
+      description: 'Update the pinned osv-scanner release in the security workflows',
+      managerFilePatterns: [
+        '^\\.github/workflows/security-(yarn-lock|gradle)\\.yml$'
+      ],
+      matchStrings: [
+        'OSV_SCANNER_VERSION:\\s*(?<currentValue>v[\\d.]+)'
+      ],
+      depNameTemplate: 'google/osv-scanner',
+      datasourceTemplate: 'github-releases'
+    }
+  ],
+
   packageRules: [
     {
       groupName: 'Kotlin and KSP',

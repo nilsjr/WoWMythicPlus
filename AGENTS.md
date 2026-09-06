@@ -44,3 +44,42 @@ This project is a website for World of Warcraft players to inspect their charact
 - `character-data/src/commonMain/kotlin`: Shared data logic and network clients.
 - `project-setup/src/main/kotlin`: Custom Gradle plugins.
 - `src/jsMain/resources`: Static assets like `index.html` and images.
+
+## CI & Security
+
+- **`check-and-build.yml`** — on pushes to `develop` and on PRs to `develop`/`main`:
+  runs `detekt ktlintCheck` and builds the web bundle
+  (`:web:jsBrowserProductionWebpack`).
+- **`security-yarn-lock.yml`** — Friday 18:17 UTC (and manual dispatch, defaulting to a
+  dry run). Scans `.kotlin-js-store/yarn.lock` with `osv-scanner`, pins HIGH/CRITICAL
+  findings via `.github/scripts/apply-npm-resolutions.mjs`, regenerates the lockfile,
+  verifies the build, then opens a `develop` PR that squash-merges once checks pass.
+  It exists because the lockfile has no `package.json`, so neither Dependabot nor
+  Renovate can patch it — see the comment block at the top of the workflow.
+- **`security-gradle.yml`** — Friday 19:47 UTC, the Maven counterpart. Has Gradle write
+  the fully resolved classpath into `gradle/verification-metadata.xml`, scans that,
+  bumps HIGH/CRITICAL findings that map to a `gradle/libs.versions.toml` entry via
+  `.github/scripts/apply-gradle-versions.mjs`, and opens the same kind of self-merging
+  PR. The metadata file is deleted straight after the scan and gitignored — left in
+  place it would switch on Gradle dependency verification for real builds. Findings on
+  transitive artifacts cannot be fixed by a catalog bump, so they go to a reused
+  tracking issue instead of being dropped.
+
+Both security workflows share the `scheduled-security-fixes` concurrency group, so they
+queue instead of branching from a `develop` that is about to move.
+
+The npm pins the scanner writes live in the `YarnRootExtension` block of
+`web/build.gradle.kts`; Renovate's `customManagers` in `.github/renovate.json5` keep
+those `resolution(...)` lines and the pinned `OSV_SCANNER_VERSION` current.
+
+The severity threshold and the never-cross-a-breaking-boundary rule live in one place,
+`.github/scripts/lib/osv-common.mjs`, shared by both apply scripts. They are covered by:
+
+```
+node --test .github/scripts/test/scripts.test.mjs
+```
+
+Both workflows need a `RELEASE_TOKEN` repository secret (a PAT with `repo` scope). It is
+used for every write — pushes and PRs made with the default `GITHUB_TOKEN` do not
+trigger `pull_request` events, so Check and Build would never report and the merge gate
+would wait forever.

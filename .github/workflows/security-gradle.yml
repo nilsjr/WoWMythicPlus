@@ -1,0 +1,261 @@
+name: Weekly Gradle Security Fixes
+
+# The Maven counterpart to security-yarn-lock.yml. Nothing else looks at the Gradle
+# classpath at all: check-and-build.yml submits no dependency graph, so Dependabot does
+# not even raise alerts for it, and there is no .github/dependabot.yml. Renovate keeps
+# the catalog current and its `osvVulnerabilityAlerts` opens PRs for direct entries -
+# but only for the coordinates it manages, which is the 14 libraries and 8 plugins
+# named in the catalog, not the artifacts they drag in transitively.
+#
+# So this workflow scans what actually resolves. Gradle writes the full set - runtime
+# libraries, plugins, and every transitive artifact of both - into
+# gradle/verification-metadata.xml, which osv-scanner reads as a first-class lockfile
+# format. HIGH/CRITICAL findings that map to a catalog entry are bumped and verified;
+# the rest cannot be fixed by editing the catalog at all, so they go to a tracking issue
+# instead of being dropped.
+
+on:
+  # Friday evening, an hour and a half after security-yarn-lock.yml so the two never
+  # queue behind each other for long, and still before Renovate's "before 5am on
+  # saturday" window. Off-the-hour to dodge the scheduling stampede GitHub gets on :00.
+  schedule:
+    - cron: '47 19 * * 5'  # Fri 19:47 UTC = 21:47 CEST / 20:47 CET
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        # Rehearsal, not scan-only: the bump is still applied, the lockfile regenerated
+        # and the build run, so a dispatch proves the whole pipeline end to end and
+        # reports the result in the job summary. Only the branch, PR, merge and issue
+        # are withheld - the parts that are visible outside the run.
+        description: 'Apply and verify the fix, but do not push a branch, open a PR or file an issue'
+        type: boolean
+        default: true
+
+concurrency:
+  # Shared with security-yarn-lock.yml: both branch from develop and both open a PR
+  # against it, so a run of one while the other is mid-flight would build its branch on
+  # a develop that is about to move. Queued rather than cancelled, for the same reason.
+  group: scheduled-security-fixes
+  cancel-in-progress: false
+
+# Every write goes through RELEASE_TOKEN instead, for the reasons documented on each
+# step, so the default token needs nothing beyond reading the repository.
+permissions:
+  contents: read
+
+env:
+  OSV_SCANNER_VERSION: v2.5.1
+  CATALOG: gradle/libs.versions.toml
+  METADATA: gradle/verification-metadata.xml
+  BRANCH: fix/security-gradle
+  ISSUE_TITLE: 'Gradle advisories that need a manual fix'
+
+jobs:
+  security-fixes:
+    name: Scan and patch the Gradle classpath
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: develop
+          # Do not leave any credentials in .git/config for the rest of the job: the
+          # repository is public, and the steps that need write access authenticate
+          # explicitly with RELEASE_TOKEN.
+          persist-credentials: false
+
+      - name: Setup Java
+        uses: actions/setup-java@dd06d9cba3e5552c54d9f8ea23572deb30010f7c # v6
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6
+
+      - name: Install osv-scanner
+        run: |
+          BASE="https://github.com/google/osv-scanner/releases/download/${OSV_SCANNER_VERSION}"
+          curl -fsSL -o osv-scanner "${BASE}/osv-scanner_linux_amd64"
+          # Verify against the checksum file from the *same* pinned tag. That pins
+          # integrity without a hard-coded hash that would rot on every version bump,
+          # so Renovate can keep OSV_SCANNER_VERSION current on its own.
+          curl -fsSL -o SHA256SUMS "${BASE}/osv-scanner_SHA256SUMS"
+          grep ' osv-scanner_linux_amd64$' SHA256SUMS | sed 's/_linux_amd64$//' | sha256sum -c -
+          chmod +x osv-scanner
+          sudo mv osv-scanner /usr/local/bin/
+          rm SHA256SUMS
+
+      - name: Resolve the full dependency set
+        # `help` is enough to resolve everything: the metadata writer records every
+        # artifact Gradle downloads for the build, which is the plugin classpath plus
+        # every module's own configurations - far more components than the 22 direct
+        # entries the catalog names.
+        run: ./gradlew --write-verification-metadata sha256 help
+
+      - name: Scan the dependency set
+        run: |
+          set +e
+          osv-scanner scan source --lockfile "./${METADATA}" \
+            --format json --output-file "${RUNNER_TEMP}/osv.json"
+          code=$?
+          set -e
+          # 0 = clean, 1 = findings, 127 = error, 128 = no packages found. Handled
+          # precisely on purpose: a blanket `|| true` would turn "the scan broke" into
+          # "nothing to fix" and silently do nothing every week.
+          if [ "$code" -ne 0 ] && [ "$code" -ne 1 ]; then
+            echo "::error::osv-scanner exited with $code"
+            exit "$code"
+          fi
+
+      - name: Drop the verification metadata
+        # Must happen before any further Gradle invocation, and even if the scan failed.
+        # The file is a scan artifact, never a repository file: leaving it in place
+        # switches on Gradle's dependency verification for real, and the very next build
+        # fails on the first artifact whose checksum it does not already carry.
+        if: always()
+        run: rm -f "${METADATA}"
+
+      - name: Apply catalog bumps
+        id: apply
+        run: |
+          node .github/scripts/apply-gradle-versions.mjs \
+            --scan "${RUNNER_TEMP}/osv.json" \
+            --catalog "${CATALOG}" \
+            --md "${RUNNER_TEMP}/pr-body.md" \
+            --issue "${RUNNER_TEMP}/issue-body.md"
+          cat "${RUNNER_TEMP}/pr-body.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Regenerate yarn.lock
+        if: steps.apply.outputs.changed == 'true'
+        # A Kotlin or Compose bump moves the npm tooling the Kotlin/JS plugin pins, so
+        # the lockfile has to follow the catalog - the same coupling update-yarn-lock.yml
+        # handles for Renovate's PRs.
+        run: ./gradlew kotlinUpgradeYarnLock
+
+      # Check and Build runs this again on the PR, but running it here is a pre-flight
+      # gate: a bump that does not compile must not become a PR at all. This mirrors the
+      # `build` job of check-and-build.yml. detekt and ktlintCheck are left to the PR -
+      # they inspect Kotlin sources for style, which no dependency bump touches.
+      - name: Verify the build
+        if: steps.apply.outputs.changed == 'true'
+        run: ./gradlew :web:jsBrowserProductionWebpack
+
+      - name: Push branch
+        id: push
+        if: steps.apply.outputs.changed == 'true' && inputs.dry_run != true
+        env:
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          # The numeric prefix is what attributes the commit to the bot account;
+          # `main protection` requires an extra approval for unattributed changes.
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git checkout -b "$BRANCH"
+          # The lockfile is only added when the bump actually moved it, so a run that
+          # changes nothing there produces a one-file diff.
+          git add "$CATALOG" .kotlin-js-store/yarn.lock
+          git commit -m "fix(deps): patch high-severity advisories on the Gradle classpath"
+
+          # Push with the PAT rather than GITHUB_TOKEN: a push made by GITHUB_TOKEN
+          # triggers no further workflow, so Check and Build would never run on this
+          # branch and the merge gate below would wait forever. Passed inline so the
+          # credential is scoped to this one command and never lands in .git/config.
+          #
+          # The branch has a fixed name and is always recreated from develop, so a
+          # plain --force is correct: --force-with-lease would be a lottery here, since
+          # the ref was never fetched. The force-push is a PAT push, so it fires
+          # `synchronize` and checks re-run on the updated head.
+          git push --force \
+            "https://x-access-token:${RELEASE_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            "HEAD:refs/heads/${BRANCH}"
+
+      - name: Open or update the pull request
+        id: pr
+        if: steps.push.conclusion == 'success' && steps.apply.outputs.changed == 'true' && inputs.dry_run != true
+        env:
+          # Same reason as the push: a PR opened with GITHUB_TOKEN does not trigger the
+          # `pull_request` event, so its checks would never report at all.
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          TITLE="fix(deps): patch ${{ steps.apply.outputs.count }} high-severity Gradle advisories"
+          EXISTING=$(gh pr list --head "$BRANCH" --base develop --state open \
+            --json number -q '.[0].number')
+
+          if [ -z "$EXISTING" ]; then
+            URL=$(gh pr create --base develop --head "$BRANCH" \
+              --title "$TITLE" --body-file "${RUNNER_TEMP}/pr-body.md" \
+              --label dependencies --label security)
+          else
+            # Editing keeps the existing thread, so review comments survive a rerun.
+            gh pr edit "$EXISTING" --title "$TITLE" --body-file "${RUNNER_TEMP}/pr-body.md"
+            URL=$(gh pr view "$EXISTING" --json url -q '.url')
+          fi
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Merge once checks pass
+        if: steps.pr.outputs.url
+        env:
+          # Must not be GITHUB_TOKEN: the merge push has to trigger downstream
+          # workflows the same way a human merge would.
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          # Deliberately *not* `gh pr merge --auto`, for the reason spelled out in
+          # security-yarn-lock.yml: with no required status checks on `develop
+          # protection`, --auto either refuses outright or merges before Check and Build
+          # has started. Waiting on the checks explicitly is the only real gate.
+          #
+          # Give the checks a moment to register: with none reported yet, `gh pr
+          # checks` exits 1 rather than waiting.
+          sleep 30
+          gh pr checks "${{ steps.pr.outputs.url }}" --watch --fail-fast --interval 30
+          gh pr merge "${{ steps.pr.outputs.url }}" --squash --delete-branch
+
+      - name: Close a stale pull request
+        if: steps.apply.outputs.changed != 'true' && inputs.dry_run != true
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          # Nothing left to bump - if a PR from an earlier run is still open, its fixes
+          # arrived another way (Renovate, or a manual bump) and it is now noise.
+          EXISTING=$(gh pr list --head "$BRANCH" --base develop --state open \
+            --json number -q '.[0].number')
+          if [ -n "$EXISTING" ]; then
+            gh pr close "$EXISTING" --delete-branch \
+              --comment "No HIGH or CRITICAL advisory remains that a \`$CATALOG\` bump can fix; closing."
+          else
+            echo "Nothing to fix and no open PR."
+          fi
+
+      - name: Track what the catalog cannot fix
+        if: always() && steps.apply.conclusion == 'success' && inputs.dry_run != true
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          # These findings have nowhere else to go: they produce no PR, because nothing
+          # changed, and a job summary on a scheduled run is read by nobody. One issue,
+          # reused week to week, is the only durable place for them.
+          EXISTING=$(gh issue list --state open --label security \
+            --search "$ISSUE_TITLE in:title" --json number,title \
+            -q ".[] | select(.title == \"$ISSUE_TITLE\") | .number" | head -1)
+
+          if [ "${{ steps.apply.outputs.unfixable }}" = "0" ]; then
+            if [ -n "$EXISTING" ]; then
+              gh issue close "$EXISTING" \
+                --comment "No unfixable HIGH or CRITICAL advisory remains on the Gradle classpath."
+            fi
+            exit 0
+          fi
+
+          if [ -z "$EXISTING" ]; then
+            gh issue create --title "$ISSUE_TITLE" \
+              --body-file "${RUNNER_TEMP}/issue-body.md" \
+              --label dependencies --label security
+          else
+            # Rewrite the body rather than commenting: the issue tracks current state,
+            # and a weekly comment on an advisory nobody has got to yet is just noise.
+            gh issue edit "$EXISTING" --body-file "${RUNNER_TEMP}/issue-body.md"
+          fi
