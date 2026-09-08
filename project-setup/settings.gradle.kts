@@ -1,3 +1,5 @@
+rootProject.name = "project-setup"
+
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 dependencyResolutionManagement {
