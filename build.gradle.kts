@@ -1,5 +1,17 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
+buildscript {
+  dependencies {
+    constraints {
+      // gradle-ftp-upload-plugin pulls BouncyCastle 1.75 in via sshj; force a patched version.
+      // Remove once the plugin ships an sshj that depends on bcprov >= 1.85.
+      classpath(libs.bouncycastle.bcprov)
+      classpath(libs.bouncycastle.bcpkix)
+      classpath(libs.bouncycastle.bcutil)
+    }
+  }
+}
+
 plugins {
   alias(libs.plugins.kotlin.multiplatform) apply false
   alias(libs.plugins.kotlin.serialization) apply false
