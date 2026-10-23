@@ -48,7 +48,7 @@ rootProject.plugins.withType<YarnPlugin> {
 
     resolution("ajv", "8.20.0")
     resolution("async", "2.6.4")
-    resolution("body-parser", "1.20.6")
+    resolution("body-parser", "1.20.9")
     resolution("brace-expansion", "5.0.12")
     resolution("braces", "3.0.3")
     resolution("browserslist", "4.28.7")
