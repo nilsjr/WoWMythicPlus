@@ -73,7 +73,6 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("minimatch", "9.0.7")
     resolution("minimist", "1.2.6")
     resolution("nanoid", "3.3.18")
-    resolution("node-forge", "1.4.0")
     resolution("on-headers", "1.1.0")
     resolution("path-to-regexp", "0.1.13")
     resolution("picomatch", "2.3.2")
