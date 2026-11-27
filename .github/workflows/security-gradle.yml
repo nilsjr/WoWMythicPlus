@@ -238,7 +238,7 @@ jobs:
           # These findings have nowhere else to go: they produce no PR, because nothing
           # changed, and a job summary on a scheduled run is read by nobody. One issue,
           # reused week to week, is the only durable place for them.
-          EXISTING=$(gh issue list --state open --label security \
+          EXISTING=$(gh issue list --state open \
             --search "$ISSUE_TITLE in:title" --json number,title \
             -q ".[] | select(.title == \"$ISSUE_TITLE\") | .number" | head -1)
 

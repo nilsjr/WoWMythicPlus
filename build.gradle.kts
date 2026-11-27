@@ -1,5 +1,16 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
+buildscript {
+  dependencies {
+    constraints {
+      // Pulled in transitively by the ftp-upload plugin at 1.75, which has CRITICAL advisories.
+      classpath(libs.bouncycastle.bcprov) {
+        because("bcprov-jdk18on 1.75 is affected by GHSA-574f-3g2m-x479 and others")
+      }
+    }
+  }
+}
+
 plugins {
   alias(libs.plugins.kotlin.multiplatform) apply false
   alias(libs.plugins.kotlin.serialization) apply false
